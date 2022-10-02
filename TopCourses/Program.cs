@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TopCourses.Infrastructure.Data;
+using WebShopDemo.Core.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<TopCoursesDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IRepository, Repository>();
 
 var app = builder.Build();
 
