@@ -12,8 +12,8 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    [Migration("20221002125529_CreatedDbModels")]
-    partial class CreatedDbModels
+    [Migration("20221002131044_CreatedDatabaseModels")]
+    partial class CreatedDatabaseModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -594,7 +594,7 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasOne("TopCourses.Infrastructure.Data.Models.User", "Creator")
                         .WithMany("CoursesCreated")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Language", "Lenguage")

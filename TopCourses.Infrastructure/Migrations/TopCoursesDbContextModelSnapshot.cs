@@ -592,7 +592,7 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasOne("TopCourses.Infrastructure.Data.Models.User", "Creator")
                         .WithMany("CoursesCreated")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Language", "Lenguage")

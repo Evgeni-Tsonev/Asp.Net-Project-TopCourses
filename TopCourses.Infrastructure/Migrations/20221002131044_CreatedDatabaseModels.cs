@@ -4,7 +4,7 @@
 
 namespace TopCourses.Infrastructure.Migrations
 {
-    public partial class CreatedDbModels : Migration
+    public partial class CreatedDatabaseModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,8 +107,7 @@ namespace TopCourses.Infrastructure.Migrations
                         name: "FK_Courses_Users_CreatorId",
                         column: x => x.CreatorId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
