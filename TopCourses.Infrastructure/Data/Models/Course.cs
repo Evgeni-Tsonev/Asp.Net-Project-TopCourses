@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using TopCourses.Infrastructure.Data.Identity;
 
     public class Course
     {
@@ -44,9 +45,9 @@
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
-        public int CreatorId { get; set; }
-        public User Creator { get; set; } = null!;
+        public Guid CreatorId { get; set; }
+        public ApplicationUser Creator { get; set; } = null!;
 
-        public ICollection<User> Students { get; set; } = new HashSet<User>();
+        //public ICollection<ApplicationUser> Students { get; set; } = new HashSet<ApplicationUser>();
     }
 }

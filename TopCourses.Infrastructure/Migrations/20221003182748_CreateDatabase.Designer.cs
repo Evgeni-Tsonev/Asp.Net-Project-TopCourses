@@ -12,8 +12,8 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    [Migration("20221002131044_CreatedDatabaseModels")]
-    partial class CreatedDatabaseModels
+    [Migration("20221003182748_CreateDatabase")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,21 +37,6 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasIndex("TopicsId");
 
                     b.ToTable("CourseTopic");
-                });
-
-            modelBuilder.Entity("CourseUser", b =>
-                {
-                    b.Property<int>("CoursesEnrolledId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CoursesEnrolledId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("CourseUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -293,9 +278,6 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1500)
@@ -331,8 +313,6 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CreatorId");
-
                     b.HasIndex("LanguageId");
 
                     b.ToTable("Courses");
@@ -345,9 +325,6 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CoirseId")
-                        .HasColumnType("int");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -392,9 +369,6 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CoirseId")
-                        .HasColumnType("int");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -467,32 +441,6 @@ namespace TopCourses.Infrastructure.Migrations
                     b.ToTable("Topics");
                 });
 
-            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("CourseTopic", b =>
                 {
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Course", null)
@@ -504,21 +452,6 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Topic", null)
                         .WithMany()
                         .HasForeignKey("TopicsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CourseUser", b =>
-                {
-                    b.HasOne("TopCourses.Infrastructure.Data.Models.Course", null)
-                        .WithMany()
-                        .HasForeignKey("CoursesEnrolledId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TopCourses.Infrastructure.Data.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -591,12 +524,6 @@ namespace TopCourses.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TopCourses.Infrastructure.Data.Models.User", "Creator")
-                        .WithMany("CoursesCreated")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Language", "Lenguage")
                         .WithMany("Courses")
                         .HasForeignKey("LanguageId")
@@ -604,8 +531,6 @@ namespace TopCourses.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-
-                    b.Navigation("Creator");
 
                     b.Navigation("Lenguage");
                 });
@@ -655,11 +580,6 @@ namespace TopCourses.Infrastructure.Migrations
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Language", b =>
                 {
                     b.Navigation("Courses");
-                });
-
-            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.User", b =>
-                {
-                    b.Navigation("CoursesCreated");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,7 +10,7 @@
         [StringLength(50)]
         public string Description { get; set; } = null!;
 
-        public int CoirseId { get; set; }
+        public int CourseId { get; set; }
         public Course Course { get; set; } = null!;
     }
 }
