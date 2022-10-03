@@ -12,6 +12,14 @@
         {
         }
 
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<Section> Sections { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<Requirement> Requirements { get; set; }
+        public DbSet<Goal> Goals { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,13 +34,5 @@
 
             base.OnModelCreating(builder);
         }
-        public DbSet<Course> Courses { get; set; } = null!;
-        public DbSet<Category> Categories { get; set; } = null!;
-        public DbSet<Language> Languages { get; set; } = null!;
-        public DbSet<Section> Sections { get; set; } = null!;
-        public DbSet<Topic> Topics { get; set; } = null!;
-        public DbSet<Requirement> Requirements { get; set; } = null!;
-        public DbSet<Goal> Goals { get; set; } = null!;
-        public DbSet<User> Users { get; set; } = null!;
     }
 }
