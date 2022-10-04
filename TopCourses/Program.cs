@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TopCourses.Core.Contracts;
+using TopCourses.Core.Services;
 using TopCourses.Infrastructure.Data;
 using TopCourses.Infrastructure.Data.Identity;
 using WebShopDemo.Core.Data.Common;
@@ -16,6 +19,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 var app = builder.Build();
 

@@ -17,7 +17,7 @@
 
         public bool IsDeleted { get; set; }
 
-        public ICollection<Course> CoursesCreated { get; set; } = new HashSet<Course>();
+        //public ICollection<Course> CoursesCreated { get; set; } = new HashSet<Course>();
 
         //public ICollection<Course> CoursesEnrolled { get; set; } = new HashSet<Course>();
     }
