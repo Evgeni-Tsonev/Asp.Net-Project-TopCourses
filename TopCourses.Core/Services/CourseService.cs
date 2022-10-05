@@ -17,6 +17,28 @@
             this.repository = repository;
         }
 
+        public async Task CreateCourse(CourseModel courseModel)
+        {
+            var course = new Course
+            {
+                Title = courseModel.Title,
+                Subtitle = courseModel.Subtitle,
+                ImageUrl = courseModel.ImageUrl,
+                Requirements = courseModel.Requirements,
+                Goals = courseModel.Goals,
+                Topics = courseModel.Topics,
+                Curriculum = courseModel.Curriculum,
+                Level = courseModel.Level,
+                CategoryId = courseModel.CategoryId,
+                LanguageId = courseModel.LanguageId,
+                Description = courseModel.Description,
+                Price = courseModel.Price,
+            };
+
+            await this.repository.AddAsync(course);
+            await this.repository.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<CourseModel>> GetAll()
         {
             return await this.repository.AllReadonly<Course>()

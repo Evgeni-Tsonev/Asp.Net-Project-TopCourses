@@ -14,6 +14,15 @@
     </div>
 </form>
 
+<div class="form-group">
+    <button type="button" class="btn btn-primary" onclick='redirectOnClick()'>Cancel</button>
+</div>
+
 @section Scripts{
-    <partial name="_ValidationScriptsPartial.cshtml" />
+<partial name="_ValidationScriptsPartial.cshtml" />
+<script>
+    function redirectOnClick() {
+        document.location = 'Index';
+    }
+</script>
 }

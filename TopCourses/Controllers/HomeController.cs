@@ -2,26 +2,27 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using TopCourses.Core.Contracts;
     using TopCourses.Models;
 
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ICourseService courseService;
+        public HomeController(ILogger<HomeController> logger,
+            ICourseService courseService)
         {
             _logger = logger;
+            this.courseService = courseService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var allCourses = await courseService.GetAll();
+            return View(allCourses);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

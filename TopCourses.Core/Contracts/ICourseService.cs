@@ -5,6 +5,8 @@
     public interface ICourseService
     {
         Task<IEnumerable<CourseModel>> GetAll();
+
+        Task CreateCourse(CourseModel courseModel);
     
     }
 }

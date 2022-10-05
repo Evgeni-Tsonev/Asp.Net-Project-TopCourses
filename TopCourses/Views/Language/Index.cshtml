@@ -9,6 +9,13 @@
         <li class="list-group-item">@element.Title</li>
     }
 </ul>
+<button type="submit" class="btn btn-primary" onclick='redirectOnClick()'>Add</button>
 
-
+@section Scripts{
+    <script>
+        function redirectOnClick() {
+            document.location = 'Add';
+        }
+    </script>
+}
 
