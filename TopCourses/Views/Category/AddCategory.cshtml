@@ -1,9 +1,9 @@
 ﻿@using TopCourses.Core.Models
-@model LanguageModel
+@model CategoryModel
 
-<h2>Add Language</h2>
+<h2>Add Category</h2>
 
-<form asp-controller="Language" asp-action="Add" method="post">
+<form asp-controller="Category" asp-action="AddCategory" method="post">
     <div class="form-group">
         <label asp-for="Title"></label>
         <input asp-for="Title" />
@@ -15,7 +15,7 @@
 </form>
 
 <div class="form-group">
-    <a asp-controller="Language" asp-action="Index">
+    <a asp-controller="Category" asp-action="Index">
         <input type="button" class="btn btn-primary" value='Cancel' />
     </a>
 </div>

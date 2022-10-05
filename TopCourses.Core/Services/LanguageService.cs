@@ -6,7 +6,7 @@
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models;
     using TopCourses.Infrastructure.Data.Models;
-    using WebShopDemo.Core.Data.Common;
+    using TopCourses.Core.Data.Common;
 
     public class LanguageService : ILanguageService
     {

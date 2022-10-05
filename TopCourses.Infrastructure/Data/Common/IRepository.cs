@@ -1,4 +1,4 @@
-﻿namespace WebShopDemo.Core.Data.Common
+﻿namespace TopCourses.Core.Data.Common
 {
     using System.Linq.Expressions;
 

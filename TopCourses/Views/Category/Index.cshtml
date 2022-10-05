@@ -1,7 +1,7 @@
 ﻿@using TopCourses.Core.Models
-@model IEnumerable<LanguageModel>
+@model IEnumerable<CategoryModel>
 
-<h2>Languages</h2>
+<h2>All Categories</h2>
 
 <ul class="list-group">
     @foreach (var element in Model)
@@ -9,9 +9,7 @@
         <li class="list-group-item">@element.Title</li>
     }
 </ul>
-<a asp-controller="Language" asp-action="Add">
+
+<a asp-controller="Category" asp-action="AddCategory">
     <input type="button" class="btn btn-primary" value="Add" />
 </a>
-
-
-

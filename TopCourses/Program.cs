@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TopCourses.Core.Contracts;
 using TopCourses.Core.Services;
 using TopCourses.Infrastructure.Data;
 using TopCourses.Infrastructure.Data.Identity;
-using WebShopDemo.Core.Data.Common;
+using TopCourses.Core.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +20,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
