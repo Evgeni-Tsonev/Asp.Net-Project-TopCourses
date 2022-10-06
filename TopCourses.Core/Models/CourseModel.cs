@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using TopCourses.Infrastructure.Data.Models;
+    using TopCourses.Infrastructure.Data.Models.enums;
 
     public class CourseModel
     {
@@ -38,5 +39,9 @@
         public string Description { get; set; } = null!;
 
         public decimal Price { get; set; }
+
+        public IEnumerable<LanguageModel> Languages { get; set; } = new HashSet<LanguageModel>();
+        public IEnumerable<CategoryModel> Categories { get; set; } = new HashSet<CategoryModel>();
+        
     }
 }

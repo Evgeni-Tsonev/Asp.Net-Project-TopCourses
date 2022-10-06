@@ -1,4 +1,4 @@
-﻿namespace TopCourses.Infrastructure.Data.Models
+﻿namespace TopCourses.Infrastructure.Data.Models.enums
 {
     public enum Level
     {

@@ -3,6 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using TopCourses.Infrastructure.Data.Identity;
+    using TopCourses.Infrastructure.Data.Models.enums;
 
     public class Course
     {

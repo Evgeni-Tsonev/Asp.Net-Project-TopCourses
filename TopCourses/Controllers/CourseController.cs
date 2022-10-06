@@ -3,15 +3,20 @@
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models;
-    using TopCourses.Core.Services;
 
     public class CourseController : Controller
     {
         private readonly ICourseService courseService;
+        private readonly ICategoryService categoryService;
+        private readonly ILanguageService languageService;
 
-        public CourseController(ICourseService courseService)
+        public CourseController(ICourseService courseService, 
+                                ICategoryService categoryService, 
+                                ILanguageService languageService)
         {
             this.courseService = courseService;
+            this.categoryService = categoryService;
+            this.languageService = languageService;
         }
 
         public async Task<IActionResult> Index()
@@ -20,9 +25,13 @@
             return View(allCourses);
         }
 
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            var course = new CourseModel();
+            var course = new CourseModel()
+            {
+                Categories = await this.categoryService.GetAllCategories(),
+                Languages = await this.languageService.GetAll()
+            };
             return View(course);
         }
 
@@ -35,7 +44,6 @@
             }
 
             await this.courseService.CreateCourse(model);
-
             return RedirectToAction(nameof(Index));
         }
     }

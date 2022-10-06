@@ -1,50 +1,59 @@
-﻿
+﻿@using TopCourses.Core.Models
+@using TopCourses.Infrastructure.Data.Models.enums
+@model CourseModel
 
 <h2>Add Course</h2>
 
-<form>
+<form asp-controller="Course" asp-action="Add" method="post">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" placeholder="Title" />
+            <span asp-validation-for="Title" class="small text-danger"></span>
         </div>
         <div class="form-group col-md-6">
-            <label for="inputPassword4">Password</label>
-            <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+            <label asp-for="Subtitle"></label>
+            <input asp-for="Subtitle" class="form-control" placeholder="Subtitle" />
+            <span asp-validation-for="Subtitle" class="small text-danger"></span>
         </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="ImageUrl"></label>
+        <input asp-for="ImageUrl" class="form-control" placeholder="ImageUrl" />
+        <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+    </div>
+    <div class="col-md-2">
+        <label asp-for="CategoryId" class="form-label"></label>
+        <select asp-for="CategoryId" class="form-select">
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Title</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label asp-for="LanguageId" class="form-label"></label>
+        <select asp-for="LanguageId" class="form-select">
+            @foreach (var language in Model.Languages)
+            {
+                <option value="@language.Id">@language.Title</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label asp-for="Level" class="form-label"></label>
+        <select asp-for="Level" asp-items="Html.GetEnumSelectList<Level>()" class="form-select"></select>
     </div>
     <div class="form-group">
-        <label for="inputAddress">Address</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control col-md-6" rows="3"></textarea>
+        <span asp-validation-for="Description" class="small text-danger"></span>
     </div>
-    <div class="form-group">
-        <label for="inputAddress2">Address 2</label>
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+    <div class="form-group col-md-1">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="small text-danger"></span>
     </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="inputCity">
-        </div>
-        <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <select id="inputState" class="form-control">
-                <option selected>Choose...</option>
-                <option>...</option>
-            </select>
-        </div>
-        <div class="form-group col-md-2">
-            <label for="inputZip">Zip</label>
-            <input type="text" class="form-control" id="inputZip">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="gridCheck">
-            <label class="form-check-label" for="gridCheck">
-                Check me out
-            </label>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
+
+    <button type="submit" class="btn btn-primary">Create Course</button>
 </form>
