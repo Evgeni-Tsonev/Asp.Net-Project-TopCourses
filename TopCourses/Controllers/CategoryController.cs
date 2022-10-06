@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models;
-    using TopCourses.Core.Services;
 
     public class CategoryController : Controller
     {

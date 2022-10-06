@@ -1,1 +1,20 @@
-﻿<h2>course index</h2>
+﻿@using TopCourses.Core.Models.Course
+@model IEnumerable<CourseListingModel>
+
+<h2>All courses</h2>
+
+
+<div class="card-group">
+    @foreach (var course in Model)
+    {
+        <div class="card-group">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@course.ImageUrl" alt="@course.Title - @course.Price">
+                <div class="card-body text-center">
+                    <h5 class="card-title">@course.Title - @course.Price lv.</h5>
+                    <a href="#" class="btn btn-primary">More Info</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

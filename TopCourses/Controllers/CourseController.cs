@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Contracts;
-    using TopCourses.Core.Models;
+    using TopCourses.Core.Models.Course;
 
     public class CourseController : Controller
     {
@@ -27,7 +27,7 @@
 
         public async Task<IActionResult> Add()
         {
-            var course = new CourseModel()
+            var course = new AddCourseModel()
             {
                 Categories = await this.categoryService.GetAllCategories(),
                 Languages = await this.languageService.GetAll()
@@ -36,7 +36,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(CourseModel model)
+        public async Task<IActionResult> Add(AddCourseModel model)
         {
             if (!ModelState.IsValid)
             {

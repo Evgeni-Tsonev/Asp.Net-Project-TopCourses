@@ -1,12 +1,12 @@
 ﻿namespace TopCourses.Core.Contracts
 {
-    using TopCourses.Core.Models;
+    using TopCourses.Core.Models.Course;
 
     public interface ICourseService
     {
-        Task<IEnumerable<CourseModel>> GetAll();
+        Task<IEnumerable<CourseListingModel>> GetAll();
 
-        Task CreateCourse(CourseModel courseModel);
+        Task CreateCourse(AddCourseModel courseModel);
     
     }
 }

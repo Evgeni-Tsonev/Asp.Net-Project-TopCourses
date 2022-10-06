@@ -1,10 +1,10 @@
-﻿namespace TopCourses.Core.Models
+﻿namespace TopCourses.Core.Models.Course
 {
     using System.ComponentModel.DataAnnotations;
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Infrastructure.Data.Models.enums;
 
-    public class CourseModel
+    public class AddCourseModel
     {
         public int Id { get; set; }
 
@@ -42,6 +42,6 @@
 
         public IEnumerable<LanguageModel> Languages { get; set; } = new HashSet<LanguageModel>();
         public IEnumerable<CategoryModel> Categories { get; set; } = new HashSet<CategoryModel>();
-        
+
     }
 }

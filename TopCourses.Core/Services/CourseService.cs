@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
-    using TopCourses.Core.Models;
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Core.Data.Common;
+    using TopCourses.Core.Models.Course;
 
     public class CourseService : ICourseService
     {
@@ -17,7 +17,7 @@
             this.repository = repository;
         }
 
-        public async Task CreateCourse(CourseModel courseModel)
+        public async Task CreateCourse(AddCourseModel courseModel)
         {
             var course = new Course
             {
@@ -39,24 +39,15 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CourseModel>> GetAll()
+        public async Task<IEnumerable<CourseListingModel>> GetAll()
         {
             return await this.repository.AllReadonly<Course>()
                 .Where(c => c.IsDeleted == false)
-                .Select(c => new CourseModel
+                .Select(c => new CourseListingModel
                 {
                     Id = c.Id,
                     Title = c.Title,
-                    Subtitle = c.Subtitle,
                     ImageUrl = c.ImageUrl,
-                    Requirements = c.Requirements,
-                    Goals = c.Goals,
-                    Topics = c.Topics,
-                    Curriculum = c.Curriculum,
-                    Level = c.Level,
-                    CategoryId = c.CategoryId,
-                    LanguageId = c.LanguageId,
-                    Description = c.Description,
                     Price = c.Price
                 }).ToListAsync();
         }
