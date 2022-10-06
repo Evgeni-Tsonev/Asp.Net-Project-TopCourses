@@ -46,6 +46,7 @@
                 .Where(c => c.IsDeleted == false)
                 .Select(c => new CategoryModel
                 {
+                    Id = c.Id,
                     Title = c.Title
                 }).ToListAsync();
 
