@@ -43,7 +43,7 @@
         public async Task<IEnumerable<CategoryModel>> GetAllCategories()
         {
             var categories = await this.repository.AllReadonly<Category>()
-                .Where(c => c.IsDeleted == false)
+                .Where(c => c.IsDeleted == false && c.Parent == null)
                 .Select(c => new CategoryModel
                 {
                     Id = c.Id,

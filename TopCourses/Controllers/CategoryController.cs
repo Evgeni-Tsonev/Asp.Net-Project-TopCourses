@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System.Collections;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models;
 
@@ -25,6 +26,7 @@
             return View(category);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> AddCategory(CategoryModel model)
         {
@@ -34,6 +36,27 @@
             }
 
             await categoriesService.CreateCategory(model);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> AddSubCategory()
+        {
+            var category = new CategoryModel();
+            var mainCategories = await categoriesService.GetAllCategories();
+            ViewBag.mainCategories = mainCategories;
+
+            return View(category);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSubCategory(CategoryModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await categoriesService.CreateSubCategory(model);
             return RedirectToAction(nameof(Index));
         }
     }
