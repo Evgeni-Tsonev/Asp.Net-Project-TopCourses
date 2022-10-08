@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using System.Reflection.Emit;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
@@ -19,9 +20,26 @@
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Requirement> Requirements { get; set; }
         public DbSet<Goal> Goals { get; set; }
+        public DbSet<CourseApplicationUser> CourseApplicationUser { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<CourseApplicationUser>()
+                .HasKey(sc => new { sc.StudentId, sc.CourseId });
+
+            builder.Entity<CourseApplicationUser>()
+                .HasOne<ApplicationUser>(sc => sc.Student)
+                .WithMany(s => s.CoursesEnrolled)
+                .HasForeignKey(sc => sc.StudentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            builder.Entity<CourseApplicationUser>()
+                .HasOne<Course>(sc => sc.Course)
+                .WithMany(s => s.Students)
+                .HasForeignKey(sc => sc.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             base.OnModelCreating(builder);
         }
     }

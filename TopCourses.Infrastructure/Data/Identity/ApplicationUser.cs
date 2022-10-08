@@ -19,6 +19,6 @@
 
         public ICollection<Course> CoursesCreated { get; set; } = new HashSet<Course>();
 
-        //public ICollection<Course> CoursesEnrolled { get; set; } = new HashSet<Course>();
+        public ICollection<CourseApplicationUser> CoursesEnrolled { get; set; } = new HashSet<CourseApplicationUser>();
     }
 }
