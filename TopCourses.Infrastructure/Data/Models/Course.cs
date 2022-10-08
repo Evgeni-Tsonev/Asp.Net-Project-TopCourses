@@ -46,8 +46,12 @@
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
-        //public Guid CreatorId { get; set; }
-        //public ApplicationUser Creator { get; set; } = null!;
+        [Required]
+        [ForeignKey(nameof(Creator))]
+        public string CreatorId { get; set; } = null!;
+
+        [ForeignKey(nameof(CreatorId))]
+        public ApplicationUser Creator { get; set; } = null!;
 
         //public ICollection<ApplicationUser> Students { get; set; } = new HashSet<ApplicationUser>();
     }

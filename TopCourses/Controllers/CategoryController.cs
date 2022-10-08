@@ -16,7 +16,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var allCategories = await this.categoriesService.GetAllCategories();
+            var allCategories = await this.categoriesService.GetAllMainCategories();
             return View(allCategories);
         }
 
@@ -42,7 +42,7 @@
         public async Task<IActionResult> AddSubCategory()
         {
             var category = new CategoryModel();
-            var mainCategories = await categoriesService.GetAllCategories();
+            var mainCategories = await categoriesService.GetAllMainCategories();
             ViewBag.mainCategories = mainCategories;
 
             return View(category);

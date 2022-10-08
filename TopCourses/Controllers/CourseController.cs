@@ -29,7 +29,7 @@
         {
             var course = new AddCourseModel()
             {
-                Categories = await this.categoryService.GetAllCategories(),
+                Categories = await this.categoryService.GetAllMainCategories(),
                 Languages = await this.languageService.GetAll()
             };
             return View(course);
