@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Infrastructure.Data.Models.enums;
 
@@ -34,6 +35,8 @@
 
         public int LanguageId { get; set; }
 
+        public string CreatorId { get; set; } = null!;
+
         [Required]
         [StringLength(1500)]
         public string Description { get; set; } = null!;
@@ -42,6 +45,7 @@
 
         public IEnumerable<LanguageModel> Languages { get; set; } = new HashSet<LanguageModel>();
         public IEnumerable<CategoryModel> Categories { get; set; } = new HashSet<CategoryModel>();
+
 
     }
 }

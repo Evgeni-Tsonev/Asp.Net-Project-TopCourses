@@ -23,6 +23,9 @@
         <span asp-validation-for="ImageUrl" class="small text-danger"></span>
     </div>
     <div class="col-md-2">
+        <input asp-for="CreatorId" value="@Model.CreatorId" type="hidden" />
+    </div>
+    <div class="col-md-2">
         <label asp-for="CategoryId" class="form-label"></label>
         <select asp-for="CategoryId" class="form-select">
             @foreach (var category in Model.Categories)

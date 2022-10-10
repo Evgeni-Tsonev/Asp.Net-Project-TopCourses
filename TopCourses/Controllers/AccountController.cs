@@ -87,7 +87,7 @@
                         return RedirectToAction(model.ReturnUrl);
                     }
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Courses");
                 }
             }
 
@@ -99,7 +99,7 @@
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Course");
         }
     }
 }
