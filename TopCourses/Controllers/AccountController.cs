@@ -87,7 +87,7 @@
                         return RedirectToAction(model.ReturnUrl);
                     }
 
-                    return RedirectToAction("Index", "Courses");
+                    return RedirectToAction("Index", "Course");
                 }
             }
 

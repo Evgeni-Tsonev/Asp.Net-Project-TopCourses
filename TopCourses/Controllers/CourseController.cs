@@ -7,6 +7,7 @@
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
     using TopCourses.Infrastructure.Data.Identity;
+    using TopCourses.Infrastructure.Data.Models;
 
     public class CourseController : Controller
     {
@@ -51,18 +52,15 @@
 
             if (!ModelState.IsValid)
             {
-                var messages = ModelState.Select(x => x.Value.Errors)
-                           .Where(y => y.Count > 0)
-                           .ToList();
                 return View(model);
             }
             await this.courseService.CreateCourse(model);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Details(int courseId)
+        public async Task<IActionResult> Details([FromRoute] int id)
         {
-            var details = this.courseService.GetCourseDetails(courseId);
+            var details = await this.courseService.GetCourseDetails(id);
             return View(details);
         }
     }

@@ -13,7 +13,7 @@
                 <img class="card-img-top" src="@course.ImageUrl" alt="@course.Title - @course.Price">
                 <div class="card-body text-center">
                     <h5 class="card-title">@course.Title - @course.Price lv.</h5>
-                    <a asp-action="Details" class="btn btn-primary">More Info</a>
+                    <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
                 </div>
             </div>
         </div>
