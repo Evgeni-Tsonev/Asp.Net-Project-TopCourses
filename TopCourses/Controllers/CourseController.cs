@@ -3,11 +3,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Runtime.CompilerServices;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
     using TopCourses.Infrastructure.Data.Identity;
-    using TopCourses.Infrastructure.Data.Models;
+
 
     public class CourseController : Controller
     {
@@ -19,7 +18,7 @@
         public CourseController(ICourseService courseService,
                                 ICategoryService categoryService,
                                 ILanguageService languageService,
-                                 UserManager<ApplicationUser> userManager)
+                                UserManager<ApplicationUser> userManager)
         {
             this.courseService = courseService;
             this.categoryService = categoryService;
@@ -29,7 +28,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var allCourses = await courseService.GetAll();
+            var allCourses = await this.courseService.GetAll();
             return View(allCourses);
         }
 

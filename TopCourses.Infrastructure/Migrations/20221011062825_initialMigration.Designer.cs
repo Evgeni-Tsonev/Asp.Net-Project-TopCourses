@@ -12,8 +12,8 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    [Migration("20221006111729_applyLastChanges")]
-    partial class applyLastChanges
+    [Migration("20221011062825_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,21 +23,6 @@ namespace TopCourses.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CourseTopic", b =>
-                {
-                    b.Property<int>("CoursesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TopicsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CoursesId", "TopicsId");
-
-                    b.HasIndex("TopicsId");
-
-                    b.ToTable("CourseTopic");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -291,6 +276,10 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1500)
@@ -326,9 +315,26 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("CreatorId");
+
                     b.HasIndex("LanguageId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.CourseApplicationUser", b =>
+                {
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CourseApplicationUser");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Goal", b =>
@@ -433,42 +439,6 @@ namespace TopCourses.Infrastructure.Migrations
                     b.ToTable("Sections");
                 });
 
-            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Topic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Topics");
-                });
-
-            modelBuilder.Entity("CourseTopic", b =>
-                {
-                    b.HasOne("TopCourses.Infrastructure.Data.Models.Course", null)
-                        .WithMany()
-                        .HasForeignKey("CoursesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TopCourses.Infrastructure.Data.Models.Topic", null)
-                        .WithMany()
-                        .HasForeignKey("TopicsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -532,8 +502,14 @@ namespace TopCourses.Infrastructure.Migrations
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Course", b =>
                 {
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Courses")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TopCourses.Infrastructure.Data.Identity.ApplicationUser", "Creator")
+                        .WithMany("CoursesCreated")
+                        .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -545,7 +521,28 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.Navigation("Category");
 
+                    b.Navigation("Creator");
+
                     b.Navigation("Lenguage");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.CourseApplicationUser", b =>
+                {
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.Course", "Course")
+                        .WithMany("Students")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("TopCourses.Infrastructure.Data.Identity.ApplicationUser", "Student")
+                        .WithMany("CoursesEnrolled")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Goal", b =>
@@ -581,8 +578,17 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("CoursesCreated");
+
+                    b.Navigation("CoursesEnrolled");
+                });
+
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Category", b =>
                 {
+                    b.Navigation("Courses");
+
                     b.Navigation("SubCategory");
                 });
 
@@ -593,6 +599,8 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("Goals");
 
                     b.Navigation("Requirements");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Language", b =>

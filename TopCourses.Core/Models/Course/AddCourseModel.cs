@@ -25,8 +25,6 @@
 
         public ICollection<Goal> Goals { get; set; } = new HashSet<Goal>();
 
-        public ICollection<Topic> Topics { get; set; } = new HashSet<Topic>();
-
         public ICollection<Section> Curriculum { get; set; } = new HashSet<Section>();
 
         public Level Level { get; set; }
