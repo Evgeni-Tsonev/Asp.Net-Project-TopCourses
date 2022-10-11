@@ -62,5 +62,10 @@
             var details = await this.courseService.GetCourseDetails(id);
             return View(details);
         }
+
+        public IActionResult Test()
+        {
+            return View();
+        }
     }
 }

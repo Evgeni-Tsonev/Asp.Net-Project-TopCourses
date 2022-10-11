@@ -1,17 +1,10 @@
-﻿@using TopCourses.Core.Models.Course
-@model IEnumerable<CourseListingModel>
-
-@{
-    ViewData["Title"] = "All courses";
-}
-
-<div class="col-md-2 bg-secondary">
+﻿<div class="col-md-2 bg-secondary">
     <div class="filter-sidebar">
         <div class="row card-body py-2 mb-2 bg-dark twhite">
             <h4>Search Options</h4>
         </div>
         <div class="form-group">
-            <select class="form-control">
+            <select class="form-control" id="conditionsselect1">
                 <option>Conditions</option>
                 <option>New</option>
                 <option>Used</option>
@@ -88,19 +81,4 @@
         <div class="pb-3" <="" div="">
         </div>
     </div>
-</div>
-
-<div class="card-group">
-    @foreach (var course in Model)
-    {
-        <div class="card-group">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="@course.ImageUrl" alt="@course.Title - @course.Price">
-                <div class="card-body text-center">
-                    <h5 class="card-title">@course.Title - @course.Price lv.</h5>
-                    <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
-                </div>
-            </div>
-        </div>
-    }
 </div>
