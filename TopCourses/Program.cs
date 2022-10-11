@@ -1,18 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using TopCourses.Core.Contracts;
-using TopCourses.Core.Services;
+using Microsoft.Extensions.DependencyInjection;
 using TopCourses.Infrastructure.Data;
 using TopCourses.Infrastructure.Data.Identity;
-using TopCourses.Core.Data.Common;
-using Microsoft.Extensions.Options;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<TopCoursesDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddApplicationDbContexts(builder.Configuration);
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
@@ -30,10 +25,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IRepository, Repository>();
-builder.Services.AddScoped<ILanguageService, LanguageService>();
-builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
