@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Models;
 
@@ -27,10 +28,18 @@
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            var isUsernameexists = await this.userManager.Users.AnyAsync(u => u.UserName == model.UserName);
+
+            if (isUsernameexists)
+            {
+                ModelState.AddModelError(nameof(model.UserName), "Username already exists");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+
 
             var user = new ApplicationUser
             {
@@ -38,7 +47,7 @@
                 EmailConfirmed = true,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                UserName = model.Email
+                UserName = model.UserName
             };
 
             var result = await userManager.CreateAsync(user, model.Password);

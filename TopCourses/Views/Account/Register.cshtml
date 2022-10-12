@@ -50,6 +50,15 @@
                             </div>
                         </div>
                     </div>
+                    <span asp-validation-for="UserName" class="small text-danger"></span>
+                    <div class="input-group mb-3">
+                        <input asp-for="UserName" class="form-control" placeholder="Username">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="input-group mb-3">
                         <span asp-validation-for="Email" class="small text-danger"></span>
                         <input asp-for="Email" class="form-control" placeholder="Email">
@@ -118,5 +127,5 @@
     @section Scripts{
         <partial name="_ValidationScriptsPartial.cshtml" />
     }
-</body>
-</html>
+    </body>
+    </html>

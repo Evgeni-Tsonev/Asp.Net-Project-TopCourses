@@ -19,6 +19,10 @@
 
         [Required]
         [StringLength(50, MinimumLength = 2)]
+        public string UserName { get; set; } = null!;
+
+        [Required]
+        [StringLength(50, MinimumLength = 2)]
         public string FirstName { get; set; } = null!;
 
         [Required]
