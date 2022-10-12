@@ -35,7 +35,7 @@
         [Authorize]
         public async Task<IActionResult> Add()
         {
-            var user = await this.userManager.FindByEmailAsync(User.Identity.Name);
+            var user = await this.userManager.GetUserAsync(this.User);
             var course = new AddCourseModel()
             {
                 Categories = await this.categoryService.GetAllMainCategories(),

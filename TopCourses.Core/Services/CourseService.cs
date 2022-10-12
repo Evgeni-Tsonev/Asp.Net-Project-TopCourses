@@ -19,23 +19,28 @@
 
         public async Task<CourseDetailsModel> GetCourseDetails(int courseId)
         {
-            return await this.repository.AllReadonly<Course>()
-                .Where(c => c.Id == courseId)
-                .Select(c => new CourseDetailsModel
-                {
-                    Id = c.Id,
-                    Title = c.Title,
-                    Subtitle = c.Subtitle,
-                    ImageUrl = c.ImageUrl,
-                    Requirements = c.Requirements,
-                    Goals = c.Goals,
-                    Curriculum = c.Curriculum,
-                    Level = c.Level,
-                    CategoryId = c.CategoryId,
-                    LanguageId = c.LanguageId,
-                    Description = c.Description,
-                    Price = c.Price
-                }).FirstOrDefaultAsync();
+            var course = await this.repository.AllReadonly<Course>().FirstOrDefaultAsync(x => x.Id == courseId);
+
+            if (course == null)
+            {
+                throw new ArgumentException("Invalid course Id");
+            }
+
+            return new CourseDetailsModel()
+            {
+                Id = course.Id,
+                Title = course.Title,
+                Subtitle = course.Subtitle,
+                ImageUrl = course.ImageUrl,
+                Requirements = course.Requirements,
+                Goals = course.Goals,
+                Curriculum = course.Curriculum,
+                Level = course.Level,
+                CategoryId = course.CategoryId,
+                LanguageId = course.LanguageId,
+                Description = course.Description,
+                Price = course.Price
+            };
         }
 
         public async Task CreateCourse(AddCourseModel courseModel)

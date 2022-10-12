@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopCourses", "TopCourses\TopCourses.csproj", "{A61E1017-1901-4B24-A6C2-66C9F655344F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopCourses.Core", "TopCourses.Core\TopCourses.Core.csproj", "{02ADE8DC-D2E6-4723-A316-6976F0D6809D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopCourses.Core", "TopCourses.Core\TopCourses.Core.csproj", "{02ADE8DC-D2E6-4723-A316-6976F0D6809D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopCourses.Infrastructure", "TopCourses.Infrastructure\TopCourses.Infrastructure.csproj", "{9506D2B7-6980-47C0-90B5-508927C04B5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopCourses.Infrastructure", "TopCourses.Infrastructure\TopCourses.Infrastructure.csproj", "{9506D2B7-6980-47C0-90B5-508927C04B5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

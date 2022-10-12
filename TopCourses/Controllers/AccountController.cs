@@ -84,10 +84,10 @@
                 {
                     if (model.ReturnUrl != null)
                     {
-                        return RedirectToAction(model.ReturnUrl);
+                        return Redirect(model.ReturnUrl);
                     }
 
-                    return RedirectToAction("Index", "Course");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 

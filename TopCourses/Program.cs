@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using TopCourses.Infrastructure.Data;
 using TopCourses.Infrastructure.Data.Identity;
 
@@ -17,6 +15,20 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.User.RequireUniqueEmail = true;
 })
     .AddEntityFrameworkStores<TopCoursesDbContext>();
+
+//builder.Services.AddAuthentication()
+//    .AddFacebook(options =>
+//    {
+//        options.AppId = "505133611164058";
+//        options.AppSecret = "ca327d57819f6267ec8baac1aec48663";
+//    });
+
+//builder.Services.AddAuthentication()
+//    .AddFacebook(options =>
+//    {
+//        options.AppId = builder.Configuration.GetValue<string>("Facebook:AppId");
+//        options.AppSecret = builder.Configuration.GetValue<string>("Facebook:AppSecret");
+//    });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
