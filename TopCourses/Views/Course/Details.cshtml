@@ -1,7 +1,159 @@
 ﻿@using TopCourses.Core.Models.Course
 @model CourseDetailsModel
 
-<img src="@Model.ImageUrl" style="width: 18rem;height: 18rem" class="img-thumbnail">
-<p>@Model.Id</p>
-<p>@Model.Title</p>
-<p>@Model.Subtitle</p>
+<div class="container border-dark">
+    <div class="jumbotron">
+        <h1>@Model.Title</h1>
+        <h3>@Model.Subtitle</h3>
+    </div>
+    <p>This is some text.</p>
+    <p>This is another text.</p>
+</div>
+<div class="container border-dark">
+    <div class="row">
+        <div class="col-md-9">
+            <p>
+                1vata sekciq
+                mnogo dulgi redove populneni s mnogo dulag tekst
+                mnogo dulgi redove populneni s mnogo dulag tekst
+                mnogo dulgi redove populneni s mnogo dulag tekst
+                mnogo dulgi redove populneni s mnogo dulag tekst
+                mnogo dulgi redove populneni s mnogo dulag tekst
+            </p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 border-dark">
+                        <p>2riq konteiner</p>
+                        <p>2riq konteiner</p>
+                        <p>2riq konteiner</p>
+                        <p>2riq konteiner</p>
+                        <p>2riq konteiner</p>
+                        <p>2riq konteiner</p>
+                        <p>2riq konteiner</p>
+                    </div>
+                </div>
+            </div>
+            <div class="container border-dark">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="container pt-3 border-dark">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Collapsible Group Item #1
+                                            </button>
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Collapsible Group Item #2
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingThree">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Collapsible Group Item #3
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 border-dark">
+                        <p>mnogo dulgo opisanie na prepodavatelq</p>
+                        <p>mnogo dulgo opisanie na prepodavatelq</p>
+                        <p>mnogo dulgo opisanie na prepodavatelq</p>
+                        <p>mnogo dulgo opisanie na prepodavatelq</p>
+                        <p>mnogo dulgo opisanie na prepodavatelq</p>
+                        <p>mnogo dulgo opisanie na prepodavatelq</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <img src="@Model.ImageUrl" style="width: 18rem;height: 18rem" class="img-thumbnail">
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+        </div>
+    </div>
+</div>
+<section style="background-color: #d94125;">
+    <div class="container my-5 py-5 text-dark">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-6">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-start w-100">
+                            <img class="rounded-circle shadow-1-strong me-3"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar" width="65"
+                                 height="65" />
+                            <div class="w-100">
+                                <h5>Add a comment</h5>
+                                <ul class="rating mb-3" data-mdb-toggle="rating">
+                                    <li>
+                                        <i class="far fa-star fa-sm text-danger" title="Bad"></i>
+                                    </li>
+                                    <li>
+                                        <i class="far fa-star fa-sm text-danger" title="Poor"></i>
+                                    </li>
+                                    <li>
+                                        <i class="far fa-star fa-sm text-danger" title="OK"></i>
+                                    </li>
+                                    <li>
+                                        <i class="far fa-star fa-sm text-danger" title="Good"></i>
+                                    </li>
+                                    <li>
+                                        <i class="far fa-star fa-sm text-danger" title="Excellent"></i>
+                                    </li>
+                                </ul>
+                                <div class="form-outline">
+                                    <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
+                                    <label class="form-label" for="textAreaExample">What is your view?</label>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button type="button" class="btn btn-success">Danger</button>
+                                    <button type="button" class="btn btn-danger">
+                                        Send <i class="fas fa-long-arrow-alt-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
