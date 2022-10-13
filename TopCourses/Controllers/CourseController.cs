@@ -63,7 +63,7 @@
             return View(details);
         }
 
-        public IActionResult Test()
+        public IActionResult Video()
         {
             return View();
         }
