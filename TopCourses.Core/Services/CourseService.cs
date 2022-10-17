@@ -43,7 +43,7 @@
             };
         }
 
-        public async Task CreateCourse(AddCourseModel courseModel)
+        public async Task CreateCourse(AddCourseModel courseModel, string creatorId)
         {
             var course = new Course
             {
@@ -57,7 +57,7 @@
                 CategoryId = courseModel.CategoryId,
                 LanguageId = courseModel.LanguageId,
                 Description = courseModel.Description,
-                CreatorId = courseModel.CreatorId,
+                CreatorId = creatorId,
                 Price = courseModel.Price,
             };
 

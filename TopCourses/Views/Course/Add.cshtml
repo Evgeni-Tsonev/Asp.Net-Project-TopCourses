@@ -23,9 +23,6 @@
         <span asp-validation-for="ImageUrl" class="small text-danger"></span>
     </div>
     <div class="col-md-2">
-        <input asp-for="CreatorId" value="@Model.CreatorId" type="hidden" />
-    </div>
-    <div class="col-md-2">
         <label asp-for="CategoryId" class="form-label"></label>
         <select asp-for="CategoryId" class="form-select">
             @foreach (var category in Model.Categories)
@@ -33,6 +30,7 @@
                 <option value="@category.Id">@category.Title</option>
             }
         </select>
+        <span asp-validation-for="CategoryId" class="small text-danger"></span>
     </div>
     <div class="col-md-2">
         <label asp-for="LanguageId" class="form-label"></label>
@@ -42,6 +40,7 @@
                 <option value="@language.Id">@language.Title</option>
             }
         </select>
+        <span asp-validation-for="LanguageId" class="small text-danger"></span>
     </div>
     <div class="col-md-2">
         <label asp-for="Level" class="form-label"></label>

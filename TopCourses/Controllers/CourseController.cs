@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using System.Security.Claims;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
     using TopCourses.Infrastructure.Data.Identity;
@@ -35,12 +36,12 @@
         [Authorize]
         public async Task<IActionResult> Add()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var categories = await this.categoryService.GetAllMainCategories();
+            var languages = await this.languageService.GetAll();
             var course = new AddCourseModel()
             {
-                Categories = await this.categoryService.GetAllMainCategories(),
-                Languages = await this.languageService.GetAll(),
-                CreatorId = user.Id
+                Categories = categories,
+                Languages = languages
             };
             return View(course);
         }
@@ -48,12 +49,27 @@
         [HttpPost]
         public async Task<IActionResult> Add(AddCourseModel model)
         {
+            var categories = await this.categoryService.GetAllMainCategories();
+            if (!categories.Any(b => b.Id == model.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
+            }
+
+            var languages = await this.languageService.GetAll();
+            if (!languages.Any(b => b.Id == model.LanguageId))
+            {
+                this.ModelState.AddModelError(nameof(model.LanguageId), "Language does not exist");
+            }
 
             if (!ModelState.IsValid)
             {
+                model.Languages = languages;
+                model.Categories = categories;
                 return View(model);
             }
-            await this.courseService.CreateCourse(model);
+
+            var currentUserId = GetUserId();
+            await this.courseService.CreateCourse(model, currentUserId);
             return RedirectToAction(nameof(Index));
         }
 
@@ -67,5 +83,8 @@
         {
             return View();
         }
+
+        private string GetUserId()
+            => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

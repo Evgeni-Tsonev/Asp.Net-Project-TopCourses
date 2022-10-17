@@ -1,7 +1,6 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
     using System.ComponentModel.DataAnnotations;
-    using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Infrastructure.Data.Models.enums;
 
@@ -32,8 +31,6 @@
         public int CategoryId { get; set; }
 
         public int LanguageId { get; set; }
-
-        public string CreatorId { get; set; } = null!;
 
         [Required]
         [StringLength(1500)]
