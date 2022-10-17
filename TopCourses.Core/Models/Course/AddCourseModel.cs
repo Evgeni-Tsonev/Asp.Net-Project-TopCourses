@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Core.Models.Section;
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Infrastructure.Data.Models.enums;
 
@@ -22,9 +23,7 @@
 
         public ICollection<Requirement> Requirements { get; set; } = new HashSet<Requirement>();
 
-        public ICollection<Goal> Goals { get; set; } = new HashSet<Goal>();
-
-        public ICollection<Section> Curriculum { get; set; } = new HashSet<Section>();
+        public ICollection<SectionModel> Curriculum { get; set; } = new HashSet<SectionModel>();
 
         public Level Level { get; set; }
 
