@@ -19,6 +19,7 @@
         public DbSet<Requirement> Requirements { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<CourseApplicationUser> CourseApplicationUser { get; set; }
+        public DbSet<ApplicationFile> Files { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

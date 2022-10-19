@@ -15,8 +15,8 @@
         [Url]
         public string VideoUrl { get; set; } = null!;
 
-        //to do
-        //public File Resources { get; set; }
+        public int ResourceId { get; set; }
+        public ApplicationFile Resource { get; set; }
 
         [Required]
         [StringLength(1000)]

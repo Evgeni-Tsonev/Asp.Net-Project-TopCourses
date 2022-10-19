@@ -38,11 +38,13 @@
         {
             var categories = await this.categoryService.GetAllMainCategories();
             var languages = await this.languageService.GetAll();
+
             var course = new AddCourseModel()
             {
                 Categories = categories,
-                Languages = languages
+                Languages = languages,
             };
+
             return View(course);
         }
 
