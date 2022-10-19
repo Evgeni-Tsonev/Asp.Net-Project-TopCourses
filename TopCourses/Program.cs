@@ -9,7 +9,7 @@ builder.Services.AddApplicationDbContexts(builder.Configuration);
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 6;
     options.User.RequireUniqueEmail = true;

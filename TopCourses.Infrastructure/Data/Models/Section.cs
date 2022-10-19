@@ -11,18 +11,15 @@
         [StringLength(50)]
         public string Title { get; set; } = null!;
 
-        [Required]
         [Url]
-        public string VideoUrl { get; set; } = null!;
+        public string? VideoUrl { get; set; } = null!;
 
-        public int ResourceId { get; set; }
-        public ApplicationFile Resource { get; set; }
+        public int? ResourceId { get; set; }
+        public ApplicationFile? Resource { get; set; }
 
         [Required]
         [StringLength(1000)]
         public string Description { get; set; } = null!;
-
-        public bool IsDeleted { get; set; }
 
         public int CourseId { get; set; }
         public Course Course { get; set; } = null!;

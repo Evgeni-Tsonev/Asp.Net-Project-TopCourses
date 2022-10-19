@@ -440,8 +440,8 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                    b.Property<int?>("ResourceId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -449,12 +449,13 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("VideoUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("ResourceId");
 
                     b.ToTable("Sections");
                 });
@@ -595,7 +596,13 @@ namespace TopCourses.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.ApplicationFile", "Resource")
+                        .WithMany("Sections")
+                        .HasForeignKey("ResourceId");
+
                     b.Navigation("Course");
+
+                    b.Navigation("Resource");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Identity.ApplicationUser", b =>
@@ -603,6 +610,11 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("CoursesCreated");
 
                     b.Navigation("CoursesEnrolled");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ApplicationFile", b =>
+                {
+                    b.Navigation("Sections");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Category", b =>

@@ -12,14 +12,14 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    [Migration("20221011062825_initialMigration")]
-    partial class initialMigration
+    [Migration("20221019163651_initializeDatabase")]
+    partial class initializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -239,6 +239,28 @@ namespace TopCourses.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ApplicationFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -420,8 +442,8 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                    b.Property<int?>("ResourceId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -429,12 +451,13 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("VideoUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("ResourceId");
 
                     b.ToTable("Sections");
                 });
@@ -575,7 +598,13 @@ namespace TopCourses.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.ApplicationFile", "Resource")
+                        .WithMany("Sections")
+                        .HasForeignKey("ResourceId");
+
                     b.Navigation("Course");
+
+                    b.Navigation("Resource");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Identity.ApplicationUser", b =>
@@ -583,6 +612,11 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("CoursesCreated");
 
                     b.Navigation("CoursesEnrolled");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ApplicationFile", b =>
+                {
+                    b.Navigation("Sections");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Category", b =>

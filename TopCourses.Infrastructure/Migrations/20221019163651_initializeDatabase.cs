@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TopCourses.Infrastructure.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class initializeDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,6 +69,19 @@ namespace TopCourses.Infrastructure.Migrations
                         column: x => x.ParentId,
                         principalTable: "Categories",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Content = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -300,9 +313,9 @@ namespace TopCourses.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResourceId = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -314,6 +327,11 @@ namespace TopCourses.Infrastructure.Migrations
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sections_Files_ResourceId",
+                        column: x => x.ResourceId,
+                        principalTable: "Files",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -394,6 +412,11 @@ namespace TopCourses.Infrastructure.Migrations
                 name: "IX_Sections_CourseId",
                 table: "Sections",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sections_ResourceId",
+                table: "Sections",
+                column: "ResourceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -430,6 +453,9 @@ namespace TopCourses.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "Files");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using TopCourses.Core.Constants;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Models;
 
@@ -40,7 +41,6 @@
                 return View(model);
             }
 
-
             var user = new ApplicationUser
             {
                 Email = model.Email,
@@ -62,6 +62,7 @@
             {
                 ModelState.AddModelError("", item.Description);
             }
+
             return View(model);
         }
 

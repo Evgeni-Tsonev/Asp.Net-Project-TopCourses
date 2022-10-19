@@ -18,7 +18,7 @@
 
         public IActionResult Index()
         {
-            ViewData[MessageConstant.SuccessMessage] = "Tostera bachka";
+            
             return View();
         }
 
