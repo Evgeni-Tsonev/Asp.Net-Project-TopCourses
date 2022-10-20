@@ -45,12 +45,13 @@
         public decimal Price { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Creator))]
         public string CreatorId { get; set; } = null!;
 
         [ForeignKey(nameof(CreatorId))]
         public ApplicationUser Creator { get; set; } = null!;
 
         public ICollection<CourseApplicationUser> Students { get; set; } = new HashSet<CourseApplicationUser>();
+
+        public ICollection<ShoppingCart> ShoppingCart { get; set; } = new HashSet<ShoppingCart>();
     }
 }

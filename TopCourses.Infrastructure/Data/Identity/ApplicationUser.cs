@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using TopCourses.Infrastructure.Data.Models;
 
     public class ApplicationUser : IdentityUser
@@ -16,6 +17,9 @@
         public string LastName { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
+
+        public int ShoppingCartId { get; set; }
+        public ShoppingCart ShoppingCart { get; set; }
 
         public ICollection<Course> CoursesCreated { get; set; } = new HashSet<Course>();
 
