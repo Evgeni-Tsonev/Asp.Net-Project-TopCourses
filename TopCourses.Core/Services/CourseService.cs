@@ -77,5 +77,9 @@
                     Price = c.Price
                 }).ToListAsync();
         }
+
+        public Task<Course> GetCourseById(int courseId)
+            => this.repository.GetByIdAsync<Course>(courseId);
+        
     }
 }

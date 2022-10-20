@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using TopCourses.Core.Constants;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Models;
 
