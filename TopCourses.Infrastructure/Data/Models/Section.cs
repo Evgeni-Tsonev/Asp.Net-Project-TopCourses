@@ -1,6 +1,5 @@
 ﻿namespace TopCourses.Infrastructure.Data.Models
 {
-    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
 
     public class Section

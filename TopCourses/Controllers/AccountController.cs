@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using TopCourses.Infrastructure.Data.Identity;
+    using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Models;
 
     public class AccountController : Controller
@@ -11,12 +12,14 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
+
         public AccountController(
                                 UserManager<ApplicationUser> userManager,
                                 SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+
         }
 
         public IActionResult Register()
@@ -46,7 +49,7 @@
                 EmailConfirmed = true,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                UserName = model.UserName
+                UserName = model.UserName,
             };
 
             var result = await userManager.CreateAsync(user, model.Password);

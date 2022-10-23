@@ -12,8 +12,8 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    [Migration("20221020121046_addShoppingCart")]
-    partial class addShoppingCart
+    [Migration("20221023164151_InitializeDatabase")]
+    partial class InitializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -234,7 +234,7 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShoppingCartId")
+                    b.Property<int?>("ShoppingCartId")
                         .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -489,13 +489,13 @@ namespace TopCourses.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -665,8 +665,7 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasOne("TopCourses.Infrastructure.Data.Identity.ApplicationUser", "User")
                         .WithOne("ShoppingCart")
                         .HasForeignKey("TopCourses.Infrastructure.Data.Models.ShoppingCart", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
                 });
@@ -677,8 +676,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.Navigation("CoursesEnrolled");
 
-                    b.Navigation("ShoppingCart")
-                        .IsRequired();
+                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ApplicationFile", b =>

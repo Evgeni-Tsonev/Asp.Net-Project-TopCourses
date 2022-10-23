@@ -17,8 +17,8 @@
 
         public bool IsDeleted { get; set; }
 
-        public int ShoppingCartId { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
+        public int? ShoppingCartId { get; set; }
+        public ShoppingCart? ShoppingCart { get; set; }
 
         public ICollection<Course> CoursesCreated { get; set; } = new HashSet<Course>();
 

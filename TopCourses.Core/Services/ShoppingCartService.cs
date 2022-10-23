@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
+    using TopCourses.Core.Models.ShoppingCart;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
@@ -24,6 +25,19 @@
             if (course == null || user == null)
             {
                 return;
+            }
+
+            if (user.ShoppingCartId == null)
+            {
+                var shoppingCart = new ShoppingCart()
+                {
+                    UserId = user.Id
+                };
+
+                await this.repository.AddAsync(shoppingCart);
+                await this.repository.SaveChangesAsync();
+
+                user.ShoppingCartId = shoppingCart.Id;
             }
 
             user.ShoppingCart.ShoppingCartCourses.Add(course);
@@ -57,7 +71,7 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Course>> GetAllShoppingCartCoursess(string userId)
+        public async Task<IEnumerable<ShoppingCartCourseViewModel>> GetAllShoppingCartCoursess(string userId)
         {
             var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
 
@@ -66,7 +80,18 @@
                 return null;
             }
 
-            return user.ShoppingCart.ShoppingCartCourses;
+            var cart = await this.repository.GetByIdAsync<ShoppingCart>(user.ShoppingCartId);
+
+            var courses = user.ShoppingCart.ShoppingCartCourses.Select(c => new ShoppingCartCourseViewModel()
+            {
+                Id = c.Id,
+                Name = c.Title,
+                CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,
+                ImageUrl = c.ImageUrl,
+                Price = c.Price
+            }).ToList();
+
+            return courses;
         }
     }
 }

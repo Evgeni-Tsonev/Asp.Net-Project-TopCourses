@@ -14,6 +14,7 @@
             services.AddScoped<ILanguageService, LanguageService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
             return services;
         }
