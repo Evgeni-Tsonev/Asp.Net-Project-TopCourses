@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Core.Services
 {
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
@@ -20,7 +21,12 @@
         public async Task AddCourseInShoppingCart(int courseId, string userId)
         {
             var course = await this.repository.GetByIdAsync<Course>(courseId);
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            var user = await this.repository
+                .All<ApplicationUser>()
+                .Where(u => u.Id == userId)
+                .Include(sc => sc.ShoppingCart)
+                .ThenInclude(c => c.ShoppingCartCourses)
+                .FirstOrDefaultAsync();
 
             if (course == null || user == null)
             {
@@ -35,9 +41,12 @@
                 };
 
                 await this.repository.AddAsync(shoppingCart);
-                await this.repository.SaveChangesAsync();
-
                 user.ShoppingCartId = shoppingCart.Id;
+            }
+
+            if (user.ShoppingCart.ShoppingCartCourses.Any(c => c.Id == courseId))
+            {
+                return;
             }
 
             user.ShoppingCart.ShoppingCartCourses.Add(course);
@@ -73,16 +82,19 @@
 
         public async Task<IEnumerable<ShoppingCartCourseViewModel>> GetAllShoppingCartCoursess(string userId)
         {
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            var user = await this.repository
+                .All<ApplicationUser>()
+                .Where(u => u.Id == userId)
+                .Include(sc => sc.ShoppingCart)
+                .ThenInclude(c => c.ShoppingCartCourses)
+                .FirstOrDefaultAsync();
 
-            if (user == null)
+            if (user == null || user.ShoppingCartId == null)
             {
                 return null;
             }
 
-            var cart = await this.repository.GetByIdAsync<ShoppingCart>(user.ShoppingCartId);
-
-            var courses = user.ShoppingCart.ShoppingCartCourses.Select(c => new ShoppingCartCourseViewModel()
+            var courses = user.ShoppingCart?.ShoppingCartCourses.Select(c => new ShoppingCartCourseViewModel()
             {
                 Id = c.Id,
                 Name = c.Title,
