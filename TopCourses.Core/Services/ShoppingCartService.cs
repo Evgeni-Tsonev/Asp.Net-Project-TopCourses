@@ -55,7 +55,12 @@
 
         public async Task DeleteAllCoursesFromShoppingCart(string userId)
         {
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            var user = await this.repository
+                 .All<ApplicationUser>()
+                 .Where(u => u.Id == userId)
+                 .Include(sc => sc.ShoppingCart)
+                 .ThenInclude(c => c.ShoppingCartCourses)
+                 .FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -68,10 +73,16 @@
 
         public async Task DeleteCourseFromShoppingCart(int courseId, string userId)
         {
-            var course = await this.repository.GetByIdAsync<Course>(courseId);
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            var user = await this.repository
+                .All<ApplicationUser>()
+                .Where(u => u.Id == userId)
+                .Include(sc=> sc.ShoppingCart)
+                .ThenInclude(c => c.ShoppingCartCourses)
+                .FirstOrDefaultAsync();
 
-            if (course == null || user == null)
+            var course = user.ShoppingCart.ShoppingCartCourses.FirstOrDefault(c => c.Id == courseId);
+
+            if (user == null || course == null)
             {
                 return;
             }
@@ -87,6 +98,7 @@
                 .Where(u => u.Id == userId)
                 .Include(sc => sc.ShoppingCart)
                 .ThenInclude(c => c.ShoppingCartCourses)
+                .ThenInclude(c => c.Creator)
                 .FirstOrDefaultAsync();
 
             if (user == null || user.ShoppingCartId == null)

@@ -21,7 +21,7 @@
             return View(courses);
         }
 
-        public async Task<IActionResult> Add([FromRoute]int id)
+        public async Task<IActionResult> Add([FromRoute] int id)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
@@ -30,6 +30,23 @@
             TempData[MessageConstant.SuccessMessage] = "Successfully added course to Shopping cart";
 
             return RedirectToAction("Index", "Course");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            await this.shoppingCartService.DeleteCourseFromShoppingCart(id, userId);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeleteAll()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            await this.shoppingCartService.DeleteAllCoursesFromShoppingCart(userId);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
