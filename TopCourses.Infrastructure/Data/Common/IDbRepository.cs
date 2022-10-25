@@ -5,7 +5,7 @@
     /// <summary>
     /// Abstraction of repository access methods
     /// </summary>
-    public interface IRepository : IDisposable
+    public interface IDbRepository : IDisposable
     {
         /// <summary>
         /// All records in a table

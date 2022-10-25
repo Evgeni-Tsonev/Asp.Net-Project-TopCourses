@@ -10,9 +10,9 @@
 
     public class LanguageService : ILanguageService
     {
-        private readonly IRepository repository;
+        private readonly IDbRepository repository;
 
-        public LanguageService(IRepository repository)
+        public LanguageService(IDbRepository repository)
         {
             this.repository = repository;
         }

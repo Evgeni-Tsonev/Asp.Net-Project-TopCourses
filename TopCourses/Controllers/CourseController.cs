@@ -4,27 +4,34 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
     using TopCourses.Infrastructure.Data.Identity;
-
+    using TopCourses.Infrastructure.Data.Models;
 
     public class CourseController : Controller
     {
+        private readonly ILogger<CourseController> logger;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly ICourseService courseService;
         private readonly ICategoryService categoryService;
         private readonly ILanguageService languageService;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IFileService fileService;
 
         public CourseController(ICourseService courseService,
                                 ICategoryService categoryService,
                                 ILanguageService languageService,
-                                UserManager<ApplicationUser> userManager)
+                                UserManager<ApplicationUser> userManager,
+                                IFileService fileService,
+                                ILogger<CourseController> logger)
         {
             this.courseService = courseService;
             this.categoryService = categoryService;
             this.languageService = languageService;
             this.userManager = userManager;
+            this.fileService = fileService;
+            this.logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -79,6 +86,40 @@
         {
             var details = await this.courseService.GetCourseDetails(id);
             return View(details);
+        }
+
+        //todo
+        public async Task<IActionResult> UploadFile(IFormFile file,  int sectionId)
+        {
+            try
+            {
+                if (file != null && file.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(stream);
+
+                        var fileToSave = new ApplicationFile()
+                        {
+                            FileName = file.FileName,
+                            Content = stream.ToArray(),
+                            ContentType = file.ContentType,
+                            SourceId = sectionId
+                        };
+                        await fileService.SaveFile(fileToSave);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "CourseController/UploadFile");
+
+                TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+            }
+
+            TempData[MessageConstant.SuccessMessage] = "File uploaded successfully";
+            //todo
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Video()

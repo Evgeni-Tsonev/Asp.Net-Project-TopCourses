@@ -1,7 +1,6 @@
 ﻿namespace TopCourses.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models;
 

@@ -10,11 +10,12 @@
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IDbRepository, DbRepository>();
             services.AddScoped<ILanguageService, LanguageService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            services.AddScoped<IFileService, FileService>();
 
             return services;
         }

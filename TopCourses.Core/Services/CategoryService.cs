@@ -10,9 +10,9 @@
 
     public class CategoryService : ICategoryService
     {
-        private readonly IRepository repository;
+        private readonly IDbRepository repository;
 
-        public CategoryService(IRepository repository)
+        public CategoryService(IDbRepository repository)
         {
             this.repository = repository;
         }

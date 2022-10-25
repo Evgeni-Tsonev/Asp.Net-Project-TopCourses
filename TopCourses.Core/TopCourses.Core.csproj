@@ -10,4 +10,8 @@
     <ProjectReference Include="..\TopCourses.Infrastructure\TopCourses.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\ApplicationFile\" />
+  </ItemGroup>
+
 </Project>

@@ -11,9 +11,9 @@
 
     public class ShoppingCartService : IShoppingCartService
     {
-        private readonly IRepository repository;
+        private readonly IDbRepository repository;
 
-        public ShoppingCartService(IRepository repository)
+        public ShoppingCartService(IDbRepository repository)
         {
             this.repository = repository;
         }

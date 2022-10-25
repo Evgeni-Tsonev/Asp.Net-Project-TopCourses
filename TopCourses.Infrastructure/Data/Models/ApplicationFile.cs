@@ -12,6 +12,8 @@
 
         public byte[] Content { get; set; }
 
-        public IEnumerable<Section> Sections { get; set; } = new List<Section>();
+        public int SourceId { get; set; }
+
+        public string ContentType { get; set; }
     }
 }

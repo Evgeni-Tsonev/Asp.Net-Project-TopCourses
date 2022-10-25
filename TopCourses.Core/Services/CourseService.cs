@@ -10,9 +10,9 @@
 
     public class CourseService : ICourseService
     {
-        private readonly IRepository repository;
+        private readonly IDbRepository repository;
 
-        public CourseService(IRepository repository)
+        public CourseService(IDbRepository repository)
         {
             this.repository = repository;
         }

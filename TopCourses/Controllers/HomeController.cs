@@ -2,7 +2,6 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
-    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Models;
 
@@ -21,8 +20,6 @@
             
             return View();
         }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

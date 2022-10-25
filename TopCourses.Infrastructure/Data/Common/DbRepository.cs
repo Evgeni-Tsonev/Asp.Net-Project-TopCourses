@@ -12,7 +12,7 @@
     /// </summary>
     /// <typeparam name="T">Type of the data table to which 
     /// current reposity is attached</typeparam>
-    public class Repository : IRepository
+    public class DbRepository : IDbRepository
     {
         /// <summary>
         /// Entity framework DB context holding connection information and properties
@@ -28,7 +28,7 @@
             return this.Context.Set<T>();
         }
 
-        public Repository(TopCoursesDbContext context)
+        public DbRepository(TopCoursesDbContext context)
         {
             Context = context;
         }
