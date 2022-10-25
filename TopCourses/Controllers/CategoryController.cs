@@ -4,7 +4,7 @@
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models;
 
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly ICategoryService categoriesService;
 

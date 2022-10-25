@@ -1,13 +1,13 @@
 ﻿namespace TopCourses.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using TopCourses.Infrastructure.Data.Identity;
-    using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Models;
 
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
@@ -22,6 +22,7 @@
 
         }
 
+        [AllowAnonymous]
         public IActionResult Register()
         {
             var model = new RegisterViewModel();
@@ -29,6 +30,7 @@
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             var isUsernameexists = await this.userManager.Users.AnyAsync(u => u.UserName == model.UserName);
@@ -68,6 +70,7 @@
             return View(model);
         }
 
+        [AllowAnonymous]
         public IActionResult Login(string? returnUrl = null)
         {
             var model = new LoginViewModel()
@@ -79,6 +82,7 @@
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)

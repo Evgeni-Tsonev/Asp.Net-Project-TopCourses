@@ -10,7 +10,7 @@
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
-    public class CourseController : Controller
+    public class CourseController : BaseController
     {
         private readonly ILogger<CourseController> logger;
         private readonly UserManager<ApplicationUser> userManager;
@@ -34,13 +34,13 @@
             this.logger = logger;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var allCourses = await this.courseService.GetAll();
             return View(allCourses);
         }
 
-        [Authorize]
         public async Task<IActionResult> Add()
         {
             var categories = await this.categoryService.GetAllMainCategories();
@@ -82,6 +82,7 @@
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details([FromRoute] int id)
         {
             var details = await this.courseService.GetCourseDetails(id);

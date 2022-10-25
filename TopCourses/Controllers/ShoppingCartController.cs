@@ -5,7 +5,7 @@
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
 
-    public class ShoppingCartController : Controller
+    public class ShoppingCartController : BaseController
     {
         private readonly IShoppingCartService shoppingCartService;
 

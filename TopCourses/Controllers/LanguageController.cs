@@ -4,7 +4,7 @@
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models;
 
-    public class LanguageController : Controller
+    public class LanguageController : BaseController
     {
         private readonly ILanguageService languageService;
 

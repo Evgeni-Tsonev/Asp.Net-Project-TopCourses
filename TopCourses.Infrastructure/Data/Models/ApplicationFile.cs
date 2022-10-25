@@ -14,6 +14,7 @@
 
         public int SourceId { get; set; }
 
-        public string ContentType { get; set; }
+        [Required]
+        public string ContentType { get; set; } = null!;
     }
 }
