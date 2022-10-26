@@ -1,7 +1,7 @@
 ﻿namespace TopCourses.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
+    using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
 
@@ -17,7 +17,9 @@
         public async Task<IActionResult> Index()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
             var courses = await this.shoppingCartService.GetAllShoppingCartCoursess(userId);
+
             return View(courses);
         }
 

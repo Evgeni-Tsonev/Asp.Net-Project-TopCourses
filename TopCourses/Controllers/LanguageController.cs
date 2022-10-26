@@ -24,6 +24,7 @@
         public IActionResult Add()
         {
             var model = new LanguageModel();
+
             return View(model);
         }
 
@@ -36,6 +37,7 @@
             }
 
             await languageService.Add(model);
+
             return RedirectToAction(nameof(Index));
         }
     }

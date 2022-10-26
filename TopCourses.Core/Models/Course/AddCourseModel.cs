@@ -36,8 +36,7 @@
         public decimal Price { get; set; }
 
         public IEnumerable<LanguageModel> Languages { get; set; } = new HashSet<LanguageModel>();
+
         public IEnumerable<CategoryModel> Categories { get; set; } = new HashSet<CategoryModel>();
-
-
     }
 }
