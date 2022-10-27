@@ -8,23 +8,23 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label asp-for="Title"></label>
-            <input asp-for="Title" class="form-control" placeholder="Title" />
+            <input asp-for="Title" class="form-control" id="courseTitle" placeholder="Title" />
             <span asp-validation-for="Title" class="small text-danger"></span>
         </div>
         <div class="form-group col-md-6">
             <label asp-for="Subtitle"></label>
-            <input asp-for="Subtitle" class="form-control" placeholder="Subtitle" />
+            <input asp-for="Subtitle" class="form-control" id="courseSubTitle" placeholder="Subtitle" />
             <span asp-validation-for="Subtitle" class="small text-danger"></span>
         </div>
     </div>
     <div class="form-group col-md-6">
         <label asp-for="ImageUrl"></label>
-        <input asp-for="ImageUrl" class="form-control" placeholder="ImageUrl" />
+        <input asp-for="ImageUrl" class="form-control" id="courseImageUrl" placeholder="ImageUrl" />
         <span asp-validation-for="ImageUrl" class="small text-danger"></span>
     </div>
     <div class="col-md-2">
         <label asp-for="CategoryId" class="form-label"></label>
-        <select asp-for="CategoryId" class="form-select">
+        <select asp-for="CategoryId" id="category" class="form-select">
             @foreach (var category in Model.Categories)
             {
                 <option value="@category.Id">@category.Title</option>
@@ -44,67 +44,15 @@
     </div>
     <div class="col-md-2">
         <label asp-for="Level" class="form-label"></label>
-        <select asp-for="Level" asp-items="Html.GetEnumSelectList<Level>()" class="form-select"></select>
+        <select asp-for="Level" asp-items="Html.GetEnumSelectList<Level>()" id="courseLevel" class="form-select"></select>
     </div>
     <div class="form-group">
         <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control col-md-6" rows="3"></textarea>
+        <textarea asp-for="Description" class="form-control col-md-6" id="courseDescription" rows="3"></textarea>
         <span asp-validation-for="Description" class="small text-danger"></span>
     </div>
     <!--circulum-->
-    <div class="container border-dark col-md-10">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="container pt-3 border-dark">
-                    <div class="accordion" id="accordionExample">
-                        <div class="card">
-                            <div class="card-header bg-indigo" id="headingOne">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Collapsible Group Item #1
-                                    </button>
-                                </h2>
-                            </div>
-
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingTwo">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Collapsible Group Item #2
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingThree">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Collapsible Group Item #3
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!--add section-->
     <div class="card card-default col-md-8">
         <div class="card-header bg-indigo">
@@ -114,32 +62,31 @@
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                 </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
         </div>
         <!-- /.card-header -->
-        <div class="card-body">
+        <div id="sectionBody" class="card-body">
             <div class="row">
                 <div class="col-md-12">
                     <label>Title</label>
-                    <input class="form-control" />
+                    <input asp-for="@Model.Section.SectionTitle" id="sectionTitle" class="form-control" />
                     <label>VideoUrl</label>
-                    <input class="form-control" />
+                    <input asp-for="@Model.Section.VideoUrl" id="sectionVideoUrl" class="form-control" />
                     <label>Desctiprion</label>
-                    <input class="form-control" />
+                    <input asp-for="@Model.Section.SectionDescription" id="sectionDescription" class="form-control" />
                 </div>
             </div>
             <div class="row">
-                <button class="btn btn-primary">Add</button>
+                <button type="button" id="addSection" class="btn btn-primary">create section</button>
             </div>
-
         </div>
     </div>
+
+    @*<partial name="_CreateSectionPartial" model="@Model" />*@
+
     <div class="form-group col-md-1">
         <label asp-for="Price"></label>
-        <input asp-for="Price" class="form-control" />
+        <input asp-for="Price" id="price" class="form-control" />
         <span asp-validation-for="Price" class="small text-danger"></span>
     </div>
 
@@ -148,4 +95,5 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial.cshtml" />
+    <script src="~/js/createSection.js"></script>
 }

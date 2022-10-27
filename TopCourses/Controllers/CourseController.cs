@@ -3,10 +3,15 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System.Security.Claims;
+    using System.Text.Json.Nodes;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
+    using TopCourses.Core.Models.Section;
+    using TopCourses.Extensions;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
@@ -50,6 +55,7 @@
             {
                 Categories = categories,
                 Languages = languages,
+                Section = new SectionModel()
             };
 
             return View(course);
@@ -87,6 +93,31 @@
         {
             var details = await this.courseService.GetCourseDetails(id);
             return View(details);
+        }
+
+        [HttpPost]
+        public IActionResult CreateSection([FromBody]JsonObject jsonObj)
+        {
+            var model = JsonConvert.DeserializeObject<AddCourseModel>(jsonObj.ToString());
+            // Check whether this request is comming with javascript, if so, we know that we are going to add contact details.
+            if (Request.IsAjaxRequest())
+            {
+                var section = model.Section;
+                //section.Title = model.Section.Title;
+                //section.VideoUrl = model.Section.VideoUrl;
+                //section.Description = model.Section.Description;
+
+                if (model.Curriculum == null)
+                {
+                    model.Curriculum = new List<SectionModel>();
+                }
+
+                model.Curriculum.Add(section);
+
+                return RedirectToAction("Add", "Course", model);
+            }
+
+            return BadRequest();
         }
 
         //todo
