@@ -6,7 +6,7 @@
     {
         [Required]
         [StringLength(50)]
-        public string SectionTitle { get; set; } = null!;
+        public string Title { get; set; } = null!;
 
         [Required]
         [Url]
@@ -17,6 +17,6 @@
 
         [Required]
         [StringLength(1000)]
-        public string SectionDescription { get; set; } = null!;
+        public string Description { get; set; } = null!;
     }
 }

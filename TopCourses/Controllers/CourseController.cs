@@ -4,7 +4,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
     using System.Security.Claims;
     using System.Text.Json.Nodes;
     using TopCourses.Core.Constants;
@@ -50,12 +49,10 @@
         {
             var categories = await this.categoryService.GetAllMainCategories();
             var languages = await this.languageService.GetAll();
-
             var course = new AddCourseModel()
             {
-                Categories = categories,
                 Languages = languages,
-                Section = new SectionModel()
+                Categories = categories
             };
 
             return View(course);
@@ -96,32 +93,15 @@
         }
 
         [HttpPost]
-        public IActionResult CreateSection([FromBody]JsonObject jsonObj)
+        public IActionResult CreateSection(AddCourseModel model)
         {
-            var model = JsonConvert.DeserializeObject<AddCourseModel>(jsonObj.ToString());
-            // Check whether this request is comming with javascript, if so, we know that we are going to add contact details.
-            if (Request.IsAjaxRequest())
-            {
-                var section = model.Section;
-                //section.Title = model.Section.Title;
-                //section.VideoUrl = model.Section.VideoUrl;
-                //section.Description = model.Section.Description;
+            model.Curriculum.Add(model.Section);
 
-                if (model.Curriculum == null)
-                {
-                    model.Curriculum = new List<SectionModel>();
-                }
-
-                model.Curriculum.Add(section);
-
-                return RedirectToAction("Add", "Course", model);
-            }
-
-            return BadRequest();
+            return View("Add", model);
         }
 
         //todo
-        public async Task<IActionResult> UploadFile(IFormFile file,  int sectionId)
+        public async Task<IActionResult> UploadFile(IFormFile file, int sectionId)
         {
             try
             {
