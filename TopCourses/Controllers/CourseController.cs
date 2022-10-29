@@ -93,9 +93,11 @@
         }
 
         [HttpPost]
-        public IActionResult CreateSection(AddCourseModel model)
+        public async Task<IActionResult> CreateSection(AddCourseModel model)
         {
             model.Curriculum.Add(model.Section);
+            model.Categories = await this.categoryService.GetAllMainCategories();
+            model.Languages = await this.languageService.GetAll();
 
             return View("Add", model);
         }

@@ -2,90 +2,108 @@
 @using TopCourses.Infrastructure.Data.Models.enums;
 @model AddCourseModel
 
-<h2>Add Course</h2>
-<div class="row">
+@{
+    ViewData["Title"] = "Create Course";
+}
+
+<div class="card card-indigo">
+    <div class="card-header">
+        <h3 class="card-title">@ViewData["Title"]</h3>
+    </div>
 
     <form asp-controller="Course" method="post">
-
-        <div class="form-group col-md-12">
-            <label asp-for="Title"></label>
-            <input asp-for="Title" class="form-control" id="courseTitle" placeholder="Title" />
-            <span asp-validation-for="Title" class="small text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <label asp-for="Subtitle"></label>
-            <input asp-for="Subtitle" class="form-control" id="courseSubTitle" placeholder="Subtitle" />
-            <span asp-validation-for="Subtitle" class="small text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <label asp-for="ImageUrl"></label>
-            <input asp-for="ImageUrl" class="form-control" id="courseImageUrl" placeholder="ImageUrl" />
-            <span asp-validation-for="ImageUrl" class="small text-danger"></span>
-        </div>
-        <div class="col-md-2">
-            <label asp-for="CategoryId" class="form-label"></label>
-            <select asp-for="CategoryId" id="category" class="form-select">
-                @foreach (var category in Model.Categories)
-                {
-                    <option value="@category.Id">@category.Title</option>
-                }
-            </select>
-            <span asp-validation-for="CategoryId" class="small text-danger"></span>
-        </div>
-        <div class="col-md-2">
-            <label asp-for="LanguageId" class="form-label"></label>
-            <select asp-for="LanguageId" class="form-select">
-                @foreach (var language in Model.Languages)
-                {
-                    <option value="@language.Id">@language.Title</option>
-                }
-            </select>
-            <span asp-validation-for="LanguageId" class="small text-danger"></span>
-        </div>
-        <div class="col-md-2">
-            <label asp-for="Level" class="form-label"></label>
-            <select asp-for="Level" asp-items="Html.GetEnumSelectList<Level>()" id="courseLevel" class="form-select"></select>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <textarea asp-for="Description" class="form-control col-md-6" id="courseDescription" rows="3"></textarea>
-            <span asp-validation-for="Description" class="small text-danger"></span>
-        </div>
-
-        <div class="card card-default col-md-8">
-            <div class="card-header bg-indigo">
-                <h3 class="card-title ">Add Section</h3>
-
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" placeholder="Title" />
+                <span asp-validation-for="Title" class="small text-danger"></span>
             </div>
-            <!-- /.card-header -->
-            <div id="sectionBody" class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <label>Title</label>
-                        <input asp-for="@Model.Section.Title" id="sectionTitle" class="form-control" />
-                        <label>VideoUrl</label>
-                        <input asp-for="@Model.Section.VideoUrl" id="sectionVideoUrl" class="form-control" />
-                        <label>Desctiprion</label>
-                        <input asp-for="@Model.Section.Description" id="sectionDescription" class="form-control" />
+            <div class="form-group">
+                <label asp-for="Subtitle"></label>
+                <input asp-for="Subtitle" class="form-control" placeholder="Subtitle" />
+                <span asp-validation-for="Subtitle" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" placeholder="ImageUrl" />
+                <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="form-label"></label>
+                        <select asp-for="CategoryId" class="form-select">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Title</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CategoryId" class="small text-danger"></span>
                     </div>
                 </div>
-                <div class="row">
-                    <input type="submit" class="btn btn-primary" asp-action="CreateSection" value="Create Section" />
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label asp-for="LanguageId" class="form-label"></label>
+                        <select asp-for="LanguageId" class="form-select">
+                            @foreach (var language in Model.Languages)
+                            {
+                                <option value="@language.Id">@language.Title</option>
+                            }
+                        </select>
+                        <span asp-validation-for="LanguageId" class="small text-danger"></span>
+                    </div>
                 </div>
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label asp-for="Level" class="form-label"></label>
+                        <select asp-for="Level" asp-items="Html.GetEnumSelectList<Level>()" id="courseLevel" class="form-select"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control" id="courseDescription" rows="3"></textarea>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="card card-default">
+                    <div class="card-header bg-indigo">
+                        <h3 class="card-title ">Add Section</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div id="sectionBody" class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Title</label>
+                                <input asp-for="@Model.Section.Title" id="sectionTitle" class="form-control" />
+                                <label>VideoUrl</label>
+                                <input asp-for="@Model.Section.VideoUrl" id="sectionVideoUrl" class="form-control" />
+                                <label>Desctiprion</label>
+                                <input asp-for="@Model.Section.Description" id="sectionDescription" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <input type="submit" class="btn btn-primary" asp-action="CreateSection" value="Create Section" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" id="price" class="form-control" />
+                <span asp-validation-for="Price" class="small text-danger"></span>
             </div>
         </div>
 
-        <div class="form-group col-md-1">
-            <label asp-for="Price"></label>
-            <input asp-for="Price" id="price" class="form-control" />
-            <span asp-validation-for="Price" class="small text-danger"></span>
-        </div>    
-        <input type="submit" class="btn btn-primary" asp-action="Add" value="Create Course" />
+        <div class="card-footer">
+            <input type="submit" class="btn btn-primary" asp-action="Add" value="Create Course" />
+        </div>
     </form>
 </div>
 
