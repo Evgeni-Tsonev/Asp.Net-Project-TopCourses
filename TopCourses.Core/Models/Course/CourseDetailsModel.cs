@@ -3,6 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using TopCourses.Infrastructure.Data.Models.enums;
     using TopCourses.Infrastructure.Data.Models;
+    using TopCourses.Core.Models.Section;
 
     public class CourseDetailsModel
     {
@@ -24,7 +25,7 @@
 
         public ICollection<Goal> Goals { get; set; } = new HashSet<Goal>();
 
-        public ICollection<Section> Curriculum { get; set; } = new HashSet<Section>();
+        public ICollection<SectionModel> Curriculum { get; set; } = new HashSet<SectionModel>();
 
         public Level Level { get; set; }
 

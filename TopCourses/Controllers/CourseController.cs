@@ -11,6 +11,7 @@
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
     using TopCourses.Core.Models.Section;
+    using TopCourses.Core.Models.Video;
     using TopCourses.Extensions;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
@@ -77,7 +78,7 @@
             if (TempData.ContainsKey("Curriculum"))
             {
                 var data = TempData["Curriculum"].ToString();
-                var curriculum = JsonConvert.DeserializeObject<ICollection<SectionModel>>(data);
+                var curriculum = JsonConvert.DeserializeObject<ICollection<AddSectionModel>>(data);
                 model.Curriculum = curriculum;
             }
 
@@ -98,6 +99,9 @@
         public async Task<IActionResult> Details([FromRoute] int id)
         {
             var details = await this.courseService.GetCourseDetails(id);
+            var url = details.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
+            
+            TempData["VideoUrl"] = url;
             return View(details);
         }
 
@@ -107,7 +111,7 @@
             if (TempData.ContainsKey("Curriculum"))
             {
                 var data = TempData["Curriculum"].ToString();
-                var curriculum = JsonConvert.DeserializeObject<ICollection<SectionModel>>(data);
+                var curriculum = JsonConvert.DeserializeObject<ICollection<AddSectionModel>>(data);
                 model.Curriculum = curriculum;
             }
 
@@ -152,9 +156,15 @@
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Video()
+        public IActionResult Video(string videoUrl)
         {
-            return View();
+            var video = TempData["VideoUrl"].ToString();
+            var model = new VideoModel()
+            {
+                VideoUrl = videoUrl
+            };
+
+            return View(model);
         }
 
         private string GetUserId()

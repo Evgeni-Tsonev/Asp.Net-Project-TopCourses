@@ -8,6 +8,8 @@
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Course;
     using System.Text.RegularExpressions;
+    using TopCourses.Core.Models.Section;
+    using TopCourses.Core.Models.Video;
 
     public class CourseService : ICourseService
     {
@@ -20,7 +22,10 @@
 
         public async Task<CourseDetailsModel> GetCourseDetails(int courseId)
         {
-            var course = await this.repository.AllReadonly<Course>().FirstOrDefaultAsync(x => x.Id == courseId);
+            var course = await this.repository
+                .AllReadonly<Course>()
+                .Include(c => c.Curriculum)
+                .FirstOrDefaultAsync(x => x.Id == courseId);
 
             if (course == null)
             {
@@ -35,7 +40,16 @@
                 ImageUrl = course.ImageUrl,
                 Requirements = course.Requirements,
                 Goals = course.Goals,
-                Curriculum = course.Curriculum,
+                Curriculum = course.Curriculum.Select(s => new SectionModel()
+                {
+                    Title = s.Title,
+                    Description = s.Description,
+                    VideoUrl = s?.VideoUrl
+                    //Video = new VideoModel 
+                    //{
+                    //    VideoUrl = s?.VideoUrl
+                    //}
+                }).ToList(),
                 Level = course.Level,
                 CategoryId = course.CategoryId,
                 LanguageId = course.LanguageId,
@@ -94,7 +108,7 @@
 
         public async Task<IEnumerable<CourseListingModel>> GetAll()
         {
-            return await this.repository.AllReadonly<Course>()
+            var allCourses = await this.repository.AllReadonly<Course>()
                 .Where(c => c.IsDeleted == false)
                 .Select(c => new CourseListingModel
                 {
@@ -103,6 +117,8 @@
                     ImageUrl = c.ImageUrl,
                     Price = c.Price
                 }).ToListAsync();
+
+            return allCourses;
         }
 
         public Task<Course> GetCourseById(int courseId)
