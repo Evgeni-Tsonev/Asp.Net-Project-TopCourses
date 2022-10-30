@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Primitives;
     using Newtonsoft.Json;
     using System.Security.Claims;
     using System.Text.Json.Nodes;
@@ -73,15 +74,23 @@
                 this.ModelState.AddModelError(nameof(model.LanguageId), "Language does not exist");
             }
 
+            if (TempData.ContainsKey("Curriculum"))
+            {
+                var data = TempData["Curriculum"].ToString();
+                var curriculum = JsonConvert.DeserializeObject<ICollection<SectionModel>>(data);
+                model.Curriculum = curriculum;
+            }
+
             if (!ModelState.IsValid)
             {
                 model.Languages = languages;
                 model.Categories = categories;
                 return View(model);
             }
-
+            ;
             var currentUserId = GetUserId();
             await this.courseService.CreateCourse(model, currentUserId);
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -95,6 +104,13 @@
         [HttpPost]
         public async Task<IActionResult> CreateSection(AddCourseModel model)
         {
+            if (TempData.ContainsKey("Curriculum"))
+            {
+                var data = TempData["Curriculum"].ToString();
+                var curriculum = JsonConvert.DeserializeObject<ICollection<SectionModel>>(data);
+                model.Curriculum = curriculum;
+            }
+
             model.Curriculum.Add(model.Section);
             model.Categories = await this.categoryService.GetAllMainCategories();
             model.Languages = await this.languageService.GetAll();

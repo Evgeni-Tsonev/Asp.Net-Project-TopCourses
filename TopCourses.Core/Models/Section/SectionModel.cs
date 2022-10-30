@@ -8,9 +8,8 @@
         [StringLength(50)]
         public string Title { get; set; } = null!;
 
-        [Required]
         [Url]
-        public string VideoUrl { get; set; } = null!;
+        public string? VideoUrl { get; set; }
 
         //to do
         //public File Resources { get; set; }

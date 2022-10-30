@@ -1,4 +1,6 @@
-﻿@using TopCourses.Core.Models.Course;
+﻿@using System.Text.Json;
+@using TopCourses.Core.Models.Course;
+@using TopCourses.Core.Models.Section
 @using TopCourses.Infrastructure.Data.Models.enums;
 @model AddCourseModel
 
@@ -65,6 +67,7 @@
                 <textarea asp-for="Description" class="form-control" id="courseDescription" rows="3"></textarea>
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
+
             <div class="form-group">
                 <div class="card card-default">
                     <div class="card-header bg-indigo">
@@ -94,6 +97,18 @@
                     </div>
                 </div>
             </div>
+            <input asp-for="@Model.Curriculum" value="@Model.Curriculum" name="curriculum" hidden />
+            @if (Model.Curriculum.Count > 0)
+            {
+                foreach (var item in Model.Curriculum)
+                {
+                    <p>@item.Title</p>
+                }
+
+                var collection = JsonSerializer.Serialize(Model.Curriculum);
+                TempData["Curriculum"] = collection;
+            }
+
             <div class="form-group">
                 <label asp-for="Price"></label>
                 <input asp-for="Price" id="price" class="form-control" />

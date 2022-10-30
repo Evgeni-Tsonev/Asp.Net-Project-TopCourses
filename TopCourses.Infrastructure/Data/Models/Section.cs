@@ -11,7 +11,7 @@
         public string Title { get; set; } = null!;
 
         [Url]
-        public string? VideoUrl { get; set; } = null!;
+        public string? VideoUrl { get; set; }
 
         public int? ResourceId { get; set; }
         public ApplicationFile? Resource { get; set; }

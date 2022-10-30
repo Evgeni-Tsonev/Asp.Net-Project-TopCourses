@@ -7,6 +7,7 @@
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Course;
+    using System.Text.RegularExpressions;
 
     public class CourseService : ICourseService
     {
@@ -45,6 +46,27 @@
 
         public async Task CreateCourse(AddCourseModel courseModel, string creatorId)
         {
+            foreach (var section in courseModel.Curriculum.Where(s => s.VideoUrl != null))
+            {
+                var pattern = @"http(?:s)?:\/\/(?:m.)?(?:www\.)?youtu(?:\.be\/|(?:be-nocookie|be)\.com\/(?:watch|[\w]+\?(?:feature=[\w]+.[\w]+\&)?v=|v\/|e\/|embed\/|user\/(?:[\w#]+\/)+))([^&#?\n]+)";
+
+                var videoIdGroup = 1;
+
+                var regex = new Regex(pattern);
+                var match = regex.Match(section.VideoUrl);
+
+                if (match.Success)
+                {
+                    var videoId = match.Groups[videoIdGroup];
+                    var processedVideoUrl = $"https://www.youtube.com/embed/{videoId}?autoplay=1";
+                    section.VideoUrl = processedVideoUrl;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Failed to match VideoUrl Id");
+                }
+            }
+
             var course = new Course
             {
                 Title = courseModel.Title,
@@ -52,7 +74,12 @@
                 ImageUrl = courseModel.ImageUrl,
                 Requirements = courseModel.Requirements,
                 //Goals = courseModel.Goals,
-                //Curriculum = courseModel.Curriculum,
+                Curriculum = courseModel.Curriculum.Select(c => new Section()
+                {
+                    Title = c.Title,
+                    Description = c.Description,
+                    VideoUrl = c?.VideoUrl
+                }).ToList(),
                 Level = courseModel.Level,
                 CategoryId = courseModel.CategoryId,
                 LanguageId = courseModel.LanguageId,
@@ -80,6 +107,6 @@
 
         public Task<Course> GetCourseById(int courseId)
             => this.repository.GetByIdAsync<Course>(courseId);
-        
+
     }
 }
