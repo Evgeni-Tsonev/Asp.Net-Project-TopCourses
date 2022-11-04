@@ -1,9 +1,10 @@
 ﻿namespace TopCourses.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json;
+    using System.Text.Json.Nodes;
     using TopCourses.Core.Contracts;
-    using TopCourses.Core.Models.Course;
-
+    using TopCourses.Core.Models.Section;
 
     public class SectionController : BaseController
     {
@@ -16,24 +17,44 @@
             this.languageService = languageService;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Create(AddCourseModel model)
-        //{
-        //    model.Curriculum.Add(model.Section);
-        //    model.Categories = await this.categoryService.GetAllMainCategories();
-        //    model.Languages = await this.languageService.GetAll();
+        public IActionResult Create()
+        {
+            var model = new AddSectionModel();
 
-        //    return View("Add", model);
-        //}
+            return View(model);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateSection(AddCourseModel model)
-        //{
-        //    model.Curriculum.Add(model.Section);
-        //    model.Categories = await this.categoryService.GetAllMainCategories();
-        //    model.Languages = await this.languageService.GetAll();
+        [HttpPost]
+        public async Task<IActionResult> AddSection(AddSectionModel model)
+        {
+            //model.Curriculum.Add(model.Section);
+            //model.Categories = await this.categoryService.GetAllMainCategories();
+            //model.Languages = await this.languageService.GetAll();
 
-        //    return View("Add", model);
-        //}
+            return View("Add", model);
+        }
+
+        public IActionResult Test()
+        {
+            var model = new AddSectionModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SectionTest([FromBody] JsonObject jsonObj)
+        {
+            var model = JsonSerializer.Deserialize<AddSectionModel>(jsonObj, 
+                                                                    new JsonSerializerOptions
+                                                                    {
+                                                                        PropertyNameCaseInsensitive = true
+                                                                    });
+
+            var list = new List<AddSectionModel>();
+            list.Add(model);
+
+            TempData["Curiculum"] = JsonSerializer.Serialize(list);
+
+            return Ok();
+        }
     }
 }

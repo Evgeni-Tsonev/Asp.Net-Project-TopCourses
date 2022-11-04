@@ -13,7 +13,7 @@
         <h3 class="card-title">@ViewData["Title"]</h3>
     </div>
 
-    <form asp-controller="Course" method="post">
+    <form asp-controller="Course" id="idForm" method="post">
         <div class="card-body">
             <div class="form-group">
                 <label asp-for="Title"></label>
@@ -81,23 +81,14 @@
                     </div>
                     <!-- /.card-header -->
                     <div id="sectionBody" class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label>Title</label>
-                                <input asp-for="@Model.Section.Title" id="sectionTitle" class="form-control" />
-                                <label>VideoUrl</label>
-                                <input asp-for="@Model.Section.VideoUrl" id="sectionVideoUrl" class="form-control" />
-                                <label>Desctiprion</label>
-                                <input asp-for="@Model.Section.Description" id="sectionDescription" class="form-control" />
-                            </div>
-                        </div>
                         <div class="card-footer">
-                            <input type="submit" class="btn btn-primary" asp-action="CreateSection" value="Create Section" />
+                            <input type="submit" class="btn btn-primary" asp-action="CreateSection" value="Add Topic" />
+
                         </div>
                     </div>
                 </div>
             </div>
-            <input asp-for="@Model.Curriculum" value="@Model.Curriculum" name="curriculum" hidden />
+
             @if (Model.Curriculum.Count > 0)
             {
                 foreach (var item in Model.Curriculum)

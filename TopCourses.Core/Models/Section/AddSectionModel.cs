@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Section
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Core.Models.Video;
 
     public class AddSectionModel
     {
@@ -17,5 +18,8 @@
         [Required]
         [StringLength(1000)]
         public string Description { get; set; } = null!;
+
+        public AddVideoViewModel? Video { get; set; }
+        public ICollection<AddVideoViewModel> Videos { get; set; } = new List<AddVideoViewModel>();
     }
 }

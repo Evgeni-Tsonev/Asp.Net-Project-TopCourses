@@ -3,16 +3,13 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Primitives;
-    using Newtonsoft.Json;
     using System.Security.Claims;
-    using System.Text.Json.Nodes;
+    using System.Text.Json;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
     using TopCourses.Core.Models.Section;
     using TopCourses.Core.Models.Video;
-    using TopCourses.Extensions;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
@@ -77,8 +74,8 @@
 
             if (TempData.ContainsKey("Curriculum"))
             {
-                var data = TempData["Curriculum"].ToString();
-                var curriculum = JsonConvert.DeserializeObject<ICollection<AddSectionModel>>(data);
+                var data = TempData["Curriculum"]?.ToString();
+                var curriculum = JsonSerializer.Deserialize<ICollection<AddSectionModel>>(data);
                 model.Curriculum = curriculum;
             }
 
@@ -105,25 +102,35 @@
             return View(details);
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> CreateSection(AddCourseModel model)
+        //{
+        //    if (TempData.ContainsKey("Curriculum"))
+        //    {
+        //        var data = TempData["Curriculum"]?.ToString();
+        //        var curriculum = JsonSerializer.Deserialize<ICollection<AddSectionModel>>(data);
+        //        model.Curriculum = curriculum;
+        //    }
+
+        //    model.Curriculum.Add(model.Section);
+        //    model.Categories = await this.categoryService.GetAllMainCategories();
+        //    model.Languages = await this.languageService.GetAll();
+
+        //    return View("Add", model);
+        //}
+
         [HttpPost]
         public async Task<IActionResult> CreateSection(AddCourseModel model)
         {
-            if (TempData.ContainsKey("Curriculum"))
-            {
-                var data = TempData["Curriculum"].ToString();
-                var curriculum = JsonConvert.DeserializeObject<ICollection<AddSectionModel>>(data);
-                model.Curriculum = curriculum;
-            }
+            var modelData = JsonSerializer.Serialize(model);
 
-            model.Curriculum.Add(model.Section);
-            model.Categories = await this.categoryService.GetAllMainCategories();
-            model.Languages = await this.languageService.GetAll();
+            TempData["model"] = modelData;
 
-            return View("Add", model);
+            return RedirectToAction("Create", "Section");
         }
 
-        //todo
-        public async Task<IActionResult> UploadFile(IFormFile file, int sectionId)
+            //todo
+            public async Task<IActionResult> UploadFile(IFormFile file, int sectionId)
         {
             try
             {
@@ -158,7 +165,7 @@
 
         public IActionResult Video(string videoUrl)
         {
-            var video = TempData["VideoUrl"].ToString();
+            var video = TempData["VideoUrl"]?.ToString();
             var model = new VideoModel()
             {
                 VideoUrl = videoUrl

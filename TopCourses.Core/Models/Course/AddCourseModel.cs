@@ -21,7 +21,7 @@
 
         public ICollection<Requirement> Requirements { get; set; } = new HashSet<Requirement>();
 
-        public AddSectionModel Section { get; set; }
+        public AddSectionModel? Section { get; set; }
         public ICollection<AddSectionModel> Curriculum { get; set; } = new HashSet<AddSectionModel>();
 
         public Level Level { get; set; }
