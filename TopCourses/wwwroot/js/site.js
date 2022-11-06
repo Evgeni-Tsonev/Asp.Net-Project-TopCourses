@@ -71,7 +71,6 @@ $(document).ready(function () {
             description: topicDescription,
             videos: videoList
         }
-        //console.log(topic);
 
         $.ajax({
             type: "POST",

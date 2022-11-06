@@ -77,6 +77,7 @@
                 var data = TempData["Curriculum"]?.ToString();
                 var curriculum = JsonSerializer.Deserialize<ICollection<AddSectionModel>>(data);
                 model.Curriculum = curriculum;
+                TempData.Keep("Curriculum");
             }
 
             if (!ModelState.IsValid)

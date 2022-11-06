@@ -68,7 +68,47 @@
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div id="test" style="display: none">
+                <div class="card card-default col-md-8">
+                    <div class="card-header bg-indigo">
+                        <h3 class="card-title ">Add Section</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label asp-for="@Model.Section.Title"></label>
+                                <input asp-for="@Model.Section.Title" id="topicTitle" class="form-control" />
+                                <label asp-for="@Model.Section.Description"></label>
+                                <input asp-for="@Model.Section.Description" id="topicDescription" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row" id="videoInputs" style="display: none">
+                            <div class="col-md-12">
+                                <label asp-for="@Model.Section.Video.Title"></label>
+                                <input asp-for="@Model.Section.Video.Title" id="videoTitle" class="form-control" />
+                                <label asp-for="@Model.Section.Video.VideoUrl"></label>
+                                <input asp-for="@Model.Section.Video.VideoUrl" id="videoUrl" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="button" id="saveVideo" class="btn btn-primary" style="display: none">Save Video</button>
+                            <button type="button" id="addVideo" class="btn btn-primary">Add Video</button>
+                        </div>
+                        <div id="topicBtns" class="row">
+                            <button type="button" id="createTopic" class="btn btn-primary">Create Topic</button>
+                            <button type="button" id="cancelTopic" class="btn btn-primary">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="createdVideos">
+                    <ul id="videoList">
+                    </ul>
+                </div>
+            </div>
+            <button id="show" type="button" class="btn btn-primary">Add Topic</button>
+
+            @*<div class="form-group">
                 <div class="card card-default">
                     <div class="card-header bg-indigo">
                         <h3 class="card-title ">Add Section</h3>
@@ -87,18 +127,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            @if (Model.Curriculum.Count > 0)
-            {
-                foreach (var item in Model.Curriculum)
-                {
-                    <p>@item.Title</p>
-                }
-
-                var collection = JsonSerializer.Serialize(Model.Curriculum);
-                TempData["Curriculum"] = collection;
-            }
+            </div>*@
 
             <div class="form-group">
                 <label asp-for="Price"></label>
@@ -115,4 +144,5 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial.cshtml" />
+    <script src="~/js/site.js"></script>
 }

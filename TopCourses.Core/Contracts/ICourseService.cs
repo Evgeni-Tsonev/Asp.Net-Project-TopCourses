@@ -12,5 +12,7 @@
         Task<Course> GetCourseById(int courseId);
 
         Task<CourseDetailsModel> GetCourseDetails(int courseId);
+
+        Task AddStudentToCourse(int courseId, string studentId);
     }
 }

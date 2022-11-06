@@ -45,15 +45,6 @@
             
         </ul>
     </div>
-
-    @if (TempData.ContainsKey("Curiculum"))
-    {
-        foreach (var item in TempData["Curiculum"] as List<AddSectionModel>)
-        {
-            <p>@item.Title</p>
-            <p>@item.Description</p>
-        }
-    }
 </div>
 <button id="show" type="button" class="btn btn-primary">Add Topic</button>
 

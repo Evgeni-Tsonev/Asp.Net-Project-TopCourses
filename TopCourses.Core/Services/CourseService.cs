@@ -9,7 +9,7 @@
     using TopCourses.Core.Models.Course;
     using System.Text.RegularExpressions;
     using TopCourses.Core.Models.Section;
-    using TopCourses.Core.Models.Video;
+    using TopCourses.Infrastructure.Data.Identity;
 
     public class CourseService : ICourseService
     {
@@ -121,8 +121,33 @@
             return allCourses;
         }
 
-        public Task<Course> GetCourseById(int courseId)
-            => this.repository.GetByIdAsync<Course>(courseId);
+        public async Task<Course> GetCourseById(int courseId)
+            => await this.repository.GetByIdAsync<Course>(courseId);
 
+        public async Task AddStudentToCourse(int courseId, string studentId)
+        {
+            var course = await this.repository
+                .AllReadonly<Course>()
+                .FirstOrDefaultAsync(x => x.Id == courseId);
+                
+            if (course == null)
+            {
+                throw new Exception();
+            }
+
+            var student = await this.repository.GetByIdAsync<ApplicationUser>(studentId);
+            if (student == null)
+            {
+                throw new Exception();
+            }
+
+            course.Students.Add(new CourseApplicationUser()
+            {
+                CourseId = courseId,
+                StudentId = studentId
+            });
+
+            await this.repository.SaveChangesAsync();
+        }
     }
 }
