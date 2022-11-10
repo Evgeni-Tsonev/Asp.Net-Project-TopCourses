@@ -15,6 +15,16 @@
             this.repository = repository;
         }
 
+        public async Task<ApplicationUser> GetUserById(string id)
+        {
+            return await this.repository.GetByIdAsync<ApplicationUser>(id);
+        }
+
+        public Task<UserEditViewModel> GetUserForEdit(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<UserListViewModel>> GetUsers()
         {
             var users = await this.repository.All<ApplicationUser>()
@@ -22,11 +32,17 @@
                 {
                     Email = u.Email,
                     Id = u.Id,
-                    Name = $"{u.FirstName} {u.LastName}"
+                    FullName = $"{u.FirstName} {u.LastName}",
+                    Username = u.UserName
                 })
                 .ToListAsync();
 
             return users;
+        }
+
+        public Task<bool> UpdateUser(UserEditViewModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

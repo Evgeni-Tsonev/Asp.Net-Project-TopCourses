@@ -2,34 +2,78 @@
 {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using TopCourses.Core.Constants;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using TopCourses.Core.Contracts;
+    using TopCourses.Core.Models.User;
     using TopCourses.Infrastructure.Data.Identity;
 
     public class UserController : BaseController
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserService userService;
 
-        public UserController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public UserController(UserManager<ApplicationUser> userManager,
+                              IUserService userService,
+                              RoleManager<IdentityRole> roleManager)
         {
-            this.roleManager = roleManager;
             this.userManager = userManager;
+            this.userService = userService;
+            this.roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = await this.userService.GetUsers();
+            return View(model);
         }
 
-        public async Task<IActionResult> AddUsersToRoles()
+        public async Task<IActionResult> Roles(string id)
         {
-            string email1 = "evgeni@abv.bg";
+            var user = await userService.GetUserById(id);
+            var model = new UserRolesViewModel()
+            {
+                UserId = user.Id,
+                Name = $"{user.FirstName} {user.LastName}"
+            };
 
-            var user = await userManager.FindByEmailAsync(email1);
 
-            await userManager.AddToRoleAsync(user, RoleConstants.Administrator);
+            ViewBag.RoleItems = roleManager.Roles
+                .ToList()
+                .Select(r => new SelectListItem()
+                {
+                    Text = r.Name,
+                    Value = r.Name,
+                    Selected = userManager.IsInRoleAsync(user, r.Name).Result
+                }).ToList();
 
-            return RedirectToAction("Index", "Home");
+            return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Roles(UserRolesViewModel model)
+        {
+            var user = await userService.GetUserById(model.UserId);
+            var userRoles = await userManager.GetRolesAsync(user);
+            await userManager.RemoveFromRolesAsync(user, userRoles);
+
+            if (model.RoleNames?.Length > 0)
+            {
+                await userManager.AddToRolesAsync(user, model.RoleNames);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        //public async Task<IActionResult> AddUsersToRoles()
+        //{
+        //    string email1 = "evgeni@abv.bg";
+
+        //    var user = await userManager.FindByEmailAsync(email1);
+
+        //    await userManager.AddToRoleAsync(user, RoleConstants.Administrator);
+
+        //    return RedirectToAction("Index", "Home");
+        //}
     }
 }

@@ -16,6 +16,7 @@
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

@@ -1,4 +1,5 @@
-﻿<nav class="mt-2">
+﻿
+<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
@@ -26,5 +27,17 @@
                 </p>
             </a>
         </li>
+        @if (User.IsInRole(RoleConstants.Administrator))
+        {
+            <li class="nav-item">
+                <a asp-area="admin" asp-controller="Home" class="nav-link">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>
+                        Admin area
+                    </p>
+                </a>
+            </li>
+
+        }
     </ul>
 </nav>
