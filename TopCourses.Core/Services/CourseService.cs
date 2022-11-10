@@ -135,7 +135,9 @@
                 throw new Exception();
             }
 
-            var student = await this.repository.GetByIdAsync<ApplicationUser>(studentId);
+            var student = await this.repository
+                .GetByIdAsync<ApplicationUser>(studentId);
+
             if (student == null)
             {
                 throw new Exception();

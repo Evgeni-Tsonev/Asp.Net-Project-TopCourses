@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using TopCourses.Core.Constants;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Models;
 
@@ -11,15 +12,16 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-
+        private readonly RoleManager<IdentityRole> roleManager;
 
         public AccountController(
                                 UserManager<ApplicationUser> userManager,
-                                SignInManager<ApplicationUser> signInManager)
+                                SignInManager<ApplicationUser> signInManager,
+                                RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-
+            this.roleManager = roleManager;
         }
 
         [AllowAnonymous]
@@ -116,6 +118,23 @@
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Course");
+        }
+
+        public async Task<IActionResult> CreateRoles()
+        {
+            await roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> AddUsersToRoles()
+        {
+            string email1 = "evgeni@abv.bg";
+
+            var user = await userManager.FindByEmailAsync(email1);
+
+            await userManager.AddToRoleAsync(user, RoleConstants.Administrator);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

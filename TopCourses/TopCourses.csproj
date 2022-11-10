@@ -24,4 +24,11 @@
     <ProjectReference Include="..\TopCourses.Core\TopCourses.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Category\" />
+    <Folder Include="Areas\Admin\Views\Language\" />
+  </ItemGroup>
+
 </Project>

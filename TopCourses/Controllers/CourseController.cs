@@ -98,7 +98,7 @@
         {
             var details = await this.courseService.GetCourseDetails(id);
             var url = details.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
-            
+
             TempData["VideoUrl"] = url;
             return View(details);
         }
@@ -130,8 +130,8 @@
             return RedirectToAction("Create", "Section");
         }
 
-            //todo
-            public async Task<IActionResult> UploadFile(IFormFile file, int sectionId)
+        //todo
+        public async Task<IActionResult> UploadFile(IFormFile file, int sectionId)
         {
             try
             {

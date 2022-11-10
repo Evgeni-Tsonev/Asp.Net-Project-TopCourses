@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using TopCourses.Infrastructure.Data;
 using TopCourses.Infrastructure.Data.Identity;
 
@@ -14,6 +15,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequiredLength = 6;
     options.User.RequireUniqueEmail = true;
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TopCoursesDbContext>();
 
 //builder.Services.AddAuthentication()
@@ -62,9 +64,23 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    //endpoints.MapControllerRoute(
+    //name: "default",
+    //pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 app.MapRazorPages();
 
 app.Run();

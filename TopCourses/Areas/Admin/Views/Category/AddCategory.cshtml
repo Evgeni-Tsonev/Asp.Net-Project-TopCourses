@@ -1,0 +1,25 @@
+﻿@using TopCourses.Core.Models
+@model CategoryModel
+
+<h2>Add Category</h2>
+
+<form asp-controller="Category" asp-action="AddCategory" method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" />
+        <span asp-validation-for="Title" class="small text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
+
+<div class="form-group">
+    <a asp-controller="Category" asp-action="Index">
+        <input type="button" class="btn btn-primary" value='Cancel' />
+    </a>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
