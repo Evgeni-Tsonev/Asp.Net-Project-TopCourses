@@ -7,6 +7,7 @@
     using System.Security.Claims;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
+    using TopCourses.Core.Models.User;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Models;
 
@@ -136,13 +137,34 @@
 
         public async Task<IActionResult> Edit()
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return View();
+            var model = await this.userService.GetUserForEdit(userId);
+
+            return View(model);
         }
-            //public async Task<IActionResult> CreateRoles()
-            //{
-            //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
-            //    return RedirectToAction("Index", "Home");
-            //}
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserEditViewModel model)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            model.Id = userId;
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await this.userService.UpdateUser(model);
+
+            return RedirectToAction("MyProfile", "Account");
         }
+
+        //public async Task<IActionResult> CreateRoles()
+        //{
+        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
+        //    return RedirectToAction("Index", "Home");
+        //}
+    }
 }
