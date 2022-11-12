@@ -1,7 +1,5 @@
 ﻿namespace TopCourses.Infrastructure.Data.Models
 {
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using TopCourses.Infrastructure.Data.Identity;
 
     public class ShoppingCart

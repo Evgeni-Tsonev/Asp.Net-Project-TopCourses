@@ -1,11 +1,17 @@
 ﻿namespace TopCourses.Core.Contracts
 {
-    using TopCourses.Core.Models;
+    using TopCourses.Core.Models.Language;
 
     public interface ILanguageService
     {
-        Task Add(LanguageModel languageModel);
+        Task Add(LanguageViewModel languageModel);
 
-        Task<IEnumerable<LanguageModel>> GetAll();
+        Task<LanguageViewModel> GetLanguageForEdit(int id);
+
+        Task Update(LanguageViewModel languageModel);
+
+        Task Delete(int id);
+
+        Task<IEnumerable<LanguageViewModel>> GetAll();
     }
 }

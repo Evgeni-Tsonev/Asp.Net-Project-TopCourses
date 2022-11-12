@@ -38,8 +38,6 @@
                 Title = course.Title,
                 Subtitle = course.Subtitle,
                 ImageUrl = course.ImageUrl,
-                Requirements = course.Requirements,
-                Goals = course.Goals,
                 Curriculum = course.Curriculum.Select(s => new SectionModel()
                 {
                     Title = s.Title,
@@ -86,8 +84,8 @@
                 Title = courseModel.Title,
                 Subtitle = courseModel.Subtitle,
                 ImageUrl = courseModel.ImageUrl,
+                Goals = courseModel.Goals,
                 Requirements = courseModel.Requirements,
-                //Goals = courseModel.Goals,
                 Curriculum = courseModel.Curriculum.Select(c => new Section()
                 {
                     Title = c.Title,

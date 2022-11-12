@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TopCourses.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    partial class TopCoursesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221112113503_removedTablesGoalsAndRequirement")]
+    partial class removedTablesGoalsAndRequirement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasIndex("ShoppingCartId");
 
-                    b.ToTable("CourseShoppingCart", (string)null);
+                    b.ToTable("CourseShoppingCart");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -281,7 +283,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files", (string)null);
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Category", b =>
@@ -307,7 +309,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Course", b =>
@@ -364,7 +366,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.CourseApplicationUser", b =>
@@ -379,7 +381,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("CourseApplicationUser", (string)null);
+                    b.ToTable("CourseApplicationUser");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Language", b =>
@@ -400,7 +402,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languages", (string)null);
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Section", b =>
@@ -436,7 +438,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasIndex("ResourceId");
 
-                    b.ToTable("Sections", (string)null);
+                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ShoppingCart", b =>
@@ -456,7 +458,7 @@ namespace TopCourses.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("ShoppingCarts", (string)null);
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("CourseShoppingCart", b =>

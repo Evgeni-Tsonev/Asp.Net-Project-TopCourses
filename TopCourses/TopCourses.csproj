@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Category\" />
-    <Folder Include="Areas\Admin\Views\Language\" />
   </ItemGroup>
 
 </Project>

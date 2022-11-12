@@ -11,6 +11,7 @@
 
         [Url]
         [Required]
+        [Display(Name = "Video Url")]
         public string VideoUrl { get; set; } = null!;
 
         public int SectionId { get; set; }

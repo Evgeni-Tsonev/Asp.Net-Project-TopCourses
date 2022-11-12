@@ -14,6 +14,7 @@
 
         public int? ParentId { get; set; }
         public virtual Category? Parent { get; set; }
+
         public virtual ICollection<Category> SubCategory { get; set; } = new HashSet<Category>();
 
         public ICollection<Course> Courses { get; set; } = new HashSet<Course>();

@@ -21,9 +21,13 @@
         [Url]
         public string ImageUrl { get; set; } = null!;
 
-        public ICollection<Requirement> Requirements { get; set; } = new HashSet<Requirement>();
+        [Required]
+        [StringLength(1000)]
+        public string  Goals = null!;
 
-        public ICollection<Goal> Goals { get; set; } = new HashSet<Goal>();
+        [Required]
+        [StringLength(1000)]
+        public string Requirements = null!;
 
         public ICollection<Section> Curriculum { get; set; } = new HashSet<Section>();
 

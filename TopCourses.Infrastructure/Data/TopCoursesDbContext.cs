@@ -16,8 +16,6 @@
         public DbSet<Category> Categories { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Section> Sections { get; set; }
-        public DbSet<Requirement> Requirements { get; set; }
-        public DbSet<Goal> Goals { get; set; }
         public DbSet<CourseApplicationUser> CourseApplicationUser { get; set; }
         public DbSet<ApplicationFile> Files { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
