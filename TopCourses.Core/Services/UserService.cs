@@ -20,9 +20,29 @@
             return await this.repository.GetByIdAsync<ApplicationUser>(id);
         }
 
-        public Task<UserEditViewModel> GetUserForEdit(string id)
+        public async Task<UserProfileViewModel> GetUserProfile(string id)
         {
-            throw new NotImplementedException();
+            var user = await this.repository.GetByIdAsync<ApplicationUser>(id);
+            return new UserProfileViewModel()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email
+            };
+        }
+
+        public async Task<UserEditViewModel> GetUserForEdit(string id)
+        {
+            var user = await this.repository.GetByIdAsync<ApplicationUser>(id);
+
+            return new UserEditViewModel()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
         }
 
         public async Task<IEnumerable<UserListViewModel>> GetUsers()
@@ -40,9 +60,21 @@
             return users;
         }
 
-        public Task<bool> UpdateUser(UserEditViewModel model)
+        public async Task<bool> UpdateUser(UserEditViewModel model)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            var user = await this.repository.GetByIdAsync<ApplicationUser>(model.Id);
+
+            if (user != null)
+            {
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+
+                await this.repository.SaveChangesAsync();
+                result = true;
+            }
+
+            return result;
         }
     }
 }

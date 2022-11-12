@@ -4,7 +4,9 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using System.Security.Claims;
     using TopCourses.Core.Constants;
+    using TopCourses.Core.Contracts;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Models;
 
@@ -13,15 +15,18 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IUserService userService;
 
         public AccountController(
                                 UserManager<ApplicationUser> userManager,
                                 SignInManager<ApplicationUser> signInManager,
-                                RoleManager<IdentityRole> roleManager)
+                                RoleManager<IdentityRole> roleManager,
+                                IUserService userService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
+            this.userService = userService;
         }
 
         [AllowAnonymous]
@@ -120,21 +125,24 @@
             return RedirectToAction("Index", "Course");
         }
 
-        public async Task<IActionResult> CreateRoles()
+        public async Task<IActionResult> MyProfile()
         {
-            await roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
-            return RedirectToAction("Index", "Home");
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var model = await this.userService.GetUserProfile(userId);
+
+            return View(model);
         }
 
-        public async Task<IActionResult> AddUsersToRoles()
+        public async Task<IActionResult> Edit()
         {
-            string email1 = "evgeni@abv.bg";
 
-            var user = await userManager.FindByEmailAsync(email1);
-
-            await userManager.AddToRoleAsync(user, RoleConstants.Administrator);
-
-            return RedirectToAction("Index", "Home");
+            return View();
         }
-    }
+            //public async Task<IActionResult> CreateRoles()
+            //{
+            //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
+            //    return RedirectToAction("Index", "Home");
+            //}
+        }
 }

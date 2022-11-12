@@ -6,9 +6,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c799ab7a-8e89-4a40-8d5d-1e23bceb484a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/TopCourses.Infrastructure/Data/Models/Section.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses.Infrastructure/Data/Models/Section.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TopCourses/Extensions/ServiceCollectionExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses/Extensions/ServiceCollectionExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TopCourses/Views/Course/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses/Views/Course/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TopCourses.Core/Contracts/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses.Core/Contracts/IUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TopCourses.Core/Models/User/UserEditViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses.Core/Models/User/UserEditViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TopCourses.Core/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses.Core/Services/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TopCourses/Controllers/AccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses/Controllers/AccountController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TopCourses/ScaffoldingReadMe.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TopCourses/TopCourses.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses/TopCourses.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TopCourses/Views/Shared/_LoginPartial.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses/Views/Shared/_LoginPartial.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TopCourses/Views/_ViewImports.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/TopCourses/Views/_ViewImports.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,14 +29,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.TopCourses">
     <configuration name="TopCourses" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/TopCourses/TopCourses.csproj" />
@@ -75,6 +80,7 @@
       <workItem from="1666520699273" duration="23000" />
       <workItem from="1666520782161" duration="31000" />
       <workItem from="1666520874959" duration="151000" />
+      <workItem from="1668165794397" duration="167000" />
     </task>
     <servers />
   </component>

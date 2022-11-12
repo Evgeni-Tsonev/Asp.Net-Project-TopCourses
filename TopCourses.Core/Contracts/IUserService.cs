@@ -7,6 +7,8 @@
     {
         Task<IEnumerable<UserListViewModel>> GetUsers();
 
+        Task<UserProfileViewModel> GetUserProfile(string id);
+
         Task<UserEditViewModel> GetUserForEdit(string id);
 
         Task<bool> UpdateUser(UserEditViewModel model);
