@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Contracts;
-    using TopCourses.Core.Models;
+    using TopCourses.Core.Models.Category;
 
     public class CategoryController : BaseController
     {
@@ -16,6 +16,7 @@
         public async Task<IActionResult> Index()
         {
             var allCategories = await this.categoriesService.GetAllMainCategories();
+
             return View(allCategories);
         }
 

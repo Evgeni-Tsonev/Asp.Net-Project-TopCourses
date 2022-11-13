@@ -57,5 +57,7 @@
         public ICollection<CourseApplicationUser> Students { get; set; } = new HashSet<CourseApplicationUser>();
 
         public ICollection<ShoppingCart> ShoppingCart { get; set; } = new HashSet<ShoppingCart>();
+
+        public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
     }
 }

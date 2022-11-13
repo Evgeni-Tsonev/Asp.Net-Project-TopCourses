@@ -1,7 +1,7 @@
 ﻿namespace TopCourses.Core.Contracts
 {
     using System.Collections.Generic;
-    using TopCourses.Core.Models;
+    using TopCourses.Core.Models.Category;
 
     public interface ICategoryService
     {

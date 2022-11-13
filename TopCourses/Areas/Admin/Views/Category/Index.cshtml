@@ -1,15 +1,65 @@
-﻿@using TopCourses.Core.Models
+﻿@model IEnumerable<CategoryModel>
 
-@model IEnumerable<CategoryModel>
+@{
+    ViewData["Title"] = "Categories";
+}
 
-<h2>All Categories</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"]</h3>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<ul class="list-group">
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var language in Model)
+                        {
+                            <tr>
+                                <td>@language.Id</td>
+                                <td>@language.Title</td>
+                                <td>
+                                    <a asp-area="Admin" asp-action="Edit" asp-controller="Language" asp-route-id="@language.Id" class="btn btn-block btn-outline-info btn-xs">Edit</a>
+                                    <form asp-area="Admin" asp-action="Delete" asp-controller="Language" method="post">
+                                        <input name="id" type="hidden" value="@language.Id" />
+                                        <button type="submit" class="btn btn-block btn-outline-danger btn-xs">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@*<ul class="list-group">
     @foreach (var element in Model)
     {
         <li class="list-group-item">@element.Title</li>
     }
-</ul>
+</ul>*@
 
 <a asp-controller="Category" asp-action="AddCategory">
     <input type="button" class="btn btn-primary" value="Add" />

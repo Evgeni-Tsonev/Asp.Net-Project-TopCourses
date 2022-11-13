@@ -1,4 +1,4 @@
-﻿namespace TopCourses.Core.Models
+﻿namespace TopCourses.Core.Models.Category
 {
     using System.ComponentModel.DataAnnotations;
     using TopCourses.Infrastructure.Data.Models;

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
-    using TopCourses.Core.Models;
+    using TopCourses.Core.Models.Category;
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Core.Data.Common;
 

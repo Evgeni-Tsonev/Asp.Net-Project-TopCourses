@@ -19,6 +19,7 @@
         public DbSet<CourseApplicationUser> CourseApplicationUser { get; set; }
         public DbSet<ApplicationFile> Files { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -49,6 +50,16 @@
                    .WithOne(x => x.User)
                    .HasForeignKey<ShoppingCart>(x => x.UserId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Review>()
+                .HasOne(u => u.User)
+                .WithMany(r => r.Reviews)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Review>()
+                .HasOne(c => c.Course)
+                .WithMany(r => r.Reviews)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }

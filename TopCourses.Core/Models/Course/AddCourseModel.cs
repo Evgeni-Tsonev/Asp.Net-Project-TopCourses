@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Core.Models.Category;
     using TopCourses.Core.Models.Language;
     using TopCourses.Core.Models.Section;
     using TopCourses.Infrastructure.Data.Models.enums;
