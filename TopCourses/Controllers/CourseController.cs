@@ -198,6 +198,8 @@
         [HttpPost]
         public async Task<IActionResult> AddReview(AddReviewViewModel model)
         {
+            model.DateOfPublication = DateTime.Now;
+
             if (!ModelState.IsValid)
             {
                 return View("CreateReview", model);

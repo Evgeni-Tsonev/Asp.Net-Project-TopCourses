@@ -4,6 +4,7 @@
     using TopCourses.Infrastructure.Data.Models.enums;
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Core.Models.Section;
+    using TopCourses.Core.Models.Review;
 
     public class CourseDetailsModel
     {
@@ -30,6 +31,8 @@
         public string Requirements = null!;
 
         public ICollection<SectionModel> Curriculum { get; set; } = new HashSet<SectionModel>();
+
+        public ICollection<ReviewViewModel> Reviews { get; set; } = new HashSet<ReviewViewModel>();
 
         public Level Level { get; set; }
 

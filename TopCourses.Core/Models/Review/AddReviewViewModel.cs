@@ -1,8 +1,6 @@
 ﻿namespace TopCourses.Core.Models.Review
 {
     using System.ComponentModel.DataAnnotations;
-    using TopCourses.Infrastructure.Data.Identity;
-    using TopCourses.Infrastructure.Data.Models;
 
     public class AddReviewViewModel
     {
@@ -17,5 +15,7 @@
         public string UserId { get; set; } = null!;
 
         public int CourseId { get; set; }
+
+        public DateTime DateOfPublication { get; set; }
     }
 }

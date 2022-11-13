@@ -16,6 +16,8 @@
 
         public bool IsDeleted { get; set; }
 
+        public DateTime DateOfPublication { get; set; }
+
         public string UserId { get; set; } = null!;
         public ApplicationUser User { get; set; } = null!;
 

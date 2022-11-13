@@ -25,6 +25,8 @@
         {
             var course = await this.repository
                 .AllReadonly<Course>()
+                .Include(r => r.Reviews)
+                .ThenInclude(u => u.User)
                 .Include(c => c.Curriculum)
                 .FirstOrDefaultAsync(x => x.Id == courseId);
 
@@ -48,6 +50,13 @@
                     //{
                     //    VideoUrl = s?.VideoUrl
                     //}
+                }).ToList(),
+                Reviews = course.Reviews.Select(r => new ReviewViewModel()
+                {
+                    UserFullName = $"{r.User.FirstName} {r.User.LastName}",
+                    Comment = r.Comment,
+                    Rating = r.Rating,
+                    DateOfPublication = r.DateOfPublication.ToString()
                 }).ToList(),
                 Level = course.Level,
                 CategoryId = course.CategoryId,
@@ -172,7 +181,8 @@
                 Comment = model.Comment,
                 Rating = model.Rating,
                 CourseId = model.CourseId,
-                UserId = model.UserId
+                UserId = model.UserId,
+                DateOfPublication = model.DateOfPublication,
             };
 
             await this.repository.AddAsync(review);
