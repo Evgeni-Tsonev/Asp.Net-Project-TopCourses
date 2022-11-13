@@ -10,6 +10,7 @@
     using System.Text.RegularExpressions;
     using TopCourses.Core.Models.Section;
     using TopCourses.Infrastructure.Data.Identity;
+    using TopCourses.Core.Models.Review;
 
     public class CourseService : ICourseService
     {
@@ -147,6 +148,34 @@
                 StudentId = studentId
             });
 
+            await this.repository.SaveChangesAsync();
+        }
+
+        public async Task AddReview(AddReviewViewModel model)
+        {
+            var user = await this.repository.GetByIdAsync<ApplicationUser>(model.UserId);
+
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
+            var course = await this.repository.GetByIdAsync<Course>(model.CourseId);
+
+            if (course == null)
+            {
+                throw new Exception();
+            }
+
+            var review = new Review()
+            {
+                Comment = model.Comment,
+                Rating = model.Rating,
+                Course = course,
+                User = user
+            };
+
+            await this.repository.AddAsync(review);
             await this.repository.SaveChangesAsync();
         }
     }
