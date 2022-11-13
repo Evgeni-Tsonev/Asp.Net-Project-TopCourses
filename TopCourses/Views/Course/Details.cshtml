@@ -1,103 +1,91 @@
-﻿@using TopCourses.Core.Models.Course
-@model CourseDetailsModel
+﻿@model CourseDetailsModel
 
 <div class="container border-dark">
     <div class="jumbotron bg-indigo text-warning">
-        <h1>@Model.Title</h1>
-        <h3>@Model.Subtitle</h3>
+        <h1>@ViewData["Title"]</h1>
+        <h3>@ViewData["Subtitle"]</h3>
     </div>
-    <p>This is some text.</p>
-    <p>This is another text.</p>
 </div>
 <div class="container border-dark">
     <div class="row">
         <div class="col-md-9">
-            <p>
-                1vata sekciq
-                mnogo dulgi redove populneni s mnogo dulag tekst
-                mnogo dulgi redove populneni s mnogo dulag tekst
-                mnogo dulgi redove populneni s mnogo dulag tekst
-                mnogo dulgi redove populneni s mnogo dulag tekst
-                mnogo dulgi redove populneni s mnogo dulag tekst
-            </p>
             <div class="container">
-                <div class="row">
-                    <div class="col-md-8 border-dark">
-                        <p>2riq konteiner</p>
-                        <p>2riq konteiner</p>
-                        <p>2riq konteiner</p>
-                        <p>2riq konteiner</p>
-                        <p>2riq konteiner</p>
-                        <p>2riq konteiner</p>
-                        <p>2riq konteiner</p>
+                <div class="card card-indigo">
+                    <div class="card-header">
+                        <h3 class="card-title">Skills you will need for the course</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            @Model.Requirements
+                            asdasdasdasdasd
+                            asdasdasdasdasd
+                        </p>
+                    </div>
+                </div>
+                <div class="card card-indigo">
+                    <div class="card-header">
+                        <h3 class="card-title">Skills you will acquire during the course</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            @Model.Goals
+                            asdasdasdasdasd
+                            asdasdasdasdasd
+                        </p>
+                    </div>
+                </div>
+                <div class="card card-indigo">
+                    <div class="card-header">
+                        <h3 class="card-title">Course description</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            @Model.Description
+                            asdasdasdasdasd
+                            asdasdasdasdasd
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="container border-dark">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="container pt-3 border-dark">
-                            <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-header bg-indigo" id="headingOne">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                Collapsible Group Item #1
-                                            </button>
-                                        </h2>
-                                    </div>
+            <div class="card card-indigo">
+                <div class="card-header">
+                    <h3 class="card-title">Course Curriculum</h3>
+                </div>
+                <div class="card-body" style="height: 300px; overflow-y: scroll">
+                    <div class="col">
+                        @for (int i = 0; i < 10; i++)
+                        {
+                            <div class="card card-indigo">
+                                <div class="card-header">
+                                    <h3 class="card-title">Zaglavie na Topic @i</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h4><strong>topic description</strong></h4>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6><strong>Videos</strong></h6>
+                                            @for (int j = 0; j < 3; j++)
+                                            {
+                                                <p>video @j</p>
+                                            }
+                                        </div>
+                                        <div class="col-6">
+                                            <h6><strong>Files</strong></h6>
+                                            @for (int k = 0; k < 3; k++)
+                                            {
+                                                <p>fale @k</p>
+                                            }
+                                        </div>
 
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="headingTwo">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                Collapsible Group Item #2
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="headingThree">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                Collapsible Group Item #3
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 border-dark">
-                        <p>mnogo dulgo opisanie na prepodavatelq</p>
-                        <p>mnogo dulgo opisanie na prepodavatelq</p>
-                        <p>mnogo dulgo opisanie na prepodavatelq</p>
-                        <p>mnogo dulgo opisanie na prepodavatelq</p>
-                        <p>mnogo dulgo opisanie na prepodavatelq</p>
-                        <p>mnogo dulgo opisanie na prepodavatelq</p>
-                    </div>
-                </div>
-            </div>
+
+
         </div>
         <div class="col-md-3 sticky-top">
             <img src="@Model.ImageUrl" style="width: 18rem;height: 18rem" class="img-thumbnail">
@@ -110,6 +98,48 @@
             <a asp-controller="ShoppingCart" asp-action="Add" type="button" class="btn btn-block btn-primary btn-lg">Add to Cart</a>
             <a asp-controller="Course" asp-action="CreateReview" asp-route-id="@Model.Id" type="button" class="btn btn-block btn-primary btn-lg">Add Review</a>
             <a asp-controller="Course" asp-action="Video" asp-route-videoUrl="@Model.Curriculum.Select(u => u.VideoUrl).FirstOrDefault()" type="button" class="btn btn-block btn-primary btn-lg">Video</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12">
+            <div class="card card-indigo">
+                <div class="card-header">
+                    <h3 class="card-title">Reviews</h3>
+                </div>
+                <div class="card-body" style="height: 600px; overflow-y: scroll">
+                    <div class="container my-5 py-5">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-12 col-lg-10 col-xl-8">
+                                @for (int i = 0; i < 10; i++)
+                                {
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex flex-start align-items-center">
+                                                <img class="rounded-circle shadow-1-strong me-3"
+                                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="60"
+                                                 height="60" />
+                                                <div>
+                                                    <h6 class="fw-bold text-primary mb-1">Lily Coleman</h6>
+                                                    <p class="text-muted small mb-0">
+                                                        Shared publicly - Jan 2020
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p class="mt-3 mb-4 pb-2">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                                quis nostrud exercitation ullamco laboris nisi ut aliquip consequat.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

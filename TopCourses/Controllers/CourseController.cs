@@ -97,11 +97,17 @@
         [AllowAnonymous]
         public async Task<IActionResult> Details([FromRoute] int id)
         {
-            var details = await this.courseService.GetCourseDetails(id);
-            var url = details.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
+            var course = await this.courseService.GetCourseDetails(id);
+
+            var url = course.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
+
+            ViewData["Title"] = $"{course.Title}";
+
+            ViewData["Subtitle"] = $"{course.Subtitle}";
 
             TempData["VideoUrl"] = url;
-            return View(details);
+
+            return View(course);
         }
 
         //[HttpPost]
