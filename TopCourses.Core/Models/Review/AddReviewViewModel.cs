@@ -10,14 +10,12 @@
         [StringLength(500)]
         public string Comment { get; set; } = null!;
 
-        [MaxLength(5)]
-        [MinLength(0)]
+        [Range(0, 5)]
         public double Rating { get; set; }
 
+        [Required]
         public string UserId { get; set; } = null!;
-        public ApplicationUser User { get; set; } = null!;
 
         public int CourseId { get; set; }
-        public Course Course { get; set; } = null!;
     }
 }

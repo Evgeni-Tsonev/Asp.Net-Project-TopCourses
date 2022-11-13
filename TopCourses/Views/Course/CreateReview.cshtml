@@ -1,0 +1,29 @@
+﻿@model AddReviewViewModel
+
+@{
+    ViewData["Title"] = "Add Review";
+}
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">@ViewData["Title"]</h3>
+    </div>
+    <form asp-controller="Course" asp-action="AddReview" method="post">
+        <input asp-for="@Model.CourseId" hidden>
+        <input asp-for="@Model.UserId" hidden>
+        <div class="card-body">
+            <div class="form-group">
+                <label asp-for="@Model.Rating"></label>
+                <input asp-for="@Model.Rating" class="form-control">
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Comment"></label>
+                <textarea asp-for="@Model.Comment" class="form-control"></textarea>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Add Review</button>
+        </div>
+    </form>
+</div>

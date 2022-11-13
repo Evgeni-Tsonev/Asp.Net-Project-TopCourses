@@ -171,8 +171,8 @@
             {
                 Comment = model.Comment,
                 Rating = model.Rating,
-                Course = course,
-                User = user
+                CourseId = model.CourseId,
+                UserId = model.UserId
             };
 
             await this.repository.AddAsync(review);

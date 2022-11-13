@@ -8,6 +8,7 @@
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
+    using TopCourses.Core.Models.Review;
     using TopCourses.Core.Models.Section;
     using TopCourses.Core.Models.Video;
     using TopCourses.Infrastructure.Data.Identity;
@@ -173,6 +174,32 @@
             };
 
             return View(model);
+        }
+
+        public IActionResult CreateReview(int id)
+        {
+            var userId = GetUserId();
+
+            var model = new AddReviewViewModel()
+            {
+                UserId = userId,
+                CourseId = id
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddReview(AddReviewViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("CreateReview", model);
+            }
+
+            await this.courseService.AddReview(model);
+
+            return RedirectToAction("Details", "Course", new { id = model.CourseId});
         }
 
         private string GetUserId()
