@@ -46,6 +46,6 @@
 
         public IEnumerable<LanguageViewModel> Languages { get; set; } = new HashSet<LanguageViewModel>();
 
-        public IEnumerable<CategoryModel> Categories { get; set; } = new HashSet<CategoryModel>();
+        public IEnumerable<CategoryViewModel> Categories { get; set; } = new HashSet<CategoryViewModel>();
     }
 }

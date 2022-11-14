@@ -1,18 +1,9 @@
-﻿@model CategoryModel
+﻿@model CategoryViewModel
 
 <h2>Add SubCategory</h2>
 
-<form asp-controller="Category" asp-action="AddSubCategory" method="post">
-    @foreach (var category in (ICollection<CategoryModel>)ViewBag.mainCategories)
-    {
-        <div class="form-check">
-            <input asp-for="ParentId" value="@category.Id" class="form-check-input" type="radio">
-            <label asp-for="ParentId" class="form-check-label">
-                @category.Title
-            </label>
-        </div>
-    }
-
+<form asp-controller="Category" asp-action="AddSubCategoryPost" method="post">
+    <input asp-for="ParentId" hidden/>
     <div class="form-group">
         <label asp-for="Title"></label>
         <input asp-for="Title" />

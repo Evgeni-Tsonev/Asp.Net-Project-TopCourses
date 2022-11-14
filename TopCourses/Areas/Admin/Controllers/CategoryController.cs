@@ -15,20 +15,25 @@
 
         public async Task<IActionResult> Index()
         {
-            var allCategories = await this.categoriesService.GetAllMainCategories();
+            var allCategories = await this.categoriesService.GetAllCategories();
+
+            ViewData["Title"] = "Categories";
+
+            ViewData["SubCategoriesTitle"] = "Sub categories";
 
             return View(allCategories);
         }
 
         public IActionResult AddCategory()
         {
-            var category = new CategoryModel();
+            var category = new CategoryViewModel();
+
             return View(category);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AddCategory(CategoryModel model)
+        public async Task<IActionResult> AddCategory(CategoryViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -36,27 +41,29 @@
             }
 
             await categoriesService.CreateCategory(model);
+
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> AddSubCategory()
+        public IActionResult AddSubCategory([FromRoute]int id)
         {
-            var category = new CategoryModel();
-            var mainCategories = await categoriesService.GetAllMainCategories();
-            ViewBag.mainCategories = mainCategories;
+            var category = new CategoryViewModel();
+
+            category.ParentId = id;
 
             return View(category);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddSubCategory(CategoryModel model)
+        public async Task<IActionResult> AddSubCategoryPost(CategoryViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("AddSubCategory", model);
             }
 
-            await categoriesService.CreateSubCategory(model);
+            await categoriesService.CreateCategory(model);
+
             return RedirectToAction(nameof(Index));
         }
     }

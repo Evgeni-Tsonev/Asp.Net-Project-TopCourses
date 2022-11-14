@@ -5,8 +5,8 @@
 
     public interface ICategoryService
     {
-        public Task<IEnumerable<CategoryModel>> GetAllMainCategories();
-        public Task CreateCategory(CategoryModel model);
-        public Task CreateSubCategory(CategoryModel model);
+        public Task<IEnumerable<CategoryViewModel>> GetAllCategories();
+
+        public Task CreateCategory(CategoryViewModel model);
     }
 }

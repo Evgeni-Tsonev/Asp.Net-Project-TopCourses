@@ -47,7 +47,7 @@
 
         public async Task<IActionResult> Add()
         {
-            var categories = await this.categoryService.GetAllMainCategories();
+            var categories = await this.categoryService.GetAllCategories();
             var languages = await this.languageService.GetAll();
             var course = new AddCourseModel()
             {
@@ -61,7 +61,7 @@
         [HttpPost]
         public async Task<IActionResult> Add(AddCourseModel model)
         {
-            var categories = await this.categoryService.GetAllMainCategories();
+            var categories = await this.categoryService.GetAllCategories();
             if (!categories.Any(b => b.Id == model.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
@@ -121,7 +121,7 @@
         //    }
 
         //    model.Curriculum.Add(model.Section);
-        //    model.Categories = await this.categoryService.GetAllMainCategories();
+        //    model.Categories = await this.categoryService.GetAllCategories();
         //    model.Languages = await this.languageService.GetAll();
 
         //    return View("Add", model);

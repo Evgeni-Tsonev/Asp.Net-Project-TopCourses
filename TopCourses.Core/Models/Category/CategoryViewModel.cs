@@ -1,9 +1,8 @@
 ﻿namespace TopCourses.Core.Models.Category
 {
     using System.ComponentModel.DataAnnotations;
-    using TopCourses.Infrastructure.Data.Models;
 
-    public class CategoryModel
+    public class CategoryViewModel
     {
         public int Id { get; set; }
 
@@ -15,6 +14,6 @@
 
         public bool IsDeleted { get; set; }
 
-        public virtual ICollection<Category> SubCategory { get; set; } = new HashSet<Category>();
+        public virtual ICollection<CategoryViewModel> SubCategories { get; set; } = new HashSet<CategoryViewModel>();
     }
 }

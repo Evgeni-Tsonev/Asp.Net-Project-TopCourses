@@ -1,8 +1,4 @@
-﻿@model IEnumerable<CategoryModel>
-
-@{
-    ViewData["Title"] = "Categories";
-}
+﻿@model IEnumerable<CategoryViewModel>
 
 <div class="row">
     <div class="col-12">
@@ -31,19 +27,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var language in Model)
+                        @foreach (var category in Model)
                         {
-                            <tr>
-                                <td>@language.Id</td>
-                                <td>@language.Title</td>
+                            <tr style="background-color: #add8e6">
+                                <td>@category.Id</td>
+                                <td>@category.Title</td>
                                 <td>
-                                    <a asp-area="Admin" asp-action="Edit" asp-controller="Language" asp-route-id="@language.Id" class="btn btn-block btn-outline-info btn-xs">Edit</a>
-                                    <form asp-area="Admin" asp-action="Delete" asp-controller="Language" method="post">
-                                        <input name="id" type="hidden" value="@language.Id" />
+                                    <a asp-area="Admin" asp-action="AddSubCategory" asp-controller="Category" asp-route-id="@category.Id" class="btn btn-block btn-outline-info btn-xs">Add Sub Category</a>
+                                    <a asp-area="Admin" asp-action="Edit" asp-controller="Category" asp-route-id="@category.Id" class="btn btn-block btn-outline-info btn-xs">Edit</a>
+                                    <form asp-area="Admin" asp-action="Delete" asp-controller="Category" method="post">
+                                        <input name="id" type="hidden" value="@category.Id" />
                                         <button type="submit" class="btn btn-block btn-outline-danger btn-xs">Delete</button>
                                     </form>
                                 </td>
                             </tr>
+                            foreach (var SubCategory in category.SubCategories)
+                            {
+                                <tr>
+                                    <td>@SubCategory.Id</td>
+                                    <td>@SubCategory.Title</td>
+                                    <td>
+                                        <a asp-area="Admin" asp-action="Edit" asp-controller="Category" asp-route-id="@category.Id" class="btn btn-block btn-outline-info btn-xs">Edit</a>
+                                        <form asp-area="Admin" asp-action="Delete" asp-controller="Category" method="post">
+                                            <input name="id" type="hidden" value="@category.Id" />
+                                            <button type="submit" class="btn btn-block btn-outline-danger btn-xs">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -54,13 +65,13 @@
     </div>
 </div>
 
-@*<ul class="list-group">
-    @foreach (var element in Model)
-    {
-        <li class="list-group-item">@element.Title</li>
-    }
-</ul>*@
+
+
 
 <a asp-controller="Category" asp-action="AddCategory">
     <input type="button" class="btn btn-primary" value="Add" />
 </a>
+
+<script>
+
+</script>
