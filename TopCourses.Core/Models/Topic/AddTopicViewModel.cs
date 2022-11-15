@@ -9,9 +9,6 @@
         [StringLength(50)]
         public string Title { get; set; } = null!;
 
-        [Url]
-        public string? VideoUrl { get; set; }
-
         //to do
         //public File Resources { get; set; }
 
@@ -19,7 +16,6 @@
         [StringLength(1000)]
         public string Description { get; set; } = null!;
 
-        public AddVideoViewModel? Video { get; set; }
-        public ICollection<AddVideoViewModel> Videos { get; set; } = new List<AddVideoViewModel>();
+        public IList<AddVideoViewModel> Videos { get; set; } = new List<AddVideoViewModel>();
     }
 }

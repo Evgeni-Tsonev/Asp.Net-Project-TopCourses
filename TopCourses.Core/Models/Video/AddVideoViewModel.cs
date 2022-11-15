@@ -14,7 +14,7 @@
         [Display(Name = "Video Url")]
         public string VideoUrl { get; set; } = null!;
 
-        public int SectionId { get; set; }
-        public TopicViewModel Section { get; set; }
+        public int TopicId { get; set; }
+        public AddTopicViewModel Topic { get; set; } = null!;
     }
 }

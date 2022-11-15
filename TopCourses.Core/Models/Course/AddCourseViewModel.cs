@@ -30,7 +30,7 @@
         public string Requirements = null!;
 
         public AddTopicViewModel? Section { get; set; }
-        public ICollection<AddTopicViewModel> Curriculum { get; set; } = new HashSet<AddTopicViewModel>();
+        public IList<AddTopicViewModel> Curriculum { get; set; } = new List<AddTopicViewModel>();
 
         public Level Level { get; set; }
 

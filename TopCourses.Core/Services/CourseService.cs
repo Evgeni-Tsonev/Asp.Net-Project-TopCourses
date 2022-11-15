@@ -7,18 +7,20 @@
     using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Course;
-    using System.Text.RegularExpressions;
     using TopCourses.Core.Models.Topic;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Core.Models.Review;
+    using TopCourses.Core.Models.Video;
 
     public class CourseService : ICourseService
     {
         private readonly IDbRepository repository;
+        private readonly IVideoService videoService;
 
-        public CourseService(IDbRepository repository)
+        public CourseService(IDbRepository repository, IVideoService videoService)
         {
             this.repository = repository;
+            this.videoService = videoService;
         }
 
         public async Task<CourseDetailsViewModel> GetCourseDetails(int courseId)
@@ -67,25 +69,10 @@
 
         public async Task CreateCourse(AddCourseViewModel courseModel, string creatorId)
         {
-            foreach (var section in courseModel.Curriculum.Where(s => s.VideoUrl != null))
+            for (int i = 0; i < courseModel.Curriculum.Count; i++)
             {
-                var pattern = @"http(?:s)?:\/\/(?:m.)?(?:www\.)?youtu(?:\.be\/|(?:be-nocookie|be)\.com\/(?:watch|[\w]+\?(?:feature=[\w]+.[\w]+\&)?v=|v\/|e\/|embed\/|user\/(?:[\w#]+\/)+))([^&#?\n]+)";
-
-                var videoIdGroup = 1;
-
-                var regex = new Regex(pattern);
-                var match = regex.Match(section.VideoUrl);
-
-                if (match.Success)
-                {
-                    var videoId = match.Groups[videoIdGroup];
-                    var processedVideoUrl = $"https://www.youtube.com/embed/{videoId}?autoplay=1";
-                    section.VideoUrl = processedVideoUrl;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Failed to match VideoUrl Id");
-                }
+                var videos = await this.videoService.ReplaceVideoUrls(courseModel.Curriculum[i].Videos);
+                courseModel.Curriculum[i].Videos = (IList<AddVideoViewModel>)videos;
             }
 
             var course = new Course
@@ -99,6 +86,11 @@
                 {
                     Title = c.Title,
                     Description = c.Description,
+                    Videos = c.Videos.Select(v => new Video()
+                    {
+                        Title = v.Title,
+                        Url = v.VideoUrl
+                    }).ToList()
                 }).ToList(),
                 Level = courseModel.Level,
                 CategoryId = courseModel.CategoryId,
