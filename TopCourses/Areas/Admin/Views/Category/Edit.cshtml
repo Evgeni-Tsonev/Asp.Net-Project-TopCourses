@@ -1,16 +1,19 @@
-﻿@model AddCategoryViewModel
+﻿@model EditCategoryViewModel
 
-<h2>Add Category</h2>
+@{
+    ViewData["Title"] = "Update";
+}
 
-<form asp-controller="Category" asp-action="AddCategory" method="post">
+<form asp-area="Admin" asp-controller="Category" asp-action="Update" method="post">
     <div class="form-group">
+        <input asp-for="Id" hidden/>
         <label asp-for="Title"></label>
         <input asp-for="Title" />
         <span asp-validation-for="Title" class="small text-danger"></span>
     </div>
     <div class="row">
         <div class="col-3">
-            <button type="submit" class="btn btn-block btn-success btn-xs">Add</button>
+            <button type="submit" class="btn btn-block btn-success btn-xs">Save Changes</button>
         </div>
     </div>
     <div class="row">

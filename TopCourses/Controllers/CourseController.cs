@@ -62,12 +62,14 @@
         public async Task<IActionResult> Add(AddCourseViewModel model)
         {
             var categories = await this.categoryService.GetAllCategories();
+
             if (!categories.Any(b => b.Id == model.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
             }
 
             var languages = await this.languageService.GetAll();
+
             if (!languages.Any(b => b.Id == model.LanguageId))
             {
                 this.ModelState.AddModelError(nameof(model.LanguageId), "Language does not exist");
@@ -77,7 +79,7 @@
             {
                 var data = TempData["Curriculum"]?.ToString();
                 var curriculum = JsonSerializer.Deserialize<ICollection<AddTopicViewModel>>(data);
-                model.Curriculum = curriculum;
+                model.Curriculum = (IList<AddTopicViewModel>)curriculum;
                 TempData.Keep("Curriculum");
             }
 
@@ -99,13 +101,13 @@
         {
             var course = await this.courseService.GetCourseDetails(id);
 
-            var url = course.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
+            //var url = course.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
 
             ViewData["Title"] = $"{course.Title}";
 
             ViewData["Subtitle"] = $"{course.Subtitle}";
 
-            TempData["VideoUrl"] = url;
+            //TempData["VideoUrl"] = url;
 
             return View(course);
         }

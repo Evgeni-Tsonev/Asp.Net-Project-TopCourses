@@ -15,7 +15,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var languages = await languageService.GetAll();
+            var languages = await this.languageService.GetAll();
 
             return View(languages);
         }
@@ -35,14 +35,14 @@
                 return View(model);
             }
 
-            await languageService.Add(model);
+            await this.languageService.Add(model);
 
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await languageService.GetLanguageForEdit(id);
+            var model = await this.languageService.GetLanguageForEdit(id);
 
             return View(model);
         }
@@ -52,10 +52,10 @@
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Edit", model);
             }
 
-            await languageService.Update(model);
+            await this.languageService.Update(model);
 
             return RedirectToAction("Index", "Language");
         }
@@ -63,7 +63,7 @@
         [HttpPost]
         public async Task<IActionResult> Delete([FromForm] int id)
         {
-            await languageService.Delete(id);
+            await this.languageService.Delete(id);
 
             return RedirectToAction("Index", "Language");
         }

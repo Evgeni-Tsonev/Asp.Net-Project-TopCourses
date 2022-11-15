@@ -17,6 +17,8 @@
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IVideoService, VideoService>();
 
             return services;
         }

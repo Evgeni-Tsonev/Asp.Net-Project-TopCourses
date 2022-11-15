@@ -18,12 +18,12 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TopCoursesDbContext>();
 
-builder.Services.AddAuthentication()
-    .AddFacebook(options =>
-    {
-        options.AppId = "505133611164058";
-        options.AppSecret = "ca327d57819f6267ec8baac1aec48663";
-    });
+//builder.Services.AddAuthentication()
+//    .AddFacebook(options =>
+//    {
+//        options.AppId = "505133611164058";
+//        options.AppSecret = "ca327d57819f6267ec8baac1aec48663";
+//    });
 
 //builder.Services.AddAuthentication()
 //    .AddFacebook(options =>

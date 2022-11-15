@@ -17,7 +17,7 @@
             this.repository = repository;
         }
 
-        public async Task CreateCategory(CategoryViewModel model)
+        public async Task CreateCategory(AddCategoryViewModel model)
         {
             var category = new Category
             {
@@ -30,18 +30,32 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CategoryViewModel>> GetAllCategories()
+        public async Task Delete(int id)
+        {
+            var category = await this.repository.GetByIdAsync<Category>(id);
+
+            if (category == null)
+            {
+                throw new Exception();
+            }
+
+            category.IsDeleted = true;
+
+            await this.repository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<AddCategoryViewModel>> GetAllCategories()
         {
             var categories = await this.repository.AllReadonly<Category>()
                 .Where(c => c.IsDeleted == false)
-                .Select(c => new CategoryViewModel
+                .Select(c => new AddCategoryViewModel
                 {
                     Id = c.Id,
                     Title = c.Title,
                     ParentId = c.ParentId
                 }).ToListAsync();
 
-            var categoriesToReturn = new List<CategoryViewModel>();
+            var categoriesToReturn = new List<AddCategoryViewModel>();
 
             foreach (var mainCategory in categories.Where(c => c.ParentId == null))
             {
@@ -54,6 +68,36 @@
             }
 
             return categoriesToReturn;
+        }
+
+        public async Task<EditCategoryViewModel> GetCategoryForEdit(int id)
+        {
+            var model = await this.repository.GetByIdAsync<Category>(id);
+
+            if (model == null)
+            {
+                throw new Exception();
+            }
+
+            return new EditCategoryViewModel()
+            {
+                Id = model.Id,
+                Title = model.Title
+            };
+        }
+
+        public async Task Update(EditCategoryViewModel model)
+        {
+            var category = await this.repository.GetByIdAsync<Category>(model.Id);
+
+            if (category == null)
+            {
+                throw new Exception();
+            }
+
+            category.Title = model.Title;
+
+            await this.repository.SaveChangesAsync();
         }
     }
 }

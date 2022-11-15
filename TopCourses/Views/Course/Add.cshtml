@@ -78,27 +78,27 @@
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
 
-            <div id="test" style="display: none">
+            <div id="topics" style="display: none">
                 <div class="card card-default col-md-8">
                     <div class="card-header bg-indigo">
-                        <h3 class="card-title ">Add Section</h3>
+                        <h3 class="card-title ">Add Topic</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <label asp-for="@Model.Section.Title"></label>
-                                <input asp-for="@Model.Section.Title" id="topicTitle" class="form-control" />
-                                <label asp-for="@Model.Section.Description"></label>
-                                <input asp-for="@Model.Section.Description" id="topicDescription" class="form-control" />
+                                <label>Topic Title</label>
+                                <input id="topicTitle" class="form-control" />
+                                <label>Topic Description</label>
+                                <input id="topicDescription" class="form-control" />
                             </div>
                         </div>
                         <div class="row" id="videoInputs" style="display: none">
                             <div class="col-md-12">
-                                <label asp-for="@Model.Section.Video.Title"></label>
-                                <input asp-for="@Model.Section.Video.Title" id="videoTitle" class="form-control" />
-                                <label asp-for="@Model.Section.Video.VideoUrl"></label>
-                                <input asp-for="@Model.Section.Video.VideoUrl" id="videoUrl" class="form-control" />
+                                <label>Video Title</label>
+                                <input id="videoTitle" class="form-control" />
+                                <label>Video Url</label>
+                                <input id="videoUrl" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
@@ -154,5 +154,5 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial.cshtml" />
-    <script src="~/js/site.js"></script>
+    <script src="~/js/addCourse.js"></script>
 }

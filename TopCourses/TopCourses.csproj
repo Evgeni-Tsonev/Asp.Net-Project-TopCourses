@@ -24,8 +24,4 @@
     <ProjectReference Include="..\TopCourses.Core\TopCourses.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Views\Category\" />
-  </ItemGroup>
-
 </Project>

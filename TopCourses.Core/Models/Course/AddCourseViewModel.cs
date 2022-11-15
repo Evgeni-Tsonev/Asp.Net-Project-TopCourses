@@ -29,7 +29,6 @@
         [StringLength(1000, MinimumLength = 10)]
         public string Requirements = null!;
 
-        public AddTopicViewModel? Section { get; set; }
         public IList<AddTopicViewModel> Curriculum { get; set; } = new List<AddTopicViewModel>();
 
         public Level Level { get; set; }
@@ -46,6 +45,6 @@
 
         public IEnumerable<LanguageViewModel> Languages { get; set; } = new HashSet<LanguageViewModel>();
 
-        public IEnumerable<CategoryViewModel> Categories { get; set; } = new HashSet<CategoryViewModel>();
+        public IEnumerable<AddCategoryViewModel> Categories { get; set; } = new HashSet<AddCategoryViewModel>();
     }
 }

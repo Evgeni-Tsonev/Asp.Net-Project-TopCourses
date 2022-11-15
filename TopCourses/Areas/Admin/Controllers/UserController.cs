@@ -64,16 +64,5 @@
 
             return RedirectToAction(nameof(Index));
         }
-
-        //public async Task<IActionResult> AddUsersToRoles()
-        //{
-        //    string email1 = "evgeni@abv.bg";
-
-        //    var user = await userManager.FindByEmailAsync(email1);
-
-        //    await userManager.AddToRoleAsync(user, RoleConstants.Administrator);
-
-        //    return RedirectToAction("Index", "Home");
-        //}
     }
 }

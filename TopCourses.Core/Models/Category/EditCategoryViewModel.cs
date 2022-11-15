@@ -2,18 +2,12 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class CategoryViewModel
+    public class EditCategoryViewModel
     {
         public int Id { get; set; }
 
         [Required]
         [StringLength(20)]
         public string Title { get; set; } = null!;
-
-        public int? ParentId { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public virtual ICollection<CategoryViewModel> SubCategories { get; set; } = new HashSet<CategoryViewModel>();
     }
 }
