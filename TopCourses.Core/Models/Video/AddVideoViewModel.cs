@@ -1,7 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Video
 {
     using System.ComponentModel.DataAnnotations;
-    using TopCourses.Core.Models.Section;
+    using TopCourses.Core.Models.Topic;
 
     public class AddVideoViewModel
     {

@@ -300,8 +300,8 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -321,6 +321,9 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CreatorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -334,17 +337,26 @@ namespace TopCourses.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("LastUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Subtitle")
                         .IsRequired()
@@ -363,6 +375,8 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasIndex("CreatorId");
 
                     b.HasIndex("LanguageId");
+
+                    b.HasIndex("SubCategoryId");
 
                     b.ToTable("Courses");
                 });
@@ -425,9 +439,9 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<double>("Rating")
+                    b.Property<int>("Rating")
                         .HasMaxLength(5)
-                        .HasColumnType("float");
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -440,42 +454,6 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Section", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int?>("ResourceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("VideoUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("ResourceId");
-
-                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ShoppingCart", b =>
@@ -496,6 +474,72 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("ShoppingCarts");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Topic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ResourceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Video", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("Video");
                 });
 
             modelBuilder.Entity("CourseShoppingCart", b =>
@@ -578,7 +622,7 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Category", "Category")
                         .WithMany("Courses")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("TopCourses.Infrastructure.Data.Identity.ApplicationUser", "Creator")
@@ -593,11 +637,19 @@ namespace TopCourses.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.Category", "SubCategory")
+                        .WithMany("CoursesSubCategories")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
                     b.Navigation("Creator");
 
                     b.Navigation("Lenguage");
+
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.CourseApplicationUser", b =>
@@ -638,7 +690,17 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Section", b =>
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("TopCourses.Infrastructure.Data.Identity.ApplicationUser", "User")
+                        .WithOne("ShoppingCart")
+                        .HasForeignKey("TopCourses.Infrastructure.Data.Models.ShoppingCart", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Topic", b =>
                 {
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Course", "Course")
                         .WithMany("Curriculum")
@@ -655,14 +717,15 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("Resource");
                 });
 
-            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ShoppingCart", b =>
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Video", b =>
                 {
-                    b.HasOne("TopCourses.Infrastructure.Data.Identity.ApplicationUser", "User")
-                        .WithOne("ShoppingCart")
-                        .HasForeignKey("TopCourses.Infrastructure.Data.Models.ShoppingCart", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.Topic", "Topic")
+                        .WithMany("Videos")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Identity.ApplicationUser", b =>
@@ -680,6 +743,8 @@ namespace TopCourses.Infrastructure.Migrations
                 {
                     b.Navigation("Courses");
 
+                    b.Navigation("CoursesSubCategories");
+
                     b.Navigation("SubCategory");
                 });
 
@@ -695,6 +760,11 @@ namespace TopCourses.Infrastructure.Migrations
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Language", b =>
                 {
                     b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Topic", b =>
+                {
+                    b.Navigation("Videos");
                 });
 #pragma warning restore 612, 618
         }

@@ -29,12 +29,15 @@
         [StringLength(1000)]
         public string Requirements = null!;
 
-        public ICollection<Section> Curriculum { get; set; } = new HashSet<Section>();
+        public ICollection<Topic> Curriculum { get; set; } = new HashSet<Topic>();
 
         public Level Level { get; set; }
 
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
+
+        public int SubCategoryId { get; set; }
+        public Category SubCategory { get; set; } = null!;
 
         public int LanguageId { get; set; }
         public Language Lenguage { get; set; } = null!;
@@ -42,8 +45,6 @@
         [Required]
         [StringLength(1500)]
         public string Description { get; set; } = null!;
-
-        public bool IsDeleted { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
@@ -53,6 +54,14 @@
 
         [ForeignKey(nameof(CreatorId))]
         public ApplicationUser Creator { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
+
+        public bool IsApproved { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? LastUpdate { get; set; }
 
         public ICollection<CourseApplicationUser> Students { get; set; } = new HashSet<CourseApplicationUser>();
 

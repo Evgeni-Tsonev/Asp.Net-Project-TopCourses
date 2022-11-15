@@ -8,6 +8,6 @@
 
         public string UserFullName { get; set; } = null!;
 
-        public string DateOfPublication { get; set; } = null!;
+        public DateTime DateOfPublication { get; set; }
     }
 }

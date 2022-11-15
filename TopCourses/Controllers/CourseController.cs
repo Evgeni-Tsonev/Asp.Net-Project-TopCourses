@@ -9,7 +9,7 @@
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
     using TopCourses.Core.Models.Review;
-    using TopCourses.Core.Models.Section;
+    using TopCourses.Core.Models.Topic;
     using TopCourses.Core.Models.Video;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
@@ -120,7 +120,7 @@
         //        model.Curriculum = curriculum;
         //    }
 
-        //    model.Curriculum.Add(model.Section);
+        //    model.Curriculum.Add(model.Topic);
         //    model.Categories = await this.categoryService.GetAllCategories();
         //    model.Languages = await this.languageService.GetAll();
 
@@ -134,7 +134,7 @@
 
             TempData["model"] = modelData;
 
-            return RedirectToAction("Create", "Section");
+            return RedirectToAction("Create", "Topic");
         }
 
         //todo

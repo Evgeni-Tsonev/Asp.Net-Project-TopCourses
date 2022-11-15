@@ -8,7 +8,7 @@
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Course;
     using System.Text.RegularExpressions;
-    using TopCourses.Core.Models.Section;
+    using TopCourses.Core.Models.Topic;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Core.Models.Review;
 
@@ -45,7 +45,6 @@
                 {
                     Title = s.Title,
                     Description = s.Description,
-                    VideoUrl = s?.VideoUrl
                     //Video = new VideoModel 
                     //{
                     //    VideoUrl = s?.VideoUrl
@@ -56,7 +55,7 @@
                     UserFullName = $"{r.User.FirstName} {r.User.LastName}",
                     Comment = r.Comment,
                     Rating = r.Rating,
-                    DateOfPublication = r.DateOfPublication.ToString()
+                    DateOfPublication = r.DateOfPublication
                 }).ToList(),
                 Level = course.Level,
                 CategoryId = course.CategoryId,
@@ -96,11 +95,10 @@
                 ImageUrl = courseModel.ImageUrl,
                 Goals = courseModel.Goals,
                 Requirements = courseModel.Requirements,
-                Curriculum = courseModel.Curriculum.Select(c => new Section()
+                Curriculum = courseModel.Curriculum.Select(c => new Topic()
                 {
                     Title = c.Title,
                     Description = c.Description,
-                    VideoUrl = c?.VideoUrl
                 }).ToList(),
                 Level = courseModel.Level,
                 CategoryId = courseModel.CategoryId,

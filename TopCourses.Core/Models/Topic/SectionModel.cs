@@ -1,4 +1,4 @@
-﻿namespace TopCourses.Core.Models.Section
+﻿namespace TopCourses.Core.Models.Topic
 {
 
     public class SectionModel

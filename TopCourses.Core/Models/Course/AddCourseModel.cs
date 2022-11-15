@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using TopCourses.Core.Models.Category;
     using TopCourses.Core.Models.Language;
-    using TopCourses.Core.Models.Section;
+    using TopCourses.Core.Models.Topic;
     using TopCourses.Infrastructure.Data.Models.enums;
 
     public class AddCourseModel

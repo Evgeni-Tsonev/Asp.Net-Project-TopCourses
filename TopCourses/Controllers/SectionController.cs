@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Text.Json;
     using System.Text.Json.Nodes;
-    using TopCourses.Core.Models.Section;
+    using TopCourses.Core.Models.Topic;
 
     public class SectionController : BaseController
     {
