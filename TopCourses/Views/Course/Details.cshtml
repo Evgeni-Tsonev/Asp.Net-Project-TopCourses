@@ -93,8 +93,8 @@
             <p>Here we hava more course info</p>
             <p>Here we hava more course info</p>
             <a asp-controller="ShoppingCart" asp-action="Add" type="button" class="btn btn-block btn-primary btn-lg">Add to Cart</a>
-            <a asp-controller="Course" asp-action="CreateReview" asp-route-id="@Model.Id" type="button" class="btn btn-block btn-primary btn-lg">Add Review</a>
-            <a asp-controller="Course" asp-action="Video" asp-route-videoUrl="@Model.Curriculum.Select(u => u.VideoUrl).FirstOrDefault()" type="button" class="btn btn-block btn-primary btn-lg">Video</a>
+            <a asp-controller="Review" asp-action="CreateReview" asp-route-id="@Model.Id" type="button" class="btn btn-block btn-primary btn-lg">Add Review</a>
+            @*<a asp-controller="Course" asp-action="Video" asp-route-videoUrl="@Model.Curriculum.Select(u => u.VideoUrl).FirstOrDefault()" type="button" class="btn btn-block btn-primary btn-lg">Video</a>*@
         </div>
     </div>
     <div class="row">
