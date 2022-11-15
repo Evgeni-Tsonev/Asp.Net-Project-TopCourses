@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class CourseListingModel
+    public class CourseListingViewModel
     {
         public int Id { get; set; }
 

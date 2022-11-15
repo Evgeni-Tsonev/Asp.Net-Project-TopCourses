@@ -21,7 +21,7 @@
             this.repository = repository;
         }
 
-        public async Task<CourseDetailsModel> GetCourseDetails(int courseId)
+        public async Task<CourseDetailsViewModel> GetCourseDetails(int courseId)
         {
             var course = await this.repository
                 .AllReadonly<Course>()
@@ -35,13 +35,13 @@
                 throw new ArgumentException("Invalid course Id");
             }
 
-            return new CourseDetailsModel()
+            return new CourseDetailsViewModel()
             {
                 Id = course.Id,
                 Title = course.Title,
                 Subtitle = course.Subtitle,
                 ImageUrl = course.ImageUrl,
-                Curriculum = course.Curriculum.Select(s => new SectionModel()
+                Curriculum = course.Curriculum.Select(s => new TopicViewModel()
                 {
                     Title = s.Title,
                     Description = s.Description,
@@ -65,7 +65,7 @@
             };
         }
 
-        public async Task CreateCourse(AddCourseModel courseModel, string creatorId)
+        public async Task CreateCourse(AddCourseViewModel courseModel, string creatorId)
         {
             foreach (var section in courseModel.Curriculum.Where(s => s.VideoUrl != null))
             {
@@ -112,11 +112,11 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CourseListingModel>> GetAll()
+        public async Task<IEnumerable<CourseListingViewModel>> GetAll()
         {
             var allCourses = await this.repository.AllReadonly<Course>()
                 .Where(c => c.IsDeleted == false)
-                .Select(c => new CourseListingModel
+                .Select(c => new CourseListingViewModel
                 {
                     Id = c.Id,
                     Title = c.Title,
@@ -155,35 +155,6 @@
                 StudentId = studentId
             });
 
-            await this.repository.SaveChangesAsync();
-        }
-
-        public async Task AddReview(AddReviewViewModel model)
-        {
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(model.UserId);
-
-            if (user == null)
-            {
-                throw new Exception();
-            }
-
-            var course = await this.repository.GetByIdAsync<Course>(model.CourseId);
-
-            if (course == null)
-            {
-                throw new Exception();
-            }
-
-            var review = new Review()
-            {
-                Comment = model.Comment,
-                Rating = model.Rating,
-                CourseId = model.CourseId,
-                UserId = model.UserId,
-                DateOfPublication = model.DateOfPublication,
-            };
-
-            await this.repository.AddAsync(review);
             await this.repository.SaveChangesAsync();
         }
     }

@@ -6,7 +6,7 @@
     using TopCourses.Core.Models.Topic;
     using TopCourses.Infrastructure.Data.Models.enums;
 
-    public class AddCourseModel
+    public class AddCourseViewModel
     {
         [Required]
         [StringLength(50, MinimumLength = 2)]
@@ -29,8 +29,8 @@
         [StringLength(1000, MinimumLength = 10)]
         public string Requirements = null!;
 
-        public AddSectionModel? Section { get; set; }
-        public ICollection<AddSectionModel> Curriculum { get; set; } = new HashSet<AddSectionModel>();
+        public AddTopicViewModel? Section { get; set; }
+        public ICollection<AddTopicViewModel> Curriculum { get; set; } = new HashSet<AddTopicViewModel>();
 
         public Level Level { get; set; }
 

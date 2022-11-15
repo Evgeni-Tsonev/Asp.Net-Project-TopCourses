@@ -1,7 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Video
 {
 
-    public class VideoModel
+    public class VideoViewModel
     {
         //public int Id { get; set; }
 

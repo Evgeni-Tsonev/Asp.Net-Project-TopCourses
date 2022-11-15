@@ -6,7 +6,7 @@
     using TopCourses.Core.Models.Topic;
     using TopCourses.Core.Models.Review;
 
-    public class CourseDetailsModel
+    public class CourseDetailsViewModel
     {
         public int Id { get; set; }
 
@@ -30,7 +30,7 @@
         [StringLength(1000)]
         public string Requirements = null!;
 
-        public ICollection<SectionModel> Curriculum { get; set; } = new HashSet<SectionModel>();
+        public ICollection<TopicViewModel> Curriculum { get; set; } = new HashSet<TopicViewModel>();
 
         public ICollection<ReviewViewModel> Reviews { get; set; } = new HashSet<ReviewViewModel>();
 

@@ -49,7 +49,7 @@
         {
             var categories = await this.categoryService.GetAllCategories();
             var languages = await this.languageService.GetAll();
-            var course = new AddCourseModel()
+            var course = new AddCourseViewModel()
             {
                 Languages = languages,
                 Categories = categories
@@ -59,7 +59,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddCourseModel model)
+        public async Task<IActionResult> Add(AddCourseViewModel model)
         {
             var categories = await this.categoryService.GetAllCategories();
             if (!categories.Any(b => b.Id == model.CategoryId))
@@ -76,7 +76,7 @@
             if (TempData.ContainsKey("Curriculum"))
             {
                 var data = TempData["Curriculum"]?.ToString();
-                var curriculum = JsonSerializer.Deserialize<ICollection<AddSectionModel>>(data);
+                var curriculum = JsonSerializer.Deserialize<ICollection<AddTopicViewModel>>(data);
                 model.Curriculum = curriculum;
                 TempData.Keep("Curriculum");
             }
@@ -128,7 +128,7 @@
         //}
 
         [HttpPost]
-        public async Task<IActionResult> CreateSection(AddCourseModel model)
+        public async Task<IActionResult> CreateSection(AddCourseViewModel model)
         {
             var modelData = JsonSerializer.Serialize(model);
 
@@ -174,7 +174,7 @@
         public IActionResult Video(string videoUrl)
         {
             var video = TempData["VideoUrl"]?.ToString();
-            var model = new VideoModel()
+            var model = new VideoViewModel()
             {
                 VideoUrl = videoUrl
             };

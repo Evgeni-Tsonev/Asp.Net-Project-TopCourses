@@ -15,6 +15,6 @@
         public string VideoUrl { get; set; } = null!;
 
         public int SectionId { get; set; }
-        public SectionModel Section { get; set; }
+        public TopicViewModel Section { get; set; }
     }
 }

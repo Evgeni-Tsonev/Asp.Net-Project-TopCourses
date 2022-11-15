@@ -1,7 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Topic
 {
 
-    public class SectionModel
+    public class TopicViewModel
     {
         public string Title { get; set; } = null!;
 

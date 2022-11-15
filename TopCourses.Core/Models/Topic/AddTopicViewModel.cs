@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using TopCourses.Core.Models.Video;
 
-    public class AddSectionModel
+    public class AddTopicViewModel
     {
         [Required]
         [StringLength(50)]

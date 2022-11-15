@@ -10,21 +10,21 @@
     {
         public IActionResult Create()
         {
-            var model = new AddSectionModel();
+            var model = new AddTopicViewModel();
 
             return View(model);
         }
 
         public IActionResult Test()
         {
-            var model = new AddSectionModel();
+            var model = new AddTopicViewModel();
             return View(model);
         }
 
         [HttpPost]
         public IActionResult SectionTest([FromBody] JsonObject jsonObj)
         {
-            var model = JsonSerializer.Deserialize<AddSectionModel>(jsonObj,
+            var model = JsonSerializer.Deserialize<AddTopicViewModel>(jsonObj,
                                                                     new JsonSerializerOptions
                                                                     {
                                                                         PropertyNameCaseInsensitive = true
@@ -32,14 +32,14 @@
 
             if (!TempData.ContainsKey("Curriculum"))
             {
-                var sectionList = new List<AddSectionModel>();
+                var sectionList = new List<AddTopicViewModel>();
                 sectionList.Add(model);
                 TempData["Curriculum"] = JsonSerializer.Serialize(sectionList);
             }
             else
             {
                 var data = TempData["Curriculum"]?.ToString();
-                var sections = JsonSerializer.Deserialize<ICollection<AddSectionModel>>(data, new JsonSerializerOptions
+                var sections = JsonSerializer.Deserialize<ICollection<AddTopicViewModel>>(data, new JsonSerializerOptions
                                                                                  {
                                                                                      PropertyNameCaseInsensitive = true
                                                                                  });
