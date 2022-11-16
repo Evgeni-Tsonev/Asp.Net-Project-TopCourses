@@ -4,7 +4,6 @@
     using System.Text.Json.Nodes;
     using System.Text.Json;
     using TopCourses.Core.Models.Topic;
-    using System.ComponentModel;
 
     public class TopicController : BaseController
     {
@@ -20,13 +19,6 @@
             var model = new AddTopicViewModel();
             return View(model);
         }
-
-        //[ChildActionOnly]
-        //public System.Web.Mvc.PartialViewResult GetMenu()
-        //{
-
-        //    return PartialView("~/Views/Shared/MenuPartial", "model");
-        //}
 
         [HttpPost]
         public IActionResult SectionTest([FromBody] JsonObject jsonObj)
@@ -62,7 +54,7 @@
                 topicsModelListToReturn = topics.ToList();
             }
 
-            return ViewComponent("Topics", topicsModelListToReturn);
+            return PartialView("_TopicPartial", topicsModelListToReturn);
         }
     }
 }

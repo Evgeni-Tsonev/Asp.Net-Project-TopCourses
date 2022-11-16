@@ -79,10 +79,8 @@
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
 
-            <vc:topics></vc:topics>
-
-            @await Component.InvokeAsync("Topics")
-
+            <div id="topics-container">
+            </div>
             <div id="topics" style="display: none">
                 <div class="card card-default col-md-8">
                     <div class="card-header bg-indigo">
@@ -122,27 +120,6 @@
                 </div>
             </div>
             <button id="show" type="button" class="btn btn-primary">Add Topic</button>
-
-            @*<div class="form-group">
-                <div class="card card-default">
-                    <div class="card-header bg-indigo">
-                        <h3 class="card-title ">Add Section</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div id="sectionBody" class="card-body">
-                        <div class="card-footer">
-                            <input type="submit" class="btn btn-primary" asp-action="CreateSection" value="Add Topic" />
-
-                        </div>
-                    </div>
-                </div>
-            </div>*@
 
             <div class="form-group">
                 <label asp-for="Price"></label>

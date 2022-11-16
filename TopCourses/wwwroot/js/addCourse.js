@@ -79,10 +79,10 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
 /*            dataType: "json",*/
             success: function (data, state) {
-                /*$("#topics-container").html(data);*/
+                $("#topics-container").html(data);
                 //console.log(data);
                 //console.log(state);
-                alert('ajax success');
+                //alert('ajax success');
             },
             error: function (err) {
                 console.log(err.text);   // <-- printing error message to console  // <-- printing error message to console
