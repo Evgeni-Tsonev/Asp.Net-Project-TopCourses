@@ -1,0 +1,41 @@
+﻿@using TopCourses.Core.Models.Topic
+@model ICollection<AddTopicViewModel>
+
+<div class="card card-indigo">
+    <div class="card-header">
+        <h3 class="card-title">Course Curriculum</h3>
+    </div>
+    <div class="card-body" style="height: 300px; overflow-y: scroll">
+        <div class="col">
+            @foreach (var topic in Model)
+            {
+                <div class="card card-indigo">
+                    <div class="card-header">
+                        <h3 class="card-title">@topic.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        <h4><strong>@topic.Description</strong></h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <h6><strong>Videos</strong></h6>
+                                @foreach (var video in topic.Videos)
+                                {
+                                    <p>@video.Title</p>
+                                    <p>@video.VideoUrl</p>
+                                }
+                            </div>
+                            <div class="col-6">
+                                <h6><strong>Files</strong></h6>
+                                @for (int k = 0; k < 3; k++)
+                                {
+                                    <p>fale @k</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

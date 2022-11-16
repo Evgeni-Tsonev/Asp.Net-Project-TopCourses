@@ -19,7 +19,12 @@
         [AllowAnonymous]
         public IActionResult Index()
         {
-            
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Order()
+        {
             return View();
         }
 

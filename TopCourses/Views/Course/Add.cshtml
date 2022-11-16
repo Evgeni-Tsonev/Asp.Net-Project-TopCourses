@@ -2,6 +2,7 @@
 @using TopCourses.Core.Models.Course;
 @using TopCourses.Core.Models.Topic
 @using TopCourses.Infrastructure.Data.Models.enums;
+
 @model AddCourseViewModel
 
 @{
@@ -77,6 +78,10 @@
                 <textarea asp-for="Description" class="form-control" id="courseDescription" rows="3"></textarea>
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
+
+            <vc:topics></vc:topics>
+
+            @await Component.InvokeAsync("Topics")
 
             <div id="topics" style="display: none">
                 <div class="card card-default col-md-8">
