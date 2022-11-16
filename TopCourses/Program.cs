@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using TopCourses.Infrastructure.Data;
 using TopCourses.Infrastructure.Data.Identity;
 
@@ -37,10 +38,14 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Account/Login";
 });
 
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
