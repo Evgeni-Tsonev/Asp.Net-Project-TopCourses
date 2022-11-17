@@ -1,0 +1,113 @@
+﻿@using Microsoft.Extensions.Options
+@model ShoppingCartViewModel
+
+@*@inject IOptions<BulkyBook.Utility.StripeSettings> Stripe*@
+
+<form method="post">
+    <br />
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card">
+                <div class="card-header bg-indigo text-light ml-0 row container">
+                    <div class="col-6">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Order Summary
+                    </div>
+                    <div class="col-6 text-right">
+                        <a asp-controller="ShoppingCart" asp-action="Index" class="btn btn-outline-info btn-sm">Back to Cart</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container rounded p-2">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pb-4">
+                                <div class="row">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-info">Customer Details:</span>
+                                    </h4>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Username</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input readonly asp-for="Order.UserName" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>User Full Name</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Order.FullName" type="text" class="form-control" />
+                                        <span asp-validation-for="Order.FullName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>E-mail</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Order.Email" type="text" class="form-control" />
+                                        <span asp-validation-for="Order.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-5 offset-lg-1">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-info">Order Summary:</span>
+                                </h4>
+                                <ul class="list-group mb-3">
+                                    @foreach (var course in Model.Courses)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="my-0">@course.Name</h6>
+                                            </div>
+                                            <span class="text-muted">$@course.Price </span>
+                                        </li>
+                                    }
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <small class="text-info">Total (USD)</small>
+                                        <strong class="text-info">$@(Model.Order.TotalPrice)</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 col-md-8 pt-2">
+                            <p style="color:maroon; font-size:14px;">Date: @DateTime.Now.ToString("MM/dd/yyyy")</p>
+                        </div>
+                        <div class="col-12 col-md-4">
+
+                            @{
+                                var OrderTotalForStripe = Model.Order.TotalPrice * 100;
+                            }
+
+                                @*<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="@Stripe.Value.PublishableKey"
+                                        data-amount="@OrderTotalForStripe"
+                                        data-name="Bulky Book"
+                                        data-label="Place Order"
+                                        data-description="Get Books, For Less"
+                                        data-locale="auto"
+                                        data-allow-remember-me="false"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+                                </script>
+                                <script>
+                                    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                                </script>*@
+                                <button type="submit" value="Place Order" class="btn btn-success form-control">Place Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

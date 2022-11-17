@@ -122,7 +122,10 @@
                 Order = new AddOrderViewModel()
                 {
                     TotalPrice = courses.Sum(c => c.Price),
-                    Courses = courses
+                    Courses = courses,
+                    FullName = $"{user.FirstName} {user.LastName}",
+                    Email = user.Email,
+                    UserName = user.UserName
                 }
             };
 

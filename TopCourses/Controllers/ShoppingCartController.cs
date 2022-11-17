@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
+    using TopCourses.Infrastructure.Data.Models;
 
     public class ShoppingCartController : BaseController
     {
@@ -49,6 +50,15 @@
             await this.shoppingCartService.DeleteAllCoursesFromShoppingCart(userId);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Summary()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
+            
+            return View(shoppingCart);
         }
     }
 }
