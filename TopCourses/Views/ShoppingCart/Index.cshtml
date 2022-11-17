@@ -1,95 +1,101 @@
-﻿@using TopCourses.Core.Models.ShoppingCart
-@model IEnumerable<ShoppingCartCourseViewModel>
+﻿@model ShoppingCartViewModel
 
 @{
     ViewData["Title"] = "Shopping Cart";
 }
 
-@if (Model != null && Model.Count() > 0)
+@if (Model != null && Model.Courses.Count() > 0)
 {
-    <div class="row">
-        <table class="table table-striped projects">
-            <thead>
-                <tr>
-                    <th style="width: 1%">
-                        #
-                    </th>
-                    <th style="width: 20%">
-                        Project Name
-                    </th>
-                    <th style="width: 20%">
-                        Team Members
-                    </th>
-                    <th>
-                        Course Creator
-                    </th>
-                    <th style="width: 8%" class="text-center">
-                        Price
-                    </th>
-                    <th style="width: 20%">
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var course in Model)
-                {
+    <form method="post">
+        <br />
+        <div class="backgroundWhiteBorder">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header bg-indigo text-light ml-0 row container">
+                        <div class="col-6">
+                            <i class="fa fa-shopping-cart"></i> &nbsp;
+                            Shopping Cart
+                        </div>
+                        <div class="col-6 text-right">
+                            <a asp-controller="Course" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+                        </div>
+                    </div>
 
-                    <tr>
-                        <td>
-                            #
-                        </td>
-                        <td>
-                            <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
-                                <img src="@course.ImageUrl" width="100" height="80">
-                            </a>
-                        </td>
-                        <td>
-                            <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
-                                @course.Name
-                            </a>
-                        </td>
-                        <td class="project_progress">
-                            <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
-                                @course.CreatorFullName
-                            </a>
-                        </td>
-                        <td class="project-state">
-                            @course.Price
-                        </td>
-                        <td class="project-actions text-right">
-                            <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id" class="btn btn-primary btn-sm">
-                                <i class="fas fa-folder">
-                                </i>
-                                View
-                            </a>
-                            <a asp-controller="ShoppingCart" asp-action="Delete" asp-route-id="@course.Id" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash">
-                                </i>
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    <div class="card-body">
+                        @foreach (var course in Model.Courses)
+                        {
+                            <div class="row">
+                                <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                    <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                                        <img src="@course.ImageUrl" class="rounded" width="100%" />
+                                    </a>
+                                </div>
+                                <div class="col-12 text-sm-center col-lg-6 text-lg-left">
+                                    <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                                        <h5><strong>@course.Name</strong></h5>
+                                        <p><small>by @course.CreatorFullName</small></p>
+                                    </a>
+                                </div>
+                                <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
+                                    <div class="col-4 text-md-right" style="padding-top:5px;">
+                                        <h6><strong>$@course.Price<span class="text-muted"></span></strong></h6>
+                                    </div>
+                                    <div class="col-6 col-sm-4 col-lg-6">
+                                        <div class="float-right mx-1">
+                                            <a asp-action="plus" asp-route-cartId="@course.Id" class="btn btn-primary">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="float-right mx-1">
+                                            <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-folder">
+                                                </i>
+                                                View
+                                            </a>
+                                            @*<a asp-action="minus" asp-route-cartId="@course.Id" class="btn btn-danger">
+                                                <i class="fas fa-minus"></i>
+                                            </a>*@
+                                        </div>
+                                    </div>
+                                    <div class="col-2 col-sm-4 col-lg-2 text-right">
+                                        <a asp-controller="ShoppingCart" asp-action="Delete" asp-route-id="@course.Id" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        }
 
-        <div class="col-lg-4 height-280">
-            <div class="mobile-fondsize-20 text-center h4">Информация за поръчката:</div>
+                        <div class="row">
+                            <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <span class="text-info"> Total (USD)</span>
+                                        <strong class="text-info">$ <span id="txtOrderTotal">@Model.Order.TotalPrice</span></strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
-            <div class="mt-4">
-                <p class="font-weight-bold text-danger h5 mt-3">Total: @(Model.Sum(x => x.Price))лв.</p>
+                        <div class="card-footer">
+                            <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+                                <a asp-controller="ShoppingCart" asp-action="DeleteAll" class="btn btn-danger form-control">Clear Cart</a>
+                            </div>
+                            <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+                                <a asp-controller="ShoppingCart" asp-action="Summary" class="btn btn-success form-control">Summary</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <a asp-controller="ShoppingCart" asp-action="DeleteAll" type="button" class="btn btn-block btn-danger btn-lg">Clear Cart</a>
-            <button type="button" class="btn btn-block btn-primary btn-lg">Checkout</button>
         </div>
-    </div>
+    </form>
 }
 else
 {
-    <p>Your Shopping cart is empty.</p>
+    <p class="col-6 text-right">There are no courses in the shopping cart. Why don`t you buy something</p>
+    <div class="col-6 text-right">
+        <a asp-controller="Course" asp-action="Index" class="btn btn-outline-info btn-sm">Go Shopping</a>
+    </div>
 }
-
-@*@section Scripts {
-    <partial name="~/Shared/Partials/_ValidationScriptsPartial.cshtml" />
-}*@

@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
+    using TopCourses.Core.Models.Order;
     using TopCourses.Core.Models.ShoppingCart;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
@@ -76,7 +77,7 @@
             var user = await this.repository
                 .All<ApplicationUser>()
                 .Where(u => u.Id == userId)
-                .Include(sc=> sc.ShoppingCart)
+                .Include(sc => sc.ShoppingCart)
                 .ThenInclude(c => c.ShoppingCartCourses)
                 .FirstOrDefaultAsync();
 
@@ -91,7 +92,7 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ShoppingCartCourseViewModel>> GetAllShoppingCartCoursess(string userId)
+        public async Task<ShoppingCartViewModel> GetShoppingCart(string userId)
         {
             var user = await this.repository
                 .All<ApplicationUser>()
@@ -115,7 +116,17 @@
                 Price = c.Price
             }).ToList();
 
-            return courses;
+            var cart = new ShoppingCartViewModel()
+            {
+                Courses = courses,
+                Order = new AddOrderViewModel()
+                {
+                    TotalPrice = courses.Sum(c => c.Price),
+                    Courses = courses
+                }
+            };
+
+            return cart;
         }
     }
 }

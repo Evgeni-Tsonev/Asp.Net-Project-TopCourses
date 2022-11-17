@@ -18,9 +18,9 @@
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            var courses = await this.shoppingCartService.GetAllShoppingCartCoursess(userId);
+            var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
 
-            return View(courses);
+            return View(shoppingCart);
         }
 
         public async Task<IActionResult> Add([FromRoute] int id)
