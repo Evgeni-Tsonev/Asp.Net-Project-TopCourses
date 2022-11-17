@@ -25,5 +25,7 @@
         public ICollection<CourseApplicationUser> CoursesEnrolled { get; set; } = new HashSet<CourseApplicationUser>();
 
         public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
+
+        public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
     }
 }
