@@ -1,10 +1,10 @@
 ﻿namespace TopCourses.Controllers
 {
+    using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using System.Security.Claims;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.User;
@@ -62,20 +62,20 @@
                 UserName = model.UserName,
             };
 
-            var result = await userManager.CreateAsync(user, model.Password);
+            var result = await this.userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                await signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Home");
+                await this.signInManager.SignInAsync(user, isPersistent: false);
+                return this.RedirectToAction("Index", "Home");
             }
 
             foreach (var item in result.Errors)
             {
-                ModelState.AddModelError("", item.Description);
+                this.ModelState.AddModelError(string.Empty, item.Description);
             }
 
-            return View(model);
+            return this.View(model);
         }
 
         [AllowAnonymous]
@@ -98,7 +98,7 @@
                 return View(model);
             }
 
-            var user = await userManager.FindByEmailAsync(model.Email);
+            var user = await this.userManager.FindByEmailAsync(model.Email);
 
             if (user != null)
             {
@@ -110,6 +110,8 @@
                     {
                         return Redirect(model.ReturnUrl);
                     }
+
+                    TempData[MessageConstant.SuccessMessage] = "Successfully logged in";
 
                     return RedirectToAction("Index", "Home");
                 }

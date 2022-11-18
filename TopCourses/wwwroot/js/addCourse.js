@@ -85,7 +85,7 @@ $(document).ready(function () {
                 //alert('ajax success');
             },
             error: function (err) {
-                console.log(err.text);   // <-- printing error message to console  // <-- printing error message to console
+                console.log("eror");   // <-- printing error message to console  // <-- printing error message to console
                 /*console.log("eror"); */  // <-- printing error message to console  // <-- printing error message to console
             }
         });
