@@ -141,12 +141,13 @@
                 throw new Exception();
             }
 
-            course.Students.Add(new CourseApplicationUser()
+            var addUserToCourse = new CourseApplicationUser()
             {
                 CourseId = courseId,
                 StudentId = studentId
-            });
+            };
 
+            await this.repository.AddAsync(addUserToCourse);
             await this.repository.SaveChangesAsync();
         }
     }
