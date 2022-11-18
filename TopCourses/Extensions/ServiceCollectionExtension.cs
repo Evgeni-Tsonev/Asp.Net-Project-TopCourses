@@ -5,10 +5,11 @@
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Services;
     using TopCourses.Infrastructure.Data;
+    using TopCourses.Services.Messaging;
 
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<IDbRepository, DbRepository>();
             services.AddScoped<ILanguageService, LanguageService>();
@@ -20,6 +21,7 @@
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IVideoService, VideoService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IEmailSender>(x => new SendGridEmailSender(config["SendGrid:ApiKey"]));
 
             return services;
         }

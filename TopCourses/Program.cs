@@ -46,7 +46,7 @@ builder.Services.AddControllersWithViews(options =>
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 var app = builder.Build();
