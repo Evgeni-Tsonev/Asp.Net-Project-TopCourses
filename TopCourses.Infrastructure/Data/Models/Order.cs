@@ -11,8 +11,8 @@
         public int Id { get; set; }
 
         [Required]
-        public string ApplicationUserId { get; set; } = null!;
-        public ApplicationUser ApplicationUser { get; set; } = null!;
+        public string CustomerId { get; set; } = null!;
+        public ApplicationUser Customer { get; set; } = null!;
 
         public DateTime OrderDate { get; set; }
 
@@ -22,6 +22,10 @@
         [Required]
         [StringLength(50)]
         public string PaymentStatus { get; set; } = null!;
+
+        [Required]
+        [StringLength(50)]
+        public string OrderStatus { get; set; } = null!;
 
         [Required]
         [StringLength(50)]

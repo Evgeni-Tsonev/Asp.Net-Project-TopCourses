@@ -1,7 +1,8 @@
 ﻿@using Microsoft.Extensions.Options
+@using TopCourses.Core.Services.Payments
 @model ShoppingCartViewModel
 
-@*@inject IOptions<BulkyBook.Utility.StripeSettings> Stripe*@
+@inject IOptions<StripeSettings> Stripe
 
 <form method="post">
     <br />
@@ -31,7 +32,7 @@
                                         <label>Username</label>
                                     </div>
                                     <div class="col-9">
-                                        <input readonly asp-for="Order.UserName" type="text" class="form-control" />
+                                        <input readonly asp-for="@Model.UserName" type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
@@ -39,8 +40,7 @@
                                         <label>User Full Name</label>
                                     </div>
                                     <div class="col-9">
-                                        <input asp-for="Order.FullName" type="text" class="form-control" />
-                                        <span asp-validation-for="Order.FullName" class="text-danger"></span>
+                                        <input readonly asp-for="@Model.UserFullName" type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
@@ -48,8 +48,7 @@
                                         <label>E-mail</label>
                                     </div>
                                     <div class="col-9">
-                                        <input asp-for="Order.Email" type="text" class="form-control" />
-                                        <span asp-validation-for="Order.Email" class="text-danger"></span>
+                                        <input readonly asp-for="@Model.Email" type="text" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +68,7 @@
                                     }
                                     <li class="list-group-item d-flex justify-content-between bg-light">
                                         <small class="text-info">Total (USD)</small>
-                                        <strong class="text-info">$@(Model.Order.TotalPrice)</strong>
+                                        <strong class="text-info">$@(Model.TotalPrice)</strong>
                                     </li>
                                 </ul>
                             </div>
@@ -84,23 +83,23 @@
                         <div class="col-12 col-md-4">
 
                             @{
-                                var OrderTotalForStripe = Model.Order.TotalPrice * 100;
+                                var OrderTotalForStripe = Model.TotalPrice * 100;
                             }
 
-                                @*<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                        data-key="@Stripe.Value.PublishableKey"
-                                        data-amount="@OrderTotalForStripe"
-                                        data-name="Bulky Book"
-                                        data-label="Place Order"
-                                        data-description="Get Books, For Less"
-                                        data-locale="auto"
-                                        data-allow-remember-me="false"
-                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
-                                </script>
-                                <script>
-                                    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
-                                </script>*@
-                                <button type="submit" value="Place Order" class="btn btn-success form-control">Place Order</button>
+                            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="@Stripe.Value.PublishableKey"
+                                    data-amount="@OrderTotalForStripe"
+                                    data-name="Top Courses"
+                                    data-label="Place Order"
+                                    data-description="Get The Best Courses"
+                                    data-locale="auto"
+                                    data-allow-remember-me="false"
+                                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+                            </script>
+                            <script>
+                                document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                            </script>
+                            <button type="submit" value="Place Order" class="btn btn-success form-control">Place Order</button>
                         </div>
                     </div>
                 </div>
@@ -108,6 +107,7 @@
         </div>
     </div>
 </form>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

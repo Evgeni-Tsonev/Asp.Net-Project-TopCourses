@@ -1,9 +1,12 @@
 ﻿namespace TopCourses.Core.Services
 {
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
+    using TopCourses.Core.Models.Order;
+    using TopCourses.Core.Models.ShoppingCart;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
@@ -16,15 +19,59 @@
             this.repository = repository;
         }
 
-        public async Task CreateOrder(string userId)
+        public async Task<int> AddOrder(OrderViewModel model, string userId)
         {
             var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
 
+            var courses = new List<Course>();
+
+            foreach (var course in model.Courses)
+            {
+                courses.Add(await this.repository.GetByIdAsync<Course>(course.Id));
+            }
+
+            if (string.IsNullOrEmpty(model.TransactionId))
+            {
+                model.TransactionId = "none";
+            }
+
+            var order = new Order()
+            {
+                Customer = user,
+                OrderStatus = model.OrderStatus,
+                PaymentStatus = model.PaymentStatus,
+                OrderTotal = model.TotalPrice,
+                OrderDate = model.OrderDate,
+                TransactionId = model.TransactionId,
+                Courses = courses
+            };
+
+            await this.repository.AddAsync(order);
+            await this.repository.SaveChangesAsync();
+
+            return order.Id;
         }
 
-        public Task<Order> GetOrderById(int orderId)
+        public async Task<OrderViewModel> GetOrderById(int orderId)
         {
-            throw new NotImplementedException();
+            var order = await this.repository.All<Order>().Where(o => o.Id == orderId).Include(o => o.Courses).Select(o => new OrderViewModel() 
+            { 
+                Id = o.Id,
+                OrderDate = o.OrderDate,
+                TotalPrice = o.OrderTotal,
+                PaymentStatus = o.PaymentStatus,
+                OrderStatus = o.OrderStatus,
+                Courses = o.Courses.Select(c => new ShoppingCartCourseViewModel()
+                {
+                    Id = c.Id,
+                    ImageUrl = c.ImageUrl,
+                    Name = c.Title,
+                    Price = c.Price,
+                    CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName
+                }).ToList()
+            }).FirstOrDefaultAsync();
+
+            return order;
         }
 
         public Task<IEnumerable<Order>> GetUserOrders(string name)
@@ -35,6 +82,20 @@
         public Task<IEnumerable<Order>> OrderProductsByOrderId(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task UpdateOrder(OrderViewModel model)
+        {
+            var order = await this.repository.GetByIdAsync<Order>(model.Id);
+
+            order.PaymentStatus = model.PaymentStatus;
+            order.OrderStatus = model.OrderStatus;
+            order.OrderDate = model.OrderDate;
+            order.TransactionId = model.TransactionId;
+            order.OrderTotal = model.TotalPrice;
+
+            this.repository.Update(order);
+            await this.repository.SaveChangesAsync();
         }
     }
 }

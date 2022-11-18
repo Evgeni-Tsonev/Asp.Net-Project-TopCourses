@@ -19,6 +19,7 @@
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IVideoService, VideoService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             return services;
         }

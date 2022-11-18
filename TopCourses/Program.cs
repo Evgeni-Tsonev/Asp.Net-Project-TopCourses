@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
+using TopCourses.Core.Services.Payments;
 using TopCourses.Infrastructure.Data;
 using TopCourses.Infrastructure.Data.Identity;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,8 @@ builder.Services.AddControllersWithViews(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -65,6 +68,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
 
 app.UseAuthentication();
 app.UseAuthorization();

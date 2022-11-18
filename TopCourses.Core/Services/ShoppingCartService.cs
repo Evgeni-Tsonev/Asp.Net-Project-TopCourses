@@ -118,15 +118,10 @@
 
             var cart = new ShoppingCartViewModel()
             {
+                UserFullName = $"{user.FirstName} {user.LastName}",
+                UserName = user.UserName,
+                Email = user.Email,
                 Courses = courses,
-                Order = new AddOrderViewModel()
-                {
-                    TotalPrice = courses.Sum(c => c.Price),
-                    Courses = courses,
-                    FullName = $"{user.FirstName} {user.LastName}",
-                    Email = user.Email,
-                    UserName = user.UserName
-                }
             };
 
             return cart;

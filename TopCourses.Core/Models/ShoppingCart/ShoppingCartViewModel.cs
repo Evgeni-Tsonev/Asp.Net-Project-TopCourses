@@ -1,11 +1,15 @@
 ﻿namespace TopCourses.Core.Models.ShoppingCart
 {
-    using TopCourses.Core.Models.Order;
-
     public class ShoppingCartViewModel
     {
-        public ICollection<ShoppingCartCourseViewModel> Courses { get; set; } = new List<ShoppingCartCourseViewModel>();
+        public string UserName { get; set; } = null!;
 
-        public AddOrderViewModel Order { get; set; }
+        public string Email { get; set; } = null!;
+
+        public string UserFullName { get; set; } = null!;
+
+        public decimal TotalPrice => Courses.Sum(c => c.Price);
+
+        public ICollection<ShoppingCartCourseViewModel> Courses { get; set; } = new List<ShoppingCartCourseViewModel>();
     }
 }
