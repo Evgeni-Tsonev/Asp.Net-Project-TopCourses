@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Models;
 
@@ -18,12 +19,6 @@
 
         [AllowAnonymous]
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        public IActionResult Order()
         {
             return View();
         }

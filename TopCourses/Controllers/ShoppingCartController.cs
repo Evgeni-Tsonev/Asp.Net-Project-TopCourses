@@ -6,7 +6,6 @@
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Order;
-    using TopCourses.Infrastructure.Data.Models;
 
     public class ShoppingCartController : BaseController
     {
@@ -33,8 +32,15 @@
         public async Task<IActionResult> Add([FromRoute] int id)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            await this.shoppingCartService.AddCourseInShoppingCart(id, userId);
+            try
+            {
+                await this.shoppingCartService.AddCourseInShoppingCart(id, userId);
+            }
+            catch (Exception ex)
+            {
+                TempData[MessageConstant.ErrorMessage] = ex.Message;
+                return RedirectToAction("Index", "Course");
+            }
 
             TempData[MessageConstant.SuccessMessage] = "Successfully added course to Shopping cart";
 
@@ -63,7 +69,7 @@
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
-            
+
             return View(shoppingCart);
         }
 

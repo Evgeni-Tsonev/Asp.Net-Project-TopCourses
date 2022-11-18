@@ -1,28 +1,28 @@
 ﻿@using TopCourses.Core.Constants
 
-@if (ViewData[MessageConstant.ErrorMessage] != null)
+@if (TempData[MessageConstant.ErrorMessage] != null)
 {
     <script>
         $(function () {
-            toastr.error('@ViewData[MessageConstant.ErrorMessage]?.ToString()');
+            toastr.error('@TempData[MessageConstant.ErrorMessage]?.ToString()');
         });
     </script>
 }
 
-@if (ViewData[MessageConstant.WarningMessage] != null)
+@if (TempData[MessageConstant.WarningMessage] != null)
 {
     <script>
         $(function () {
-            toastr.warning('@ViewData[MessageConstant.WarningMessage]?.ToString()');
+            toastr.warning('@TempData[MessageConstant.WarningMessage]?.ToString()');
         });
     </script>
 }
 
-@if (ViewData[MessageConstant.SuccessMessage] != null)
+@if (TempData[MessageConstant.SuccessMessage] != null)
 {
     <script>
         $(function () {
-            toastr.success('@ViewData[MessageConstant.SuccessMessage]?.ToString()');
+            toastr.success('@TempData[MessageConstant.SuccessMessage]?.ToString()');
         });
     </script>
 }

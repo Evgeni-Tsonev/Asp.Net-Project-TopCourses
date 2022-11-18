@@ -1,11 +1,9 @@
 ﻿namespace TopCourses.Core.Services
 {
     using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
-    using TopCourses.Core.Models.Order;
     using TopCourses.Core.Models.ShoppingCart;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
@@ -27,11 +25,18 @@
                 .Where(u => u.Id == userId)
                 .Include(sc => sc.ShoppingCart)
                 .ThenInclude(c => c.ShoppingCartCourses)
+                .Include(c => c.CoursesEnrolled)
+                .ThenInclude(uc => uc.Course)
                 .FirstOrDefaultAsync();
 
             if (course == null || user == null)
             {
-                return;
+                throw new Exception();
+            }
+
+            if (user.CoursesEnrolled.Any(c => c.Course.Id == courseId))
+            {
+                throw new Exception("Already have that course");
             }
 
             if (user.ShoppingCartId == null)
