@@ -87,8 +87,7 @@
                 model.Languages = languages;
                 model.Categories = categories;
                 return View(model);
-            }
-            ;
+            }      
             var currentUserId = GetUserId();
             await this.courseService.CreateCourse(model, currentUserId);
 

@@ -5,23 +5,32 @@
     <div class="card-header">
         <h3 class="card-title">Course Curriculum</h3>
     </div>
-    <div class="card-body" style="height: 300px; overflow-y: scroll">
+    <div class="card-body" style="height: 600px; overflow-y: scroll">
         <div class="col">
+            @{
+                var counter = 0;
+            }
+
             @foreach (var topic in Model)
             {
+
                 <div class="card card-indigo">
                     <div class="card-header">
-                        <h3 class="card-title">@topic.Title</h3>
+                        <h3 class="card-title"><input name="Curriculum[@counter].Title" value="@topic.Title" /></h3>
                     </div>
                     <div class="card-body">
-                        <h4><strong>@topic.Description</strong></h4>
+                        <h4><strong><input name="Curriculum[@counter].Description" value="@topic.Description" /></strong></h4>
                         <div class="row">
                             <div class="col-6">
                                 <h6><strong>Videos</strong></h6>
+                                @{
+                                    var videoCounter = 0;
+                                }
                                 @foreach (var video in topic.Videos)
                                 {
-                                    <p>@video.Title</p>
-                                    <p>@video.VideoUrl</p>
+                                    <input name="Curriculum[@counter].Videos[@videoCounter].Title" value="@video.Title" />
+                                    <input name="Curriculum[@counter].Videos[@videoCounter].VideoUrl" value="@video.VideoUrl" />
+                                    videoCounter++;
                                 }
                             </div>
                             <div class="col-6">
@@ -34,6 +43,8 @@
                         </div>
                     </div>
                 </div>
+
+                counter++;
             }
         </div>
     </div>

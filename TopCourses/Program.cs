@@ -39,10 +39,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Account/Login";
 });
 
-builder.Services.AddControllersWithViews(options =>
-{
-    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-});
+//builder.Services.AddControllersWithViews(options =>
+//{
+//    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+//});
 
 builder.Services.AddControllersWithViews();
 
