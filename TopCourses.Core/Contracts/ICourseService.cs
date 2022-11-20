@@ -7,6 +7,8 @@
     {
         Task<IEnumerable<CourseListingViewModel>> GetAll();
 
+        Task<IEnumerable<CourseListingViewModel>> GetAllNotApproved();
+
         Task CreateCourse(AddCourseViewModel courseModel, string sreatorId);
 
         Task<Course> GetCourseById(int courseId);

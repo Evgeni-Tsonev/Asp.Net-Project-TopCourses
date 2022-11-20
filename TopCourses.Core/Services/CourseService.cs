@@ -1,16 +1,16 @@
 ﻿namespace TopCourses.Core.Services
 {
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using TopCourses.Core.Contracts;
-    using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Course;
-    using TopCourses.Core.Models.Topic;
-    using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Core.Models.Review;
+    using TopCourses.Core.Models.Topic;
     using TopCourses.Core.Models.Video;
+    using TopCourses.Infrastructure.Data.Identity;
+    using TopCourses.Infrastructure.Data.Models;
 
     public class CourseService : ICourseService
     {
@@ -104,16 +104,31 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CourseListingViewModel>> GetAll()
+        public async Task<IEnumerable<CourseListingViewModel>> GetAllNotApproved()
         {
             var allCourses = await this.repository.AllReadonly<Course>()
-                .Where(c => c.IsDeleted == false)
+                .Where(c => c.IsDeleted == false && c.IsApproved == false)
                 .Select(c => new CourseListingViewModel
                 {
                     Id = c.Id,
                     Title = c.Title,
                     ImageUrl = c.ImageUrl,
-                    Price = c.Price
+                    Price = c.Price,
+                }).ToListAsync();
+
+            return allCourses;
+        }
+
+        public async Task<IEnumerable<CourseListingViewModel>> GetAll()
+        {
+            var allCourses = await this.repository.AllReadonly<Course>()
+                .Where(c => c.IsDeleted == false && c.IsApproved == true)
+                .Select(c => new CourseListingViewModel
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    ImageUrl = c.ImageUrl,
+                    Price = c.Price,
                 }).ToListAsync();
 
             return allCourses;
@@ -124,10 +139,9 @@
 
         public async Task AddStudentToCourse(int courseId, string studentId)
         {
-            var course = await this.repository
-                .AllReadonly<Course>()
+            var course = await this.repository.AllReadonly<Course>()
                 .FirstOrDefaultAsync(x => x.Id == courseId);
-                
+
             if (course == null)
             {
                 throw new Exception();
@@ -144,7 +158,7 @@
             var addUserToCourse = new CourseApplicationUser()
             {
                 CourseId = courseId,
-                StudentId = studentId
+                StudentId = studentId,
             };
 
             await this.repository.AddAsync(addUserToCourse);

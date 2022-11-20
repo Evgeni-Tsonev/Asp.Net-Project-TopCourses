@@ -1,14 +1,13 @@
 ﻿namespace TopCourses.Controllers
 {
+    using System.Security.Claims;
+    using System.Text.Json;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
-    using System.Text.Json;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
-    using TopCourses.Core.Models.Review;
     using TopCourses.Core.Models.Topic;
     using TopCourses.Core.Models.Video;
     using TopCourses.Infrastructure.Data.Identity;
@@ -42,7 +41,7 @@
         public async Task<IActionResult> Index()
         {
             var allCourses = await this.courseService.GetAll();
-            return View(allCourses);
+            return this.View(allCourses);
         }
 
         public async Task<IActionResult> Add()
@@ -52,7 +51,7 @@
             var course = new AddCourseViewModel()
             {
                 Languages = languages,
-                Categories = categories
+                Categories = categories,
             };
 
             return View(course);
