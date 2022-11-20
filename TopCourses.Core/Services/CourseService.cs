@@ -166,5 +166,19 @@
             await this.repository.AddAsync(addUserToCourse);
             await this.repository.SaveChangesAsync();
         }
+
+        public async Task ApproveCourse(int courseId)
+        {
+            var course = await this.GetCourseById(courseId);
+
+            if (course == null)
+            {
+                throw new Exception("not exist");
+            }
+
+            course.IsApproved = true;
+
+            await this.repository.SaveChangesAsync();
+        }
     }
 }

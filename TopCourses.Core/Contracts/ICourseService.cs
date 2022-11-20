@@ -13,6 +13,8 @@
 
         Task<Course> GetCourseById(int courseId);
 
+        Task ApproveCourse(int courseId);
+
         Task<CourseDetailsViewModel> GetCourseDetails(int courseId);
 
         Task AddStudentToCourse(int courseId, string studentId);

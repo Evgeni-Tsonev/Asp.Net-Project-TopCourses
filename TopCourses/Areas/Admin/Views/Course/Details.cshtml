@@ -94,11 +94,15 @@
             <p>Here we hava more course info</p>
         </div>
     </div>
-    <div class="row md-12">
-        <button type="button" class="btn btn-block btn-success btn-lg">Approve</button>
+    <div class="row">
+        <form asp-action="Approve" asp-route-id="@Model.Id" method="post">
+            <button type="submit" class="btn btn-block btn-success btn-lg">Approve</button>
+        </form>
     </div>
     <br />
     <div class="row md-12">
-        <button type="button" class="btn btn-block btn-danger btn-lg">Unapprove</button>
+        <form asp-action="Unapprove" asp-route-id="@Model.Id" method="post">
+            <button type="submit"  class="btn btn-block btn-danger btn-lg">Unapprove</button>
+        </form>
     </div>
 </div>

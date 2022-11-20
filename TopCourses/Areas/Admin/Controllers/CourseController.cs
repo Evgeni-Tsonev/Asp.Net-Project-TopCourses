@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Areas.Admin.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
 
     public class CourseController : BaseController
@@ -15,6 +16,7 @@
         public async Task<IActionResult> Index()
         {
             var allCourses = await this.courseService.GetAllNotApproved();
+
             return this.View(allCourses);
         }
 
@@ -22,15 +24,21 @@
         {
             var course = await this.courseService.GetCourseDetails(id);
 
-            //var url = course.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
-
             this.ViewData["Title"] = $"{course.Title}";
 
             this.ViewData["Subtitle"] = $"{course.Subtitle}";
 
-            //TempData["VideoUrl"] = url;
-
             return this.View(course);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Approve(int id)
+        {
+            await this.courseService.ApproveCourse(id);
+
+            this.TempData[MessageConstant.SuccessMessage] = "Course approved successfully";
+
+            return this.RedirectToAction("Index", "Course", new { area = "admin" });
         }
     }
 }
