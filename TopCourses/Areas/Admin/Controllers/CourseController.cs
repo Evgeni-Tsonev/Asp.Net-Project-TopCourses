@@ -16,18 +16,14 @@
         public async Task<IActionResult> Index()
         {
             var allCourses = await this.courseService.GetAllNotApproved();
-
             return this.View(allCourses);
         }
 
         public async Task<IActionResult> Details([FromRoute] int id)
         {
             var course = await this.courseService.GetCourseDetails(id);
-
             this.ViewData["Title"] = $"{course.Title}";
-
             this.ViewData["Subtitle"] = $"{course.Subtitle}";
-
             return this.View(course);
         }
 
@@ -35,9 +31,7 @@
         public async Task<IActionResult> Approve(int id)
         {
             await this.courseService.ApproveCourse(id);
-
             this.TempData[MessageConstant.SuccessMessage] = "Course approved successfully";
-
             return this.RedirectToAction("Index", "Course", new { area = "admin" });
         }
     }

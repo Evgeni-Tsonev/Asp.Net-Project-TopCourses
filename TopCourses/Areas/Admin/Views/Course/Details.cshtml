@@ -100,6 +100,12 @@
         </form>
     </div>
     <br />
+    <div class="row">
+        <form asp-controller="Email" asp-action="SendToEmail" asp-route-id="@Model.Id" method="post">
+            <button type="submit" class="btn btn-block btn-warning btn-lg">Send Email</button>
+        </form>
+    </div>
+    <br />
     <div class="row md-12">
         <form asp-action="Unapprove" asp-route-id="@Model.Id" method="post">
             <button type="submit"  class="btn btn-block btn-danger btn-lg">Unapprove</button>
