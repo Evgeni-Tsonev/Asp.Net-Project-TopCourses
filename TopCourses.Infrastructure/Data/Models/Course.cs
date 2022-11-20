@@ -23,11 +23,11 @@
 
         [Required]
         [StringLength(1000)]
-        public string  Goals = null!;
+        public string  Goals { get; set; } = null!;
 
         [Required]
         [StringLength(1000)]
-        public string Requirements = null!;
+        public string Requirements { get; set; } = null!;
 
         public ICollection<Topic> Curriculum { get; set; } = new HashSet<Topic>();
 

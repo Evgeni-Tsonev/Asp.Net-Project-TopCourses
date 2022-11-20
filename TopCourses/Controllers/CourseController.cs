@@ -8,7 +8,6 @@
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
-    using TopCourses.Core.Models.Topic;
     using TopCourses.Core.Models.Video;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
@@ -22,7 +21,8 @@
         private readonly ILanguageService languageService;
         private readonly IFileService fileService;
 
-        public CourseController(ICourseService courseService,
+        public CourseController(
+                                ICourseService courseService,
                                 ICategoryService categoryService,
                                 ILanguageService languageService,
                                 UserManager<ApplicationUser> userManager,
@@ -54,7 +54,7 @@
                 Categories = categories,
             };
 
-            return View(course);
+            return this.View(course);
         }
 
         [HttpPost]
@@ -74,24 +74,17 @@
                 this.ModelState.AddModelError(nameof(model.LanguageId), "Language does not exist");
             }
 
-            if (TempData.ContainsKey("Curriculum"))
-            {
-                var data = TempData["Curriculum"]?.ToString();
-                var curriculum = JsonSerializer.Deserialize<ICollection<AddTopicViewModel>>(data);
-                model.Curriculum = (IList<AddTopicViewModel>)curriculum;
-                TempData.Keep("Curriculum");
-            }
-
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 model.Languages = languages;
                 model.Categories = categories;
-                return View(model);
-            }      
-            var currentUserId = GetUserId();
+                return this.View(model);
+            }
+
+            var currentUserId = this.GetUserId();
             await this.courseService.CreateCourse(model, currentUserId);
 
-            return RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         [AllowAnonymous]
@@ -109,23 +102,6 @@
 
             return View(course);
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateSection(AddCourseModel model)
-        //{
-        //    if (TempData.ContainsKey("Curriculum"))
-        //    {
-        //        var data = TempData["Curriculum"]?.ToString();
-        //        var curriculum = JsonSerializer.Deserialize<ICollection<AddSectionModel>>(data);
-        //        model.Curriculum = curriculum;
-        //    }
-
-        //    model.Curriculum.Add(model.Topic);
-        //    model.Categories = await this.categoryService.GetAllCategories();
-        //    model.Languages = await this.languageService.GetAll();
-
-        //    return View("Add", model);
-        //}
 
         [HttpPost]
         public async Task<IActionResult> CreateSection(AddCourseViewModel model)

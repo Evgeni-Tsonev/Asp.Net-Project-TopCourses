@@ -13,13 +13,16 @@
 
             @foreach (var topic in Model)
             {
-
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="card card-indigo">
                     <div class="card-header">
-                        <h3 class="card-title"><input name="Curriculum[@counter].Title" value="@topic.Title" /></h3>
+                        <h3 class="card-title"><input asp-for="@topic.Title" name="Curriculum[@counter].Title" value="@topic.Title" /></h3>
+                        <span asp-validation-for="@topic.Title" class="small text-danger"></span>
                     </div>
                     <div class="card-body">
-                        <h4><strong><input name="Curriculum[@counter].Description" value="@topic.Description" /></strong></h4>
+                        <h4><strong><input asp-for="@topic.Description" name="Curriculum[@counter].Description" value="@topic.Description" /></strong></h4>
+                        <span asp-validation-for="@topic.Description" class="small text-danger"></span>
+
                         <div class="row">
                             <div class="col-6">
                                 <h6><strong>Videos</strong></h6>
@@ -28,8 +31,8 @@
                                 }
                                 @foreach (var video in topic.Videos)
                                 {
-                                    <input name="Curriculum[@counter].Videos[@videoCounter].Title" value="@video.Title" />
-                                    <input name="Curriculum[@counter].Videos[@videoCounter].VideoUrl" value="@video.VideoUrl" />
+                                    <input asp-for="@video.Title" name="Curriculum[@counter].Videos[@videoCounter].Title" value="@video.Title" />
+                                    <input asp-for="@video.VideoUrl" name="Curriculum[@counter].Videos[@videoCounter].VideoUrl" value="@video.VideoUrl" />
                                     videoCounter++;
                                 }
                             </div>
@@ -50,3 +53,6 @@
     </div>
 </div>
 
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

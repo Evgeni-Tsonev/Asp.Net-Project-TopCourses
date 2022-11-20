@@ -1,60 +1,53 @@
 ﻿namespace TopCourses.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using System.Text.Json.Nodes;
     using System.Text.Json;
+    using System.Text.Json.Nodes;
+    using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Models.Topic;
 
     public class TopicController : BaseController
     {
-        public IActionResult Create()
-        {
-            var model = new AddTopicViewModel();
-
-            return View(model);
-        }
-
-        public IActionResult Test()
-        {
-            var model = new AddTopicViewModel();
-            return View(model);
-        }
-
         [HttpPost]
-        public IActionResult SectionTest([FromBody] JsonObject jsonObj)
+        public IActionResult CreateTopic([FromBody] JsonObject jsonObj)
         {
-            var model = JsonSerializer.Deserialize<AddTopicViewModel>(jsonObj,
+            var model = JsonSerializer.Deserialize<AddTopicViewModel>(
+                                                                    jsonObj,
                                                                     new JsonSerializerOptions
                                                                     {
-                                                                        PropertyNameCaseInsensitive = true
+                                                                        PropertyNameCaseInsensitive = true,
                                                                     });
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
 
             var topicsModelListToReturn = new List<AddTopicViewModel>();
 
-            if (!TempData.ContainsKey("Curriculum"))
+            if (!this.TempData.ContainsKey("Curriculum"))
             {
                 var topicsList = new List<AddTopicViewModel>();
                 topicsList.Add(model);
-                TempData["Curriculum"] = JsonSerializer.Serialize(topicsList);
+                this.TempData["Curriculum"] = JsonSerializer.Serialize(topicsList);
                 topicsModelListToReturn = topicsList;
             }
             else
             {
-                var data = TempData["Curriculum"]?.ToString();
+                var data = this.TempData["Curriculum"]?.ToString();
 
                 var topics = JsonSerializer.Deserialize<ICollection<AddTopicViewModel>>(data, new JsonSerializerOptions
-                                                                                        {
-                                                                                            PropertyNameCaseInsensitive = true
-                                                                                        });
+                {
+                    PropertyNameCaseInsensitive = true,
+                });
 
                 topics.Add(model);
 
-                TempData["Curriculum"] = JsonSerializer.Serialize(topics);
+                this.TempData["Curriculum"] = JsonSerializer.Serialize(topics);
 
                 topicsModelListToReturn = topics.ToList();
             }
 
-            return PartialView("_TopicPartial", topicsModelListToReturn);
+            return this.PartialView("_TopicPartial", topicsModelListToReturn);
         }
     }
 }

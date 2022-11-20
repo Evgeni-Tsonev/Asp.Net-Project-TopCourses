@@ -23,11 +23,11 @@
 
         [Required]
         [StringLength(1000, MinimumLength = 10)]
-        public string Goals = null!;
+        public string Goals { get; set; } = null!;
 
         [Required]
         [StringLength(1000, MinimumLength = 10)]
-        public string Requirements = null!;
+        public string Requirements { get; set; } = null!;
 
         public IList<AddTopicViewModel> Curriculum { get; set; } = new List<AddTopicViewModel>();
 

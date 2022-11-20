@@ -89,11 +89,13 @@
                     Videos = c.Videos.Select(v => new Video()
                     {
                         Title = v.Title,
-                        Url = v.VideoUrl
-                    }).ToList()
+                        Url = v.VideoUrl,
+                    }).ToList(),
                 }).ToList(),
                 Level = courseModel.Level,
                 CategoryId = courseModel.CategoryId,
+                //to do
+                SubCategoryId = courseModel.CategoryId,
                 LanguageId = courseModel.LanguageId,
                 Description = courseModel.Description,
                 CreatorId = creatorId,
