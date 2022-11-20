@@ -79,7 +79,10 @@ $(document).ready(function () {
 /*            dataType: "json",*/
             success: function (data, state) {
                 $("#topics-container").html(data);
-                $("#videoList") = "";
+                $("#topicTitle").val("");
+                $("#topicDescription").val("");
+                $("#topics").hide();
+                $("#show").show();
                 //console.log(data);
                 //console.log(state);
                 //alert('ajax success');

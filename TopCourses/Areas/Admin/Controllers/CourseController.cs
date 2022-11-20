@@ -17,5 +17,20 @@
             var allCourses = await this.courseService.GetAllNotApproved();
             return this.View(allCourses);
         }
+
+        public async Task<IActionResult> Details([FromRoute] int id)
+        {
+            var course = await this.courseService.GetCourseDetails(id);
+
+            //var url = course.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
+
+            this.ViewData["Title"] = $"{course.Title}";
+
+            this.ViewData["Subtitle"] = $"{course.Subtitle}";
+
+            //TempData["VideoUrl"] = url;
+
+            return this.View(course);
+        }
     }
 }

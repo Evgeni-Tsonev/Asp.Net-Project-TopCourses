@@ -1,0 +1,104 @@
+﻿@model CourseDetailsViewModel
+
+<div class="container border-dark">
+    <div class="jumbotron bg-indigo text-warning">
+        <h1>@ViewData["Title"]</h1>
+        <h3>@ViewData["Subtitle"]</h3>
+    </div>
+</div>
+<div class="container border-dark">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="container">
+                <div class="card card-indigo">
+                    <div class="card-header">
+                        <h3 class="card-title">What you'll learn</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            @Model.Goals
+                            asdasdasdasdasd
+                            asdasdasdasdasd
+                        </p>
+                    </div>
+                </div>
+                <div class="card card-indigo">
+                    <div class="card-header">
+                        <h3 class="card-title">Requirements</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            @Model.Requirements
+                            asdasdasdasdasd
+                            asdasdasdasdasd
+                        </p>
+                    </div>
+                </div>
+                <div class="card card-indigo">
+                    <div class="card-header">
+                        <h3 class="card-title">Course description</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            @Model.Description
+                            asdasdasdasdasd
+                            asdasdasdasdasd
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-indigo">
+                <div class="card-header">
+                    <h3 class="card-title">Course Curriculum</h3>
+                </div>
+                <div class="card-body" style="height: 300px; overflow-y: scroll">
+                    <div class="col">
+                        @for (int i = 0; i < 10; i++)
+                        {
+                            <div class="card card-indigo">
+                                <div class="card-header">
+                                    <h3 class="card-title">Zaglavie na Topic @i</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h4><strong>topic description</strong></h4>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6><strong>Videos</strong></h6>
+                                            @for (int j = 0; j < 3; j++)
+                                            {
+                                                <p>video @j</p>
+                                            }
+                                        </div>
+                                        <div class="col-6">
+                                            <h6><strong>Files</strong></h6>
+                                            @for (int k = 0; k < 3; k++)
+                                            {
+                                                <p>fale @k</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 sticky-top">
+            <img src="@Model.ImageUrl" style="width: 18rem;height: 18rem" class="img-thumbnail">
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+            <p>Here we hava more course info</p>
+        </div>
+    </div>
+    <div class="row md-12">
+        <button type="button" class="btn btn-block btn-success btn-lg">Approve</button>
+    </div>
+    <br />
+    <div class="row md-12">
+        <button type="button" class="btn btn-block btn-danger btn-lg">Unapprove</button>
+    </div>
+</div>

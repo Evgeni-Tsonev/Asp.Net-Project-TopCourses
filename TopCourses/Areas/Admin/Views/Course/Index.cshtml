@@ -1,9 +1,9 @@
-﻿@using TopCourses.Core.Models.Course
-@model IEnumerable<CourseListingViewModel>
+﻿@model IEnumerable<CourseListingViewModel>
 
 @{
     ViewData["Title"] = "All Unapproved courses";
 }
+
 <div class="container border-dark">
     <div class="row">
         <div class="col-md-2 bg-secondary">
@@ -86,8 +86,7 @@
                 <hr>
                 <button type="btn" class="btn btn-primary">Find Now</button>
                 <button type="btn" class="btn btn-primary">Reset All</button>
-                <div class="pb-3" <="" div="">
-        </div>
+                <div class="pb-3"></div>
             </div>
         </div>
         <div class="col-md-10">
@@ -101,9 +100,7 @@
                                 <h5 class="card-title">@course.Title - @course.Price lv.</h5>
                             </div>
                             <div>
-                                <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
-                                <a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
-                                <a asp-controller="ShoppingCart" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Add </a>
+                                <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">Review Course</a>
                             </div>
                         </div>
                     </div>
