@@ -11,7 +11,10 @@
         private readonly IEmailSender emailService;
         private readonly IViewRenderService renderer;
 
-        public EmailController(ICourseService courseService, IEmailSender emailService, IViewRenderService renderer)
+        public EmailController(
+            ICourseService courseService,
+            IEmailSender emailService,
+            IViewRenderService renderer)
         {
             this.courseService = courseService;
             this.emailService = emailService;

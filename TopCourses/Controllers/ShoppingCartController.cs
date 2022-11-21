@@ -13,7 +13,10 @@
         private readonly IOrderService orderService;
         private readonly ICourseService courseService;
 
-        public ShoppingCartController(IShoppingCartService shoppingCartService, IOrderService orderService, ICourseService courseService)
+        public ShoppingCartController(
+            IShoppingCartService shoppingCartService,
+            IOrderService orderService,
+            ICourseService courseService)
         {
             this.shoppingCartService = shoppingCartService;
             this.orderService = orderService;
@@ -22,61 +25,60 @@
 
         public async Task<IActionResult> Index()
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
+            var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
 
-            return View(shoppingCart);
+            return this.View(shoppingCart);
         }
 
         public async Task<IActionResult> Add([FromRoute] int id)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             try
             {
                 await this.shoppingCartService.AddCourseInShoppingCart(id, userId);
             }
             catch (Exception ex)
             {
-                TempData[MessageConstant.ErrorMessage] = ex.Message;
-                return RedirectToAction("Index", "Course");
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                return this.RedirectToAction("Index", "Course");
             }
 
-            TempData[MessageConstant.SuccessMessage] = "Successfully added course to Shopping cart";
+            this.TempData[MessageConstant.SuccessMessage] = "Successfully added course to Shopping cart";
 
-            return RedirectToAction("Index", "Course");
+            return this.RedirectToAction("Index", "Course");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
 
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await this.shoppingCartService.DeleteCourseFromShoppingCart(id, userId);
 
-            return RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<IActionResult> DeleteAll()
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await this.shoppingCartService.DeleteAllCoursesFromShoppingCart(userId);
 
-            return RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<IActionResult> Summary()
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
 
-            return View(shoppingCart);
+            return this.View(shoppingCart);
         }
 
         [HttpPost]
         public async Task<IActionResult> Summary(string stripeToken)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
 
@@ -86,7 +88,7 @@
                 TotalPrice = shoppingCart.TotalPrice,
                 OrderDate = DateTime.Now,
                 OrderStatus = "pending",
-                PaymentStatus = "pending"
+                PaymentStatus = "pending",
             };
 
             order.Id = await this.orderService.AddOrder(order, userId);
@@ -96,7 +98,7 @@
                 Amount = Convert.ToInt32(order.TotalPrice * 100),
                 Currency = "bgn",
                 Description = "Order ID : " + order.Id,
-                Source = stripeToken
+                Source = stripeToken,
             };
 
             var service = new ChargeService();
@@ -127,12 +129,12 @@
 
             await this.shoppingCartService.DeleteAllCoursesFromShoppingCart(userId);
 
-            return RedirectToAction("OrderConfirmation", "ShoppingCart", new { id = order.Id });
+            return this.RedirectToAction("OrderConfirmation", "ShoppingCart", new { id = order.Id });
         }
 
         public IActionResult OrderConfirmation(int id)
         {
-            return View(id);
+            return this.View(id);
         }
     }
 }

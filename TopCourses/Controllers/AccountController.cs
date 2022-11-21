@@ -45,12 +45,12 @@
 
             if (isUsernameexists)
             {
-                ModelState.AddModelError(nameof(model.UserName), "Username already exists");
+                this.ModelState.AddModelError(nameof(model.UserName), "Username already exists");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             var user = new ApplicationUser
@@ -83,49 +83,49 @@
         {
             var model = new LoginViewModel()
             {
-                ReturnUrl = returnUrl
+                ReturnUrl = returnUrl,
             };
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             var user = await this.userManager.FindByEmailAsync(model.Email);
 
             if (user != null)
             {
-                var result = await signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                var result = await this.signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
                     if (model.ReturnUrl != null)
                     {
-                        return Redirect(model.ReturnUrl);
+                        return this.Redirect(model.ReturnUrl);
                     }
 
-                    TempData[MessageConstant.SuccessMessage] = "Successfully logged in";
+                    this.TempData[MessageConstant.SuccessMessage] = "Successfully logged in";
 
-                    return RedirectToAction("Index", "Home");
+                    return this.RedirectToAction("Index", "Home");
                 }
             }
 
-            ModelState.AddModelError("", "Invalid Login");
+            this.ModelState.AddModelError(string.Empty, "Invalid Login");
 
-            return View(model);
+            return this.View(model);
         }
 
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Course");
+            await this.signInManager.SignOutAsync();
+            return this.RedirectToAction("Index", "Course");
         }
 
         public async Task<IActionResult> MyProfile()
@@ -134,7 +134,7 @@
 
             var model = await this.userService.GetUserProfile(userId);
 
-            return View(model);
+            return this.View(model);
         }
 
         public async Task<IActionResult> Edit()
@@ -143,7 +143,7 @@
 
             var model = await this.userService.GetUserForEdit(userId);
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
@@ -153,14 +153,14 @@
 
             model.Id = userId;
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             await this.userService.UpdateUser(model);
 
-            return RedirectToAction("MyProfile", "Account");
+            return this.RedirectToAction("MyProfile", "Account");
         }
 
         //public async Task<IActionResult> CreateRoles()

@@ -1,14 +1,12 @@
 ﻿namespace TopCourses.Controllers
 {
     using System.Security.Claims;
-    using System.Text.Json;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Course;
-    using TopCourses.Core.Models.Video;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
@@ -114,22 +112,22 @@
                             FileName = file.FileName,
                             Content = stream.ToArray(),
                             ContentType = file.ContentType,
-                            SourceId = sectionId
+                            SourceId = sectionId,
                         };
-                        await fileService.SaveFile(fileToSave);
+                        await this.fileService.SaveFile(fileToSave);
                     }
                 }
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "CourseController/UploadFile");
+                this.logger.LogError(ex, "CourseController/UploadFile");
 
-                TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+                this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
             }
 
-            TempData[MessageConstant.SuccessMessage] = "File uploaded successfully";
+            this.TempData[MessageConstant.SuccessMessage] = "File uploaded successfully";
             //todo
-            return RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private string GetUserId()

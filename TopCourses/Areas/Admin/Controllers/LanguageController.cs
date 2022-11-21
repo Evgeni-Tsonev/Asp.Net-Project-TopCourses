@@ -16,8 +16,7 @@
         public async Task<IActionResult> Index()
         {
             var languages = await this.languageService.GetAll();
-
-            return View(languages);
+            return this.View(languages);
         }
 
         public IActionResult Add()
@@ -30,42 +29,38 @@
         [HttpPost]
         public async Task<IActionResult> Add(LanguageViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             await this.languageService.Add(model);
-
-            return RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<IActionResult> Edit(int id)
         {
             var model = await this.languageService.GetLanguageForEdit(id);
-
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(LanguageViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View("Edit", model);
+                return this.View("Edit", model);
             }
 
             await this.languageService.Update(model);
-
-            return RedirectToAction("Index", "Language");
+            return this.RedirectToAction("Index", "Language");
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete([FromForm] int id)
         {
             await this.languageService.Delete(id);
-
-            return RedirectToAction("Index", "Language");
+            return this.RedirectToAction("Index", "Language");
         }
     }
 }

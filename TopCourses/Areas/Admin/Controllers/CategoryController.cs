@@ -17,32 +17,32 @@
         {
             var allCategories = await this.categoriesService.GetAllCategories();
 
-            ViewData["Title"] = "Categories";
+            this.ViewData["Title"] = "Categories";
 
-            ViewData["SubCategoriesTitle"] = "Sub categories";
+            this.ViewData["SubCategoriesTitle"] = "Sub categories";
 
-            return View(allCategories);
+            return this.View(allCategories);
         }
 
         public IActionResult AddCategory()
         {
             var category = new AddCategoryViewModel();
 
-            return View(category);
+            return this.View(category);
         }
 
 
         [HttpPost]
         public async Task<IActionResult> AddCategory(AddCategoryViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
-            await categoriesService.CreateCategory(model);
+            await this.categoriesService.CreateCategory(model);
 
-            return RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public IActionResult AddSubCategory([FromRoute] int id)
@@ -51,40 +51,40 @@
 
             category.ParentId = id;
 
-            return View(category);
+            return this.View(category);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddSubCategoryPost(AddCategoryViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View("AddSubCategory", model);
+                return this.View("AddSubCategory", model);
             }
 
             await this.categoriesService.CreateCategory(model);
 
-            return RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<IActionResult> Edit(int id)
         {
             var model = await this.categoriesService.GetCategoryForEdit(id);
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(EditCategoryViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View("Edit", model);
+                return this.View("Edit", model);
             }
 
             await this.categoriesService.Update(model);
 
-            return RedirectToAction("Index", "Category");
+            return this.RedirectToAction("Index", "Category");
         }
 
         [HttpPost]
@@ -92,7 +92,7 @@
         {
             await this.categoriesService.Delete(id);
 
-            return RedirectToAction("Index", "Category");
+            return this.RedirectToAction("Index", "Category");
         }
     }
 }

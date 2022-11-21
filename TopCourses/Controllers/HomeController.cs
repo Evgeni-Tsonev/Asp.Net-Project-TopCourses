@@ -1,32 +1,32 @@
 ﻿namespace TopCourses.Controllers
 {
+    using System.Diagnostics;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Diagnostics;
-    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Models;
 
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
 
-        public HomeController(ILogger<HomeController> logger,
+        public HomeController(
+            ILogger<HomeController> logger,
             ICourseService courseService)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         [AllowAnonymous]
         public IActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }

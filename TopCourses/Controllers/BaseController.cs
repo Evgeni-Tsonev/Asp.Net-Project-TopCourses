@@ -6,6 +6,5 @@
     [Authorize]
     public class BaseController : Controller
     {
-       
     }
 }

@@ -8,6 +8,5 @@
     [Area("Admin")]
     public class BaseController : Controller
     {
-
     }
 }
