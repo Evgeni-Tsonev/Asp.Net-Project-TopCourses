@@ -21,6 +21,8 @@
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IVideoService, VideoService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
+
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(config["SendGrid:ApiKey"]));
 
             return services;

@@ -30,6 +30,7 @@
                 .Include(r => r.Reviews)
                 .ThenInclude(u => u.User)
                 .Include(c => c.Curriculum)
+                .ThenInclude(v => v.Videos)
                 .FirstOrDefaultAsync(x => x.Id == courseId);
 
             if (course == null)
@@ -47,23 +48,25 @@
                 {
                     Title = s.Title,
                     Description = s.Description,
-                    //Video = new VideoModel 
-                    //{
-                    //    VideoUrl = s?.VideoUrl
-                    //}
+                    Videos = s.Videos.Select(v => new VideoViewModel()
+                    {
+                        Id = v.Id,
+                        Title = v.Title,
+                        VideoUrl = v.Url,
+                    }).ToList(),
                 }).ToList(),
                 Reviews = course.Reviews.Select(r => new ReviewViewModel()
                 {
                     UserFullName = $"{r.User.FirstName} {r.User.LastName}",
                     Comment = r.Comment,
                     Rating = r.Rating,
-                    DateOfPublication = r.DateOfPublication
+                    DateOfPublication = r.DateOfPublication,
                 }).ToList(),
                 Level = course.Level,
                 CategoryId = course.CategoryId,
                 LanguageId = course.LanguageId,
                 Description = course.Description,
-                Price = course.Price
+                Price = course.Price,
             };
         }
 
