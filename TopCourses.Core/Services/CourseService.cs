@@ -8,6 +8,7 @@
     using TopCourses.Core.Models.Course;
     using TopCourses.Core.Models.Review;
     using TopCourses.Core.Models.Topic;
+    using TopCourses.Core.Models.User;
     using TopCourses.Core.Models.Video;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
@@ -31,6 +32,7 @@
                 .ThenInclude(u => u.User)
                 .Include(c => c.Curriculum)
                 .ThenInclude(v => v.Videos)
+                .Include(u => u.Creator)
                 .FirstOrDefaultAsync(x => x.Id == courseId);
 
             if (course == null)
@@ -57,16 +59,28 @@
                 }).ToList(),
                 Reviews = course.Reviews.Select(r => new ReviewViewModel()
                 {
+                    Id = r.Id,
                     UserFullName = $"{r.User.FirstName} {r.User.LastName}",
                     Comment = r.Comment,
                     Rating = r.Rating,
                     DateOfPublication = r.DateOfPublication,
                 }).ToList(),
+                Goals = course.Goals,
+                Requirements = course.Requirements,
                 Level = course.Level,
                 CategoryId = course.CategoryId,
+                SubCategoryId = course.SubCategoryId,
                 LanguageId = course.LanguageId,
                 Description = course.Description,
                 Price = course.Price,
+                CreatedOn = course.CreatedOn,
+                LastUpdate = course.LastUpdate,
+                Creator = new UserViewModel()
+                {
+                    FirstName = course.Creator.FirstName,
+                    LastName = course.Creator.LastName,
+                    Email = course.Creator.Email,
+                },
             };
         }
 

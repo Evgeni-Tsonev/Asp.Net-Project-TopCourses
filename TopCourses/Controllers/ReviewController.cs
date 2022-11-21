@@ -1,7 +1,7 @@
 ﻿namespace TopCourses.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
+    using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Review;
 
@@ -16,20 +16,20 @@
 
         public IActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         public IActionResult CreateReview(int id)
         {
-            var userId = GetUserId();
+            var userId = this.GetUserId();
 
             var model = new AddReviewViewModel()
             {
                 UserId = userId,
-                CourseId = id
+                CourseId = id,
             };
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
@@ -37,14 +37,14 @@
         {
             model.DateOfPublication = DateTime.Now;
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View("CreateReview", model);
+                return this.View("CreateReview", model);
             }
 
             await this.reviewService.AddReview(model);
 
-            return RedirectToAction("Details", "Course", new { id = model.CourseId });
+            return this.RedirectToAction("Details", "Course", new { id = model.CourseId });
         }
 
         private string GetUserId()

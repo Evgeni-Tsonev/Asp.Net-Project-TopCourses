@@ -23,7 +23,7 @@
 
         [Required]
         [StringLength(1000)]
-        public string  Goals { get; set; } = null!;
+        public string Goals { get; set; } = null!;
 
         [Required]
         [StringLength(1000)]
@@ -34,13 +34,16 @@
         public Level Level { get; set; }
 
         public int CategoryId { get; set; }
+
         public Category Category { get; set; } = null!;
 
         public int SubCategoryId { get; set; }
+
         public Category SubCategory { get; set; } = null!;
 
         public int LanguageId { get; set; }
-        public Language Lenguage { get; set; } = null!;
+
+        public Language Language { get; set; } = null!;
 
         [Required]
         [StringLength(1500)]

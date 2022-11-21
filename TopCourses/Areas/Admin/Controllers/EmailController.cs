@@ -24,17 +24,10 @@
             var course = await this.courseService.GetCourseDetails(id);
             var view = await this.renderer.RenderToString("~/Views/Course/Details.cshtml", course);
 
-            await this.emailService.SendEmailAsync("evgeni_136@abv.bg", "TopCourses", "knghtdark0@gmail.com", course.Title, view);
+            await this.emailService.SendEmailAsync("evgeni_136@abv.bg", "TopCourses", "gotic25874@lance7.com", course.Title, view);
 
             this.TempData[MessageConstant.SuccessMessage] = "Email send succsessfully";
             return this.RedirectToAction("Details", "Course", new { area = "admin", id = course.Id });
         }
-
-        //    public MyController(IViewRendere renderer) => this.renderer = renderer;
-        //    public async Task<IActionResult> MyViewTest
-        //    {
-        //        var view = await this.renderer.RenderAsync(this, "MyView", model);
-        //return new OkObjectResult(view);
-
     }
 }

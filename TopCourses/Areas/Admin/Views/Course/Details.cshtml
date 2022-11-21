@@ -17,8 +17,6 @@
                     <div class="card-body">
                         <p>
                             @Model.Goals
-                            asdasdasdasdasd
-                            asdasdasdasdasd
                         </p>
                     </div>
                 </div>
@@ -29,8 +27,6 @@
                     <div class="card-body">
                         <p>
                             @Model.Requirements
-                            asdasdasdasdasd
-                            asdasdasdasdasd
                         </p>
                     </div>
                 </div>
@@ -41,8 +37,6 @@
                     <div class="card-body">
                         <p>
                             @Model.Description
-                            asdasdasdasdasd
-                            asdasdasdasdasd
                         </p>
                     </div>
                 </div>
@@ -53,24 +47,28 @@
                 </div>
                 <div class="card-body" style="height: 300px; overflow-y: scroll">
                     <div class="col">
-                        @for (int i = 0; i < 10; i++)
+                        @foreach (var topic in Model.Curriculum)
                         {
                             <div class="card card-indigo">
                                 <div class="card-header">
-                                    <h3 class="card-title">Zaglavie na Topic @i</h3>
+                                    <h3 class="card-title"><strong>@topic.Title</strong></h3>
                                 </div>
                                 <div class="card-body">
-                                    <h4><strong>topic description</strong></h4>
+                                    <h4><strong>@topic.Description</strong></h4>
                                     <div class="row">
                                         <div class="col-6">
-                                            <h6><strong>Videos</strong></h6>
+                                            <h6><strong>Videos:</strong></h6>
+                                            @foreach (var video in topic.Videos)
+                                            {
+                                                <a href="@video.VideoUrl">@video.Title</a>
+                                            }
                                             @for (int j = 0; j < 3; j++)
                                             {
                                                 <p>video @j</p>
                                             }
                                         </div>
                                         <div class="col-6">
-                                            <h6><strong>Files</strong></h6>
+                                            <h6><strong>Files:</strong></h6>
                                             @for (int k = 0; k < 3; k++)
                                             {
                                                 <p>fale @k</p>
@@ -86,12 +84,8 @@
         </div>
         <div class="col-md-3 sticky-top">
             <img src="@Model.ImageUrl" style="width: 18rem;height: 18rem" class="img-thumbnail">
-            <p>Here we hava more course info</p>
-            <p>Here we hava more course info</p>
-            <p>Here we hava more course info</p>
-            <p>Here we hava more course info</p>
-            <p>Here we hava more course info</p>
-            <p>Here we hava more course info</p>
+            <p>@Model.Creator.FirstName @Model.Creator.LastName</p>
+            <p>@Model.Creator.Email</p>
         </div>
     </div>
     <div class="row">

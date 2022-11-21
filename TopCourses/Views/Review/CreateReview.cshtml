@@ -8,7 +8,7 @@
     <div class="card-header">
         <h3 class="card-title">@ViewData["Title"]</h3>
     </div>
-    <form asp-controller="Course" asp-action="AddReview" method="post">
+    <form asp-controller="Review" asp-action="AddReview" method="post">
         <input asp-for="@Model.CourseId" hidden>
         <input asp-for="@Model.UserId" hidden>
         <div class="card-body">
