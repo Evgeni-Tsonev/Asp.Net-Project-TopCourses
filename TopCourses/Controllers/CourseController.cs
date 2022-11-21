@@ -92,25 +92,10 @@
         {
             var course = await this.courseService.GetCourseDetails(id);
 
-            //var url = course.Curriculum.Select(u => u.VideoUrl).FirstOrDefault();
+            this.ViewData["Title"] = $"{course.Title}";
+            this.ViewData["Subtitle"] = $"{course.Subtitle}";
 
-            ViewData["Title"] = $"{course.Title}";
-
-            ViewData["Subtitle"] = $"{course.Subtitle}";
-
-            //TempData["VideoUrl"] = url;
-
-            return View(course);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateSection(AddCourseViewModel model)
-        {
-            var modelData = JsonSerializer.Serialize(model);
-
-            TempData["model"] = modelData;
-
-            return RedirectToAction("Create", "Topic");
+            return this.View(course);
         }
 
         //todo
@@ -145,17 +130,6 @@
             TempData[MessageConstant.SuccessMessage] = "File uploaded successfully";
             //todo
             return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Video(string videoUrl)
-        {
-            var video = TempData["VideoUrl"]?.ToString();
-            var model = new VideoViewModel()
-            {
-                VideoUrl = videoUrl
-            };
-
-            return View(model);
         }
 
         private string GetUserId()

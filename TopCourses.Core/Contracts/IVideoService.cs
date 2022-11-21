@@ -4,6 +4,8 @@
 
     public interface IVideoService
     {
-        Task<ICollection<AddVideoViewModel>> ReplaceVideoUrls(IList<AddVideoViewModel> videos); 
+        Task<VideoViewModel> GetVideoById(int id);
+
+        Task<ICollection<AddVideoViewModel>> ReplaceVideoUrls(IList<AddVideoViewModel> videos);
     }
 }

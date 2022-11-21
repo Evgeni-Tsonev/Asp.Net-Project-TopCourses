@@ -7,5 +7,9 @@
         public string Title { get; set; } = null!;
 
         public string VideoUrl { get; set; } = null!;
+
+        public string? TopicTitle { get; set; }
+
+        public string? CourseTitle { get; set; }
     }
 }

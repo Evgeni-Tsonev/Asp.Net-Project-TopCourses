@@ -1,13 +1,46 @@
 ﻿namespace TopCourses.Core.Services
 {
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
+    using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Video;
+    using TopCourses.Infrastructure.Data.Models;
 
     public class VideoService : IVideoService
     {
+        private readonly IDbRepository repository;
+
+        public VideoService(IDbRepository repository)
+        {
+            this.repository = repository;
+        }
+
+        public async Task<VideoViewModel> GetVideoById(int id)
+        {
+            var video = await this.repository.AllReadonly<Video>()
+                .Where(v => v.Id == id)
+                .Include(v => v.Topic)
+                .ThenInclude(t => t.Course)
+                .FirstOrDefaultAsync();
+
+            if (video == null)
+            {
+                throw new Exception("Video does not exist");
+            }
+
+            return new VideoViewModel()
+            {
+                Id = video.Id,
+                Title = video.Title,
+                VideoUrl = video.Url,
+                TopicTitle = video.Topic.Title,
+                CourseTitle = video.Topic.Course.Title,
+            };
+        }
+
         public async Task<ICollection<AddVideoViewModel>> ReplaceVideoUrls(IList<AddVideoViewModel> videos)
         {
             var processedVideos = new List<AddVideoViewModel>();
