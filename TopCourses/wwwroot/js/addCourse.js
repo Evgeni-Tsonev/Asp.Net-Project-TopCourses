@@ -83,13 +83,11 @@ $(document).ready(function () {
                 $("#topicDescription").val("");
                 $("#topics").hide();
                 $("#show").show();
-                //console.log(data);
-                //console.log(state);
-                //alert('ajax success');
+                $("#videoList").empty();
             },
             error: function (err) {
+                alert(err)
                 console.log("eror");   // <-- printing error message to console  // <-- printing error message to console
-                /*console.log("eror"); */  // <-- printing error message to console  // <-- printing error message to console
             }
         });
     });

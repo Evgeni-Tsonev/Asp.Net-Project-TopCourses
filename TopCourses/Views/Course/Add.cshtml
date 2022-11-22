@@ -42,7 +42,7 @@
                 <span asp-validation-for="Requirements" class="small text-danger"></span>
             </div>
             <div class="row">
-                <div class="col md-4">
+                <div class="col md-3">
                     <div class="form-group">
                         <label asp-for="CategoryId" class="form-label"></label>
                         <select asp-for="CategoryId" class="form-select">
@@ -54,7 +54,19 @@
                         <span asp-validation-for="CategoryId" class="small text-danger"></span>
                     </div>
                 </div>
-                <div class="col md-4">
+                <div class="col md-3">
+                    <div class="form-group">
+                        <label asp-for="SubCategoryId" class="form-label"></label>
+                        <select asp-for="SubCategoryId" class="form-select">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Title</option>
+                            }
+                        </select>
+                        <span asp-validation-for="SubCategoryId" class="small text-danger"></span>
+                    </div>
+                </div>
+                <div class="col md-3">
                     <div class="form-group">
                         <label asp-for="LanguageId" class="form-label"></label>
                         <select asp-for="LanguageId" class="form-select">
@@ -66,7 +78,7 @@
                         <span asp-validation-for="LanguageId" class="small text-danger"></span>
                     </div>
                 </div>
-                <div class="col md-4">
+                <div class="col md-3">
                     <div class="form-group">
                         <label asp-for="Level" class="form-label"></label>
                         <select asp-for="Level" asp-items="Html.GetEnumSelectList<Level>()" id="courseLevel" class="form-select"></select>

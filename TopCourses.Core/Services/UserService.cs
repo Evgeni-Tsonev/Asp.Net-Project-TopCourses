@@ -29,7 +29,7 @@
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.UserName,
-                Email = user.Email
+                Email = user.Email,
             };
         }
 
@@ -41,7 +41,7 @@
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
             };
         }
 
@@ -53,7 +53,7 @@
                     Email = u.Email,
                     Id = u.Id,
                     FullName = $"{u.FirstName} {u.LastName}",
-                    Username = u.UserName
+                    Username = u.UserName,
                 })
                 .ToListAsync();
 

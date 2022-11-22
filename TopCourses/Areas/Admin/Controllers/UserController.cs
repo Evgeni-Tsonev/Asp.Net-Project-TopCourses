@@ -13,7 +13,8 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
 
-        public UserController(UserManager<ApplicationUser> userManager,
+        public UserController(
+                              UserManager<ApplicationUser> userManager,
                               IUserService userService,
                               RoleManager<IdentityRole> roleManager)
         {
@@ -38,7 +39,7 @@
             };
 
 
-            this.ViewBag.RoleItems = roleManager.Roles
+            this.ViewBag.RoleItems = this.roleManager.Roles
                 .ToList()
                 .Select(r => new SelectListItem()
                 {

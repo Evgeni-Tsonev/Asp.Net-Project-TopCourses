@@ -35,6 +35,12 @@
                 options.UseSqlServer(connectionString));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            services.Configure<MongoDbSettings>(options =>
+            {
+                options.ConnectionString = config.GetSection("MongoDb: DefaultConnection").Value;
+                options.Database = config.GetSection("MongoDb: Database").Value;
+            });
+
             return services;
         }
     }

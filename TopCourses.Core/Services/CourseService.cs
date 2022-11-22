@@ -117,6 +117,7 @@
                 Description = courseModel.Description,
                 CreatorId = creatorId,
                 Price = courseModel.Price,
+                CreatedOn = DateTime.Now,
             };
 
             await this.repository.AddAsync(course);

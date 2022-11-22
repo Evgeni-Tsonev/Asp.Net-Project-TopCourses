@@ -1,3 +1,4 @@
+#pragma warning disable SA1200 // Using directives should be placed correctly
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
@@ -20,29 +21,22 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TopCoursesDbContext>();
 
-//builder.Services.AddAuthentication()
-//    .AddFacebook(options =>
-//    {
-//        options.AppId = "505133611164058";
-//        options.AppSecret = "ca327d57819f6267ec8baac1aec48663";
-//    });
-
-//builder.Services.AddAuthentication()
-//    .AddFacebook(options =>
-//    {
-//        options.AppId = builder.Configuration.GetValue<string>("Facebook:AppId");
-//        options.AppSecret = builder.Configuration.GetValue<string>("Facebook:AppSecret");
-//    });
+builder.Services.AddAuthentication()
+    .AddFacebook(options =>
+    {
+        options.AppId = builder.Configuration.GetValue<string>("Facebook:AppId");
+        options.AppSecret = builder.Configuration.GetValue<string>("Facebook:AppSecret");
+    });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
 });
 
-//builder.Services.AddControllersWithViews(options =>
-//{
-//    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-//});
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
 
 builder.Services.AddControllersWithViews();
 

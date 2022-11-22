@@ -1,7 +1,7 @@
 ﻿namespace TopCourses.Core.Services
 {
-    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.ShoppingCart;
@@ -43,7 +43,7 @@
             {
                 var shoppingCart = new ShoppingCart()
                 {
-                    UserId = user.Id
+                    UserId = user.Id,
                 };
 
                 await this.repository.AddAsync(shoppingCart);
@@ -118,7 +118,7 @@
                 Name = c.Title,
                 CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,
                 ImageUrl = c.ImageUrl,
-                Price = c.Price
+                Price = c.Price,
             }).ToList();
 
             var cart = new ShoppingCartViewModel()

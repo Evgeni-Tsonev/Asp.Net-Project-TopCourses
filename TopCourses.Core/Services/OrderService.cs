@@ -1,8 +1,8 @@
 ﻿namespace TopCourses.Core.Services
 {
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Order;
@@ -43,7 +43,7 @@
                 OrderTotal = model.TotalPrice,
                 OrderDate = model.OrderDate,
                 TransactionId = model.TransactionId,
-                Courses = courses
+                Courses = courses,
             };
 
             await this.repository.AddAsync(order);
@@ -54,8 +54,8 @@
 
         public async Task<OrderViewModel> GetOrderById(int orderId)
         {
-            var order = await this.repository.All<Order>().Where(o => o.Id == orderId).Include(o => o.Courses).Select(o => new OrderViewModel() 
-            { 
+            var order = await this.repository.All<Order>().Where(o => o.Id == orderId).Include(o => o.Courses).Select(o => new OrderViewModel()
+            {
                 Id = o.Id,
                 OrderDate = o.OrderDate,
                 TotalPrice = o.OrderTotal,
@@ -67,8 +67,8 @@
                     ImageUrl = c.ImageUrl,
                     Name = c.Title,
                     Price = c.Price,
-                    CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName
-                }).ToList()
+                    CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,
+                }).ToList(),
             }).FirstOrDefaultAsync();
 
             return order;

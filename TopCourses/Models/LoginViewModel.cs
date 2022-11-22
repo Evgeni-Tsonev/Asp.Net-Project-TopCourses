@@ -1,7 +1,7 @@
 ﻿namespace TopCourses.Models
 {
-    using Microsoft.AspNetCore.Authentication;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authentication;
 
     public class LoginViewModel
     {

@@ -1,4 +1,7 @@
-﻿@model LoginViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using TopCourses.Infrastructure.Data.Identity
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> signInManager
 
 @{
     ViewData["Title"] = "Log in";
@@ -30,7 +33,7 @@
             </div>
             <div class="card-body">
                 <p class="login-box-msg"><b>Sign in here</b></p>
-                <form asp-controller="Account" asp-action="Login" id="loginForm" method="post">
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" id="loginForm" method="post">
                     <input type="hidden" asp-for="ReturnUrl" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="input-group mb-3">
@@ -54,7 +57,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <input asp-for="RememberMe" type="checkbox" >
+                                <input asp-for="RememberMe" type="checkbox">
                                 <label asp-for="RememberMe">Remember Me</label>
                             </div>
                         </div>
@@ -66,38 +69,29 @@
                     </div>
                 </form>
 
-                @*@{
-                    if ((Model.ExternalLogins?.Count ?? 0) != 0)
-                    {
-                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                            <div>
-                                <p>
-                                    @foreach (var provider in Model.ExternalLogins)
-                                    {
-                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                    }
-                                </p>
-                            </div>
-                        </form>
-                    }
-                }*@
-
-                <div class="social-auth-links text-center mt-2 mb-3">
-                    <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a>
-                    <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                    </a>
-                </div>
-                <!-- /.social-auth-links -->
-
-                <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
-                </p>
-                <p class="mb-0">
-                    <a asp-controller="Account" asp-action="Register" class="text-center">Register a new membership</a>
-                </p>
+                @{
+                    var schemes = await this.signInManager.GetExternalAuthenticationSchemesAsync();
+                    var loginProivders = schemes.ToList();
+                }
+                @if (loginProivders.Count() > 0)
+                {
+                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
+                        <div class="social-auth-links text-center mt-2 mb-3">
+                            <button type="submit" class="btn btn-block btn-primary" name="provider" value="Facebook">
+                                <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                            </button>
+                            @*<a href="#" class="btn btn-block btn-danger">
+                                <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                            </a>*@
+                        </div>
+                    </form>
+                    <p class="mb-1">
+                        <a href="forgot-password.html">I forgot my password</a>
+                    </p>
+                    <p class="mb-0">
+                        <a asp-controller="Account" asp-action="Register" class="text-center">Register a new membership</a>
+                    </p>
+                }
             </div>
             <!-- /.card-body -->
         </div>
@@ -113,5 +107,5 @@
     @section Scripts{
         <partial name="_ValidationScriptsPartial.cshtml" />
     }
-</body>
-</html>
+    </body>
+    </html>

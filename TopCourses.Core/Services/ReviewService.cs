@@ -15,6 +15,7 @@
         {
             this.repository = repository;
         }
+
         public async Task AddReview(AddReviewViewModel model)
         {
             var user = await this.repository.GetByIdAsync<ApplicationUser>(model.UserId);
@@ -87,7 +88,7 @@
             {
                 Id = model.Id,
                 Rating = model.Rating,
-                Comment = model.Comment
+                Comment = model.Comment,
             };
         }
     }

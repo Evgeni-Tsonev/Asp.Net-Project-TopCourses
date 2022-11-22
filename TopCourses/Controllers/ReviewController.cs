@@ -43,7 +43,6 @@
             }
 
             await this.reviewService.AddReview(model);
-
             return this.RedirectToAction("Details", "Course", new { id = model.CourseId });
         }
 
