@@ -9,6 +9,7 @@
     using TopCourses.Core.Models.Course;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
+    using TopCourses.Models;
 
     public class CourseController : BaseController
     {
@@ -36,10 +37,26 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] AllCoursesQueryModel query)
         {
-            var allCourses = await this.courseService.GetAll();
-            return this.View(allCourses);
+            var result = await this.courseService.GetAll(
+                query.Category,
+                query.SubCategory,
+                query.SearchTerm,
+                query.Language,
+                query.MinPrice,
+                query.MaxPrice,
+                query.CurrentPage,
+                AllCoursesQueryModel.CoursesPerPage,
+                query.Sorting);
+
+            var allCategories = await this.categoryService.GetAllCategories();
+
+            query.Categories = allCategories.Where(c => c.ParentId == null);
+            query.Languages = await this.languageService.GetAll();
+            query.Courses = result;
+
+            return this.View(query);
         }
 
         public async Task<IActionResult> Add()

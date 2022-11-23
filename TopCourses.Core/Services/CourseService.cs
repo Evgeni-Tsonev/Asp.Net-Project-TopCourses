@@ -139,21 +139,6 @@
             return allCourses;
         }
 
-        public async Task<IEnumerable<CourseListingViewModel>> GetAll()
-        {
-            var allCourses = await this.repository.AllReadonly<Course>()
-                .Where(c => c.IsDeleted == false && c.IsApproved == true)
-                .Select(c => new CourseListingViewModel
-                {
-                    Id = c.Id,
-                    Title = c.Title,
-                    ImageUrl = c.ImageUrl,
-                    Price = c.Price,
-                }).ToListAsync();
-
-            return allCourses;
-        }
-
         public async Task<Course> GetCourseById(int courseId)
             => await this.repository.GetByIdAsync<Course>(courseId);
 
@@ -197,6 +182,79 @@
             course.IsApproved = true;
 
             await this.repository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<CourseListingViewModel>> GetAll(
+            string? category = null,
+            string? subCategory = null,
+            string? searchTerm = null,
+            string? language = null,
+            decimal? minPrice = 0,
+            decimal? maxPrice = 2000,
+            int currentPage = 1,
+            int coursessPerPage = 1,
+            CourseSorting sorting = CourseSorting.Newest)
+        {
+            var courses = this.repository.AllReadonly<Course>()
+                .Where(c => c.IsDeleted == false && c.IsApproved == true);
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                courses = courses.Where(c => c.Category.Title == category);
+            }
+
+            if (!string.IsNullOrEmpty(subCategory))
+            {
+                courses = courses.Where(c => c.SubCategory.Title == subCategory);
+            }
+
+            if (!string.IsNullOrEmpty(language))
+            {
+                courses = courses.Where(c => c.Language.Title == language);
+            }
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                courses = courses.Where(c =>
+                EF.Functions.Like(c.Title.ToLower(), searchTerm) ||
+                EF.Functions.Like(c.Subtitle.ToLower(), searchTerm) ||
+                EF.Functions.Like(c.Description.ToLower(), searchTerm));
+            }
+
+            if (minPrice != null)
+            {
+                courses = courses.Where(c => c.Price >= minPrice);
+            }
+
+            if (maxPrice != null)
+            {
+                courses = courses.Where(c => c.Price <= maxPrice);
+            }
+
+            var result = await courses
+                .Skip((currentPage - 1) * coursessPerPage)
+                .Take(coursessPerPage)
+                .Select(c => new CourseListingViewModel
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    ImageUrl = c.ImageUrl,
+                    Rating = c.Reviews.Sum(r => r.Rating) / c.Reviews.Count,
+                    Price = c.Price,
+                }).ToListAsync();
+
+            result = sorting switch
+            {
+                CourseSorting.Price => result
+                    .OrderBy(c => c.Price).ToList(),
+                CourseSorting.HighestRated => result
+                    .OrderBy(c => c.Rating).ToList(),
+                _ => result.OrderByDescending(c => c.Id).ToList()
+            };
+
+            return result;
         }
     }
 }

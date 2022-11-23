@@ -5,7 +5,16 @@
 
     public interface ICourseService
     {
-        Task<IEnumerable<CourseListingViewModel>> GetAll();
+        Task<IEnumerable<CourseListingViewModel>> GetAll(
+            string? category = null,
+            string? subCategory = null,
+            string? searchTerm = null,
+            string? language = null,
+            decimal? minPrice = 0,
+            decimal? maxPrice = 2000,
+            int currentPage = 1,
+            int coursessPerPage = 1,
+            CourseSorting sorting = CourseSorting.Newest);
 
         Task<IEnumerable<CourseListingViewModel>> GetAllNotApproved();
 

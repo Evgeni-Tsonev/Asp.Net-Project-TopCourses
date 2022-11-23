@@ -1,12 +1,12 @@
-﻿@using TopCourses.Core.Models.Course
-@model IEnumerable<CourseListingViewModel>
+﻿@model AllCoursesQueryModel
 
 @{
     ViewData["Title"] = "All courses";
 }
+
 <div class="container border-dark">
     <div class="row">
-        <div class="col-md-2 bg-secondary">
+        @*<div class="col-md-2 bg-secondary">
             <div class="filter-sidebar">
                 <div class="row card-body py-2 mb-2 bg-dark twhite">
                     <h4>Search Options</h4>
@@ -89,26 +89,111 @@
                 <div class="pb-3" <="" div="">
         </div>
             </div>
-        </div>
-        <div class="col-md-10">
-            <div class="card-group">
-                @foreach (var course in Model)
-                {
-                    <div class="card-group">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="@course.ImageUrl" alt="@course.Title - @course.Price">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">@course.Title - @course.Price lv.</h5>
-                            </div>
-                            <div>
-                                <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
-                                <a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
-                                <a asp-controller="ShoppingCart" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Add </a>
+        </div>*@
+
+        <form method="get">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label asp-for="SearchTerm"></label>
+                    <input asp-for="SearchTerm" class="form-control" placeholder="...">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2 d-flex justify-content-between">
+                    <div class="form-group">
+                        <label asp-for="Category"></label>
+                        <select asp-for="Category" class="form-control">
+                            <option value="">All</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Title">@category.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2 d-flex justify-content-between">
+                    <div class="form-group">
+                        <label asp-for="SubCategory"></label>
+                        <select asp-for="SubCategory" class="form-control">
+                            <option value="">All</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Title">@category.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2 d-flex justify-content-between">
+                    <div class="form-group">
+                        <label asp-for="Language"></label>
+                        <select asp-for="Language" class="form-control">
+                            <option value="">All</option>
+                            @foreach (var language in Model.Languages)
+                            {
+                                <option value="@language.Title">@language.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label asp-for="MinPrice"></label>
+                    <input asp-for="MinPrice" class="form-control">
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label asp-for="MaxPrice"></label>
+                    <input asp-for="MaxPrice" class="form-control">
+                </div>
+
+                <div class="form-group col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Sorting"></label>
+                        <select asp-for="Sorting" class="form-control">
+                            <option value="0">Newest</option>
+                            <option value="1">Lowest price first</option>
+                            <option value="2">Highest Rated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group mt-4 p-2">
+                        <input type="submit" value="Search" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        @if (!Model.Courses.Any())
+        {
+            <h2 class="text-center">No courses found by the given criteria!</h2>
+        }
+        else
+        {
+            <div class="col-md-10">
+                <div class="card-group">
+                    @foreach (var course in Model.Courses)
+                    {
+                        <div class="card-group">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="@course.ImageUrl" alt="@course.Title - @course.Price">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">@course.Title - @course.Price lv.</h5>
+                                </div>
+                                <div>
+                                    <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
+                                    <a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
+                                    <a asp-controller="ShoppingCart" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Add </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
-        </div>
+        }
+        
     </div>
 </div>

@@ -26,14 +26,14 @@
 
         public IActionResult AddCategory()
         {
-            var category = new AddCategoryViewModel();
+            var category = new CategoryViewModel();
 
             return this.View(category);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AddCategory(AddCategoryViewModel model)
+        public async Task<IActionResult> AddCategory(CategoryViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -47,7 +47,7 @@
 
         public IActionResult AddSubCategory([FromRoute] int id)
         {
-            var category = new AddCategoryViewModel();
+            var category = new CategoryViewModel();
 
             category.ParentId = id;
 
@@ -55,7 +55,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddSubCategoryPost(AddCategoryViewModel model)
+        public async Task<IActionResult> AddSubCategoryPost(CategoryViewModel model)
         {
             if (!this.ModelState.IsValid)
             {

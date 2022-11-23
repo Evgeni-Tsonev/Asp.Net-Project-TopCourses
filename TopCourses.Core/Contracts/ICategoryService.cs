@@ -6,9 +6,9 @@
 
     public interface ICategoryService
     {
-        public Task<IEnumerable<AddCategoryViewModel>> GetAllCategories();
+        public Task<IEnumerable<CategoryViewModel>> GetAllCategories();
 
-        public Task CreateCategory(AddCategoryViewModel model);
+        public Task CreateCategory(CategoryViewModel model);
 
         Task<EditCategoryViewModel> GetCategoryForEdit(int id);
 

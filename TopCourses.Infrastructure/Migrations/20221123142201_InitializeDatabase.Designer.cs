@@ -12,8 +12,8 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    [Migration("20221115102729_initialize")]
-    partial class initialize
+    [Migration("20221123142201_InitializeDatabase")]
+    partial class InitializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -335,6 +335,11 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasMaxLength(1500)
                         .HasColumnType("nvarchar(1500)");
 
+                    b.Property<string>("Goals")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -354,8 +359,16 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Requirements")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("SubCategoryId")
                         .HasColumnType("int");
@@ -377,6 +390,8 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasIndex("CreatorId");
 
                     b.HasIndex("LanguageId");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("SubCategoryId");
 
@@ -419,6 +434,46 @@ namespace TopCourses.Infrastructure.Migrations
                     b.ToTable("Languages");
                 });
 
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("OrderTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -440,6 +495,9 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Rating")
                         .HasMaxLength(5)
@@ -633,11 +691,15 @@ namespace TopCourses.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TopCourses.Infrastructure.Data.Models.Language", "Lenguage")
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.Language", "Language")
                         .WithMany("Courses")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.Order", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Category", "SubCategory")
                         .WithMany("CoursesSubCategories")
@@ -649,7 +711,7 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.Navigation("Creator");
 
-                    b.Navigation("Lenguage");
+                    b.Navigation("Language");
 
                     b.Navigation("SubCategory");
                 });
@@ -671,6 +733,17 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Order", b =>
+                {
+                    b.HasOne("TopCourses.Infrastructure.Data.Identity.ApplicationUser", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Review", b =>
@@ -736,6 +809,8 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.Navigation("CoursesEnrolled");
 
+                    b.Navigation("Orders");
+
                     b.Navigation("Reviews");
 
                     b.Navigation("ShoppingCart");
@@ -760,6 +835,11 @@ namespace TopCourses.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Language", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Order", b =>
                 {
                     b.Navigation("Courses");
                 });

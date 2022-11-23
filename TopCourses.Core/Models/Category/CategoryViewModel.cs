@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class AddCategoryViewModel
+    public class CategoryViewModel
     {
         public int Id { get; set; }
 
@@ -14,6 +14,6 @@
 
         public bool IsDeleted { get; set; }
 
-        public virtual ICollection<AddCategoryViewModel> SubCategories { get; set; } = new HashSet<AddCategoryViewModel>();
+        public virtual ICollection<CategoryViewModel> SubCategories { get; set; } = new HashSet<CategoryViewModel>();
     }
 }
