@@ -156,41 +156,41 @@
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string? returnurl = null)
         {
-            returnurl = returnurl ?? Url.Content("~/");
-            if (ModelState.IsValid)
+            returnurl = returnurl ?? this.Url.Content("~/");
+            if (this.ModelState.IsValid)
             {
                 //get the info about the user from external login provider
-                var info = await signInManager.GetExternalLoginInfoAsync();
+                var info = await this.signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    return View("Error");
+                    return this.View("Error");
                 }
 
                 var user = new ApplicationUser()
-                { 
+                {
                     UserName = model.UserName,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                 };
 
-                var result = await userManager.CreateAsync(user);
+                var result = await this.userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await userManager.AddLoginAsync(user, info);
+                    result = await this.userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        await signInManager.SignInAsync(user, isPersistent: false);
-                        await signInManager.UpdateExternalAuthenticationTokensAsync(info);
-                        return LocalRedirect(returnurl);
+                        await this.signInManager.SignInAsync(user, isPersistent: false);
+                        await this.signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                        return this.LocalRedirect(returnurl);
                     }
                 }
 
-                ModelState.AddModelError("Email", "Error occuresd");
+                this.ModelState.AddModelError("Email", "Error occuresd");
             }
 
-            ViewData["ReturnUrl"] = returnurl;
-            return View(model);
+            this.ViewData["ReturnUrl"] = returnurl;
+            return this.View(model);
         }
 
         [HttpGet]
@@ -231,9 +231,9 @@
         [AllowAnonymous]
         public IActionResult ExternalLogin(string provider, string returnurl = null)
         {
-            returnurl = returnurl ?? Url.Content("~/");
+            returnurl = returnurl ?? this.Url.Content("~/");
             //request a redirect to the external login provider
-            var redirecturl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnurl });
+            var redirecturl = this.Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnurl });
             var properties = this.signInManager.ConfigureExternalAuthenticationProperties(provider, redirecturl);
             return this.Challenge(properties, provider);
         }

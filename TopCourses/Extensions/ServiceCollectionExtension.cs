@@ -5,6 +5,7 @@
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Services;
     using TopCourses.Infrastructure.Data;
+    using TopCourses.Infrastructure.Data.MongoInterfaceses;
     using TopCourses.Services.Messaging;
 
     public static class ServiceCollectionExtension
@@ -22,6 +23,7 @@
             services.AddScoped<IVideoService, VideoService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
+            services.AddScoped<IBucket, BucketContex>();
 
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(config["SendGrid:ApiKey"]));
 
@@ -35,10 +37,12 @@
                 options.UseSqlServer(connectionString));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            var mongoConnectionString = config.GetSection("MongoDb:ConnectionString").Value;
+            var mongoDatabaseName = config.GetSection("MongoDb:Database").Value;
             services.Configure<MongoDbSettings>(options =>
             {
-                options.ConnectionString = config.GetSection("MongoDb: DefaultConnection").Value;
-                options.Database = config.GetSection("MongoDb: Database").Value;
+                options.ConnectionString = mongoConnectionString;
+                options.Database = mongoDatabaseName;
             });
 
             return services;
