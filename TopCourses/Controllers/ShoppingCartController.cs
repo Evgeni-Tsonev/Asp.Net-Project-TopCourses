@@ -79,9 +79,7 @@
         public async Task<IActionResult> Summary(string stripeToken)
         {
             var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
             var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
-
             var order = new OrderViewModel()
             {
                 Courses = shoppingCart.Courses,
@@ -92,7 +90,6 @@
             };
 
             order.Id = await this.orderService.AddOrder(order, userId);
-
             var options = new ChargeCreateOptions
             {
                 Amount = Convert.ToInt32(order.TotalPrice * 100),
@@ -103,7 +100,6 @@
 
             var service = new ChargeService();
             Charge charge = service.Create(options);
-
             if (charge.Id == null)
             {
                 order.PaymentStatus = "rejected";
@@ -121,14 +117,12 @@
             }
 
             await this.orderService.UpdateOrder(order);
-
             foreach (var course in shoppingCart.Courses)
             {
                 await this.courseService.AddStudentToCourse(course.Id, userId);
             }
 
             await this.shoppingCartService.DeleteAllCoursesFromShoppingCart(userId);
-
             return this.RedirectToAction("OrderConfirmation", "ShoppingCart", new { id = order.Id });
         }
 

@@ -1,11 +1,14 @@
 ﻿namespace TopCourses.Controllers
 {
+    using System;
     using System.IO;
+    using System.Net;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.FileProviders;
     using MongoDB.Bson;
     using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
+    using SharpCompress.Common;
     using TopCourses.Infrastructure.Data.MongoInterfaceses;
 
     public class MongoTestController : Controller
@@ -73,26 +76,29 @@
             await stream.CloseAsync();
         }
 
-//        public async Task<IActionResult> Download(string id)
-//        {
-//            var filePath = @"C:\Users\Local.Admin\Downloads";
-//            using (var stream = await bucket.OpenDownloadStreamAsync(id))
-//            {
+        public async Task<IActionResult> Download(string id)
+        {
+            using (var client = new HttpClient())
+            {
+                using (var stream = bucket.OpenDownloadStream(new ObjectId("637ea5b20b6f886d85cbe908")))
+                {
+                    using (var fs = new FileStream("localfile.jpg", FileMode.OpenOrCreate))
+                    {
+                        //stream.BeginWrite();
+                    }
+                }
+            }
 
-//                IFileProvider provider = new PhysicalFileProvider(filePath); // Initialize the Provider
+            var filePath = @"C:\Users\Local.Admin\Downloads";
+            using (var stream = bucket.OpenDownloadStream(new ObjectId("637ea5b20b6f886d85cbe908")))
+            {
+                var buffer = new byte[1024];
+                var file = new StreamWriter(filePath);
+                // read from stream until end of file is reached
+            }
 
-//                var readStream = stream.Read(); // Extact the Stream
-//                var mimeType = "application/octet-stream"; // Set a mimeType
-//            }
-
-//            var destination = new MemoryStream();
-
-
-//            await bucket.DownloadToStreamAsync(id, destination);
-//            //var file = GetFileByIdAsync(fileName);
-//            return Ok()
-//;
-//        }
+            return Ok();
+        }
 
         //public void CopyStream(Stream stream, string destPath)
         //{
