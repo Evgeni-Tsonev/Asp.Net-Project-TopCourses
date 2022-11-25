@@ -3,7 +3,6 @@
     using TopCourses.Core.Models.Review;
     using TopCourses.Core.Models.Topic;
     using TopCourses.Core.Models.User;
-    using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models.enums;
 
     public class CourseDetailsViewModel
@@ -23,6 +22,8 @@
         public ICollection<TopicViewModel> Curriculum { get; set; } = new HashSet<TopicViewModel>();
 
         public ICollection<ReviewViewModel> Reviews { get; set; } = new HashSet<ReviewViewModel>();
+
+        public double Rating { get; set; }
 
         public Level Level { get; set; }
 

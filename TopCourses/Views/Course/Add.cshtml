@@ -102,48 +102,6 @@
                 </div>
             </div>
 
-            @*            <div id="topic-container">
-            </div>*@
-            <div id="topics" style="display: none">
-                <div class="card card-default col-md-8">
-                    <div class="card-header bg-indigo">
-                        <h3 class="card-title ">Add Topic</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label>Topic Title</label>
-                                <input id="topicTitle" class="form-control" />
-                                <label>Topic Description</label>
-                                <input id="topicDescription" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="row" id="videoInputs" style="display: none">
-                            <div class="col-md-12">
-                                <label>Video Title</label>
-                                <input id="videoTitle" class="form-control" />
-                                <label>Video Url</label>
-                                <input id="videoUrl" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button type="button" id="saveVideo" class="btn btn-primary" style="display: none">Save Video</button>
-                            <button type="button" id="addVideo" class="btn btn-primary">Add Video</button>
-                        </div>
-                        <div id="topicBtns" class="row">
-                            <button type="button" id="createTopic" class="btn btn-primary">Create Topic</button>
-                            <button type="button" id="cancelTopic" class="btn btn-primary">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-                <div id="createdVideos">
-                    <ul id="videoList">
-                    </ul>
-                </div>
-            </div>
-            <button id="show" type="button" class="btn btn-primary">Add Topic</button>
-
             <div class="form-group">
                 <label asp-for="Price"></label>
                 <input asp-for="Price" id="price" class="form-control" />
@@ -159,7 +117,6 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial.cshtml" />
-    <script src="~/js/addCourse.js"></script>
     <script>
         $(document).ready(function AddTopicSection() {
             let counter = 0;
@@ -217,9 +174,6 @@
 
                 lastVideoCounterElement.val(++lastVideoCounterValue);
             });
-        });
-
-            
-        
+        }); 
     </script>
 }

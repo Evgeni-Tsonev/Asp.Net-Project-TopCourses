@@ -86,6 +86,7 @@
                     LastName = course.Creator.LastName,
                     Email = course.Creator.Email,
                 },
+                Rating = Math.Round(course.Rating),
             };
         }
 
