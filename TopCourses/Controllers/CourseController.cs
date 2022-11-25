@@ -76,14 +76,12 @@
         public async Task<IActionResult> Add(AddCourseViewModel model)
         {
             var categories = await this.categoryService.GetAllCategories();
-
             if (!categories.Any(b => b.Id == model.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
             }
 
             var languages = await this.languageService.GetAll();
-
             if (!languages.Any(b => b.Id == model.LanguageId))
             {
                 this.ModelState.AddModelError(nameof(model.LanguageId), "Language does not exist");
@@ -98,7 +96,6 @@
 
             var currentUserId = this.GetUserId();
             await this.courseService.CreateCourse(model, currentUserId);
-
             return this.RedirectToAction(nameof(this.Index));
         }
 

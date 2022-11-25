@@ -18,6 +18,12 @@
 
         Task<IEnumerable<CourseListingViewModel>> GetAllNotApproved();
 
+        Task<IEnumerable<CourseListingViewModel>> GetAllEnroledCourses(string userId);
+
+        Task<IEnumerable<CourseListingViewModel>> GetAllCreatedCourses(string userId);
+
+        Task Delete(int courseId, string userId);
+
         Task CreateCourse(AddCourseViewModel courseModel, string sreatorId);
 
         Task<Course> GetCourseById(int courseId);

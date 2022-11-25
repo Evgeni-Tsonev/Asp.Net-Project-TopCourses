@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.IdentityModel.Tokens;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Course;
@@ -146,7 +147,6 @@
         {
             var course = await this.repository.AllReadonly<Course>()
                 .FirstOrDefaultAsync(x => x.Id == courseId);
-
             if (course == null)
             {
                 throw new Exception();
@@ -154,7 +154,6 @@
 
             var student = await this.repository
                 .GetByIdAsync<ApplicationUser>(studentId);
-
             if (student == null)
             {
                 throw new Exception();
@@ -173,14 +172,12 @@
         public async Task ApproveCourse(int courseId)
         {
             var course = await this.GetCourseById(courseId);
-
             if (course == null)
             {
                 throw new Exception("not exist");
             }
 
             course.IsApproved = true;
-
             await this.repository.SaveChangesAsync();
         }
 
@@ -255,6 +252,76 @@
             };
 
             return result;
+        }
+
+        public async Task<IEnumerable<CourseListingViewModel>> GetAllEnroledCourses(string userId)
+        {
+            var user = await this.repository
+                .AllReadonly<ApplicationUser>()
+                .Where(u => u.Id == userId)
+                .Include(c => c.CoursesEnrolled)
+                .ThenInclude(c => c.Course)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new Exception("Invalid Id");
+            }
+
+            return user.CoursesEnrolled.Select(c => new CourseListingViewModel()
+            {
+                Id = c.Course.Id,
+                Title = c.Course.Title,
+                ImageUrl = c.Course.ImageUrl,
+                Price = c.Course.Price,
+                //todo rating
+            });
+        }
+
+        public async Task<IEnumerable<CourseListingViewModel>> GetAllCreatedCourses(string userId)
+        {
+            var user = await this.repository
+                .AllReadonly<ApplicationUser>()
+                .Where(u => u.Id == userId)
+                .Include(c => c.CoursesCreated)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new Exception("Invalid Id");
+            }
+
+            return user.CoursesCreated.Select(c => new CourseListingViewModel()
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ImageUrl = c.ImageUrl,
+                Price = c.Price,
+                //todo rating
+            });
+        }
+
+        public async Task Delete(int courseId, string userId)
+        {
+            var course = await this.GetCourseById(courseId);
+            if (course == null)
+            {
+                throw new Exception("Invalid Id");
+            }
+
+            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            if (user == null)
+            {
+                throw new Exception("Invalid Id");
+            }
+
+            if (course.CreatorId != user.Id)
+            {
+                throw new Exception("Invalid operation");
+            }
+
+            course.IsDeleted = true;
+            await this.repository.SaveChangesAsync();
         }
     }
 }

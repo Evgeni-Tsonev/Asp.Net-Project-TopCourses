@@ -237,5 +237,19 @@
             var properties = this.signInManager.ConfigureExternalAuthenticationProperties(provider, redirecturl);
             return this.Challenge(properties, provider);
         }
+
+        public async Task<IActionResult> CreateRoles()
+        {
+            await this.roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> AddUsersToRoles()
+        {
+            string userId = "15b90917-e589-4d6e-9446-944cc45dfabc";
+            var user = await this.userManager.FindByIdAsync(userId);
+            await this.userManager.AddToRolesAsync(user, new string[] { RoleConstants.Administrator });
+            return this.RedirectToAction("Index", "Home");
+        }
     }
 }
