@@ -6,10 +6,10 @@
     {
         Task AddReview(AddReviewViewModel model);
 
-        Task DeleteReview(int id);
+        Task DeleteReview(int id, string userId);
 
-        Task<EditReviewViewModel> GetReviewForEdit(int id);
+        Task<EditReviewViewModel> GetReviewForEdit(int id, string userId);
 
-        Task Update(EditReviewViewModel model);
+        Task Update(EditReviewViewModel model, string userId);
     }
 }

@@ -45,25 +45,44 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task DeleteReview(int id)
+        public async Task DeleteReview(int id, string userId)
         {
-            var review = await this.repository.GetByIdAsync<Review>(id);
+            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            if (user == null)
+            {
+                throw new Exception();
+            }
 
+            var review = await this.repository.GetByIdAsync<Review>(id);
             if (review == null)
             {
                 throw new Exception();
             }
 
-            review.IsDeleted = true;
+            if (review.UserId != user.Id)
+            {
+                throw new Exception("Invalid operation");
+            }
 
+            review.IsDeleted = true;
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task Update(EditReviewViewModel model)
+        public async Task Update(EditReviewViewModel model, string userId)
         {
             var review = await this.repository.GetByIdAsync<Review>(model.Id);
-
             if (review == null)
+            {
+                throw new Exception();
+            }
+
+            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
+            if (model.UserId != user.Id)
             {
                 throw new Exception();
             }
@@ -75,11 +94,21 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<EditReviewViewModel> GetReviewForEdit(int id)
+        public async Task<EditReviewViewModel> GetReviewForEdit(int id, string userId)
         {
             var model = await this.repository.GetByIdAsync<Review>(id);
-
             if (model == null)
+            {
+                throw new Exception();
+            }
+
+            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
+            if (model.UserId != user.Id)
             {
                 throw new Exception();
             }
@@ -89,6 +118,7 @@
                 Id = model.Id,
                 Rating = model.Rating,
                 Comment = model.Comment,
+                UserId = model.UserId,
             };
         }
     }

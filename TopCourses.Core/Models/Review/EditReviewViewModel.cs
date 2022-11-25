@@ -14,5 +14,7 @@
         public int Rating { get; set; }
 
         public DateTime LastUpdate { get; set; }
+
+        public string UserId { get; set; }
     }
 }
