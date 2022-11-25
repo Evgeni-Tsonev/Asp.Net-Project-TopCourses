@@ -15,7 +15,7 @@
         public string UserId { get; set; } = null!;
 
         public int CourseId { get; set; }
-        
+
         public DateTime DateOfPublication { get; set; }
     }
 }

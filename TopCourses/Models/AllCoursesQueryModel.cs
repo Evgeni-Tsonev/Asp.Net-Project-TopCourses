@@ -16,9 +16,9 @@
 
         public string? SearchTerm { get; set; }
 
-        public decimal? MinPrice { get; set; }
+        public decimal MinPrice { get; set; } = 0;
 
-        public decimal? MaxPrice { get; set; }
+        public decimal MaxPrice { get; set; } = 2000;
 
         public CourseSorting Sorting { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Core.Models.Review;
 
     public class CourseListingViewModel
     {

@@ -66,6 +66,10 @@
 
         public DateTime? LastUpdate { get; set; }
 
+        [NotMapped]
+        public double Rating
+            => this.Reviews.Count > 0 ? this.Reviews.Average(x => x.Rating) : 0;
+
         public ICollection<CourseApplicationUser> Students { get; set; } = new HashSet<CourseApplicationUser>();
 
         public ICollection<ShoppingCart> ShoppingCart { get; set; } = new HashSet<ShoppingCart>();

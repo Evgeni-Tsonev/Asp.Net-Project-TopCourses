@@ -11,5 +11,7 @@
         Task<EditReviewViewModel> GetReviewForEdit(int id, string userId);
 
         Task Update(EditReviewViewModel model, string userId);
+
+        double GetAverageRating(int courseId);
     }
 }

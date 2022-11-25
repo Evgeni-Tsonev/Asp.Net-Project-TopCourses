@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.IdentityModel.Tokens;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Course;
@@ -18,11 +17,13 @@
     {
         private readonly IDbRepository repository;
         private readonly IVideoService videoService;
+        private readonly IReviewService reviewService;
 
-        public CourseService(IDbRepository repository, IVideoService videoService)
+        public CourseService(IDbRepository repository, IVideoService videoService, IReviewService reviewService)
         {
             this.repository = repository;
             this.videoService = videoService;
+            this.reviewService = reviewService;
         }
 
         public async Task<CourseDetailsViewModel> GetCourseDetails(int courseId)
@@ -58,7 +59,9 @@
                         VideoUrl = v.Url,
                     }).ToList(),
                 }).ToList(),
-                Reviews = course.Reviews.Select(r => new ReviewViewModel()
+                Reviews = course.Reviews
+                .Where(r => r.IsDeleted == false)
+                .Select(r => new ReviewViewModel()
                 {
                     Id = r.Id,
                     UserFullName = $"{r.User.FirstName} {r.User.LastName}",
@@ -78,6 +81,7 @@
                 LastUpdate = course.LastUpdate,
                 Creator = new UserViewModel()
                 {
+                    Id = course.Creator.Id,
                     FirstName = course.Creator.FirstName,
                     LastName = course.Creator.LastName,
                     Email = course.Creator.Email,
@@ -186,13 +190,14 @@
             string? subCategory = null,
             string? searchTerm = null,
             string? language = null,
-            decimal? minPrice = 0,
-            decimal? maxPrice = 2000,
+            decimal minPrice = 0,
+            decimal maxPrice = 2000,
             int currentPage = 1,
             int coursessPerPage = 1,
             CourseSorting sorting = CourseSorting.Newest)
         {
             var courses = this.repository.AllReadonly<Course>()
+                .Include(c => c.Reviews)
                 .Where(c => c.IsDeleted == false && c.IsApproved == true);
 
             if (!string.IsNullOrEmpty(category))
@@ -220,15 +225,8 @@
                 EF.Functions.Like(c.Description.ToLower(), searchTerm));
             }
 
-            if (minPrice != null)
-            {
-                courses = courses.Where(c => c.Price >= minPrice);
-            }
-
-            if (maxPrice != null)
-            {
-                courses = courses.Where(c => c.Price <= maxPrice);
-            }
+            courses = courses.Where(c => c.Price >= minPrice);
+            courses = courses.Where(c => c.Price <= maxPrice);
 
             var result = await courses
                 .Skip((currentPage - 1) * coursessPerPage)
@@ -238,7 +236,7 @@
                     Id = c.Id,
                     Title = c.Title,
                     ImageUrl = c.ImageUrl,
-                    Rating = c.Reviews.Sum(r => r.Rating) / c.Reviews.Count,
+                    Rating = c.Rating,
                     Price = c.Price,
                 }).ToListAsync();
 

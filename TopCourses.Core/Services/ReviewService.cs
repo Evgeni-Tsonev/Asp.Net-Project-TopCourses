@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Core.Services
 {
+    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
@@ -19,14 +20,12 @@
         public async Task AddReview(AddReviewViewModel model)
         {
             var user = await this.repository.GetByIdAsync<ApplicationUser>(model.UserId);
-
             if (user == null)
             {
                 throw new Exception();
             }
 
             var course = await this.repository.GetByIdAsync<Course>(model.CourseId);
-
             if (course == null)
             {
                 throw new Exception();
@@ -120,6 +119,15 @@
                 Comment = model.Comment,
                 UserId = model.UserId,
             };
+        }
+
+        public double GetAverageRating(int courseId)
+        {
+            var averageRating = this.repository
+                .AllReadonly<Review>()
+                .Where(c => c.CourseId == courseId)
+                .Average(r => r.Rating);
+            return averageRating;
         }
     }
 }

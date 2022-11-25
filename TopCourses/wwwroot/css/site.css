@@ -16,3 +16,7 @@ html {
 body {
 
 }
+
+.checked {
+    color: orange;
+}
