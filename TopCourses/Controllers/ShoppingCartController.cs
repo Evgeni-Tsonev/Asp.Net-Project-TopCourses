@@ -27,7 +27,6 @@
         {
             var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
-
             return this.View(shoppingCart);
         }
 
@@ -45,16 +44,13 @@
             }
 
             this.TempData[MessageConstant.SuccessMessage] = "Successfully added course to Shopping cart";
-
             return this.RedirectToAction("Index", "Course");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-
             var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await this.shoppingCartService.DeleteCourseFromShoppingCart(id, userId);
-
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -62,16 +58,13 @@
         {
             var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await this.shoppingCartService.DeleteAllCoursesFromShoppingCart(userId);
-
             return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<IActionResult> Summary()
         {
             var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
             var shoppingCart = await this.shoppingCartService.GetShoppingCart(userId);
-
             return this.View(shoppingCart);
         }
 

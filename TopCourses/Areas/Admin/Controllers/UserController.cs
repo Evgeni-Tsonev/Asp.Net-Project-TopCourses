@@ -57,7 +57,6 @@
             var user = await this.userService.GetUserById(model.UserId);
             var userRoles = await this.userManager.GetRolesAsync(user);
             await this.userManager.RemoveFromRolesAsync(user, userRoles);
-
             if (model.RoleNames?.Length > 0)
             {
                 await this.userManager.AddToRolesAsync(user, model.RoleNames);

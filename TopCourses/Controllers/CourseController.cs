@@ -106,7 +106,6 @@
 
             this.ViewData["Title"] = $"{course.Title}";
             this.ViewData["Subtitle"] = $"{course.Subtitle}";
-
             return this.View(course);
         }
 
@@ -120,7 +119,6 @@
                     using (var stream = new MemoryStream())
                     {
                         await file.CopyToAsync(stream);
-
                         var fileToSave = new ApplicationFile()
                         {
                             FileName = file.FileName,

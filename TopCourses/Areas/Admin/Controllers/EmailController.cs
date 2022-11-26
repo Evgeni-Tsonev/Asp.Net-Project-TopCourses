@@ -26,9 +26,7 @@
         {
             var course = await this.courseService.GetCourseDetails(id);
             var view = await this.renderer.RenderToString("~/Views/Course/Details.cshtml", course);
-
-            await this.emailService.SendEmailAsync("evgeni_136@abv.bg", "TopCourses", "gotic25874@lance7.com", course.Title, view);
-
+            await this.emailService.SendEmailAsync("evgeni_136@abv.bg", "TopCourses", course.Creator.Email, course.Title, view);
             this.TempData[MessageConstant.SuccessMessage] = "Email send succsessfully";
             return this.RedirectToAction("Details", "Course", new { area = "admin", id = course.Id });
         }

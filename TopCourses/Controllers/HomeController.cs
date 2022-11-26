@@ -3,16 +3,13 @@
     using System.Diagnostics;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using TopCourses.Core.Contracts;
     using TopCourses.Models;
 
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> logger;
 
-        public HomeController(
-            ILogger<HomeController> logger,
-            ICourseService courseService)
+        public HomeController(ILogger<HomeController> logger)
         {
             this.logger = logger;
         }

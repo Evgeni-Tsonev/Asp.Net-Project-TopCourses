@@ -22,7 +22,6 @@
         public IActionResult CreateReview(int id)
         {
             var userId = this.GetUserId();
-
             var model = new AddReviewViewModel()
             {
                 UserId = userId,
@@ -36,7 +35,6 @@
         public async Task<IActionResult> AddReview(AddReviewViewModel model)
         {
             model.DateOfPublication = DateTime.Now;
-
             if (!this.ModelState.IsValid)
             {
                 return this.View("CreateReview", model);
