@@ -2,11 +2,12 @@
 {
     using System.Collections.Generic;
     using TopCourses.Core.Models.Category;
-    using TopCourses.Core.Models.Language;
 
     public interface ICategoryService
     {
-        public Task<IEnumerable<CategoryViewModel>> GetAllCategories();
+        public Task<IEnumerable<CategoryViewModel>> GetAllMainCategories();
+
+        public Task<IEnumerable<CategoryViewModel>> GetAllSubCategories(int mainCategoryId);
 
         public Task CreateCategory(CategoryViewModel model);
 

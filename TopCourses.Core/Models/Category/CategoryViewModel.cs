@@ -13,7 +13,5 @@
         public int? ParentId { get; set; }
 
         public bool IsDeleted { get; set; }
-
-        public virtual ICollection<CategoryViewModel> SubCategories { get; set; } = new HashSet<CategoryViewModel>();
     }
 }

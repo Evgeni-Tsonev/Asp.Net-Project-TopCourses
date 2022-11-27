@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Areas.Admin.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using TopCourses.Areas.Admin.Models;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Category;
 
@@ -15,10 +16,18 @@
 
         public async Task<IActionResult> Index()
         {
-            var allCategories = await this.categoriesService.GetAllCategories();
+            var allCategories = await this.categoriesService.GetAllMainCategories();
             this.ViewData["Title"] = "Categories";
-            this.ViewData["SubCategoriesTitle"] = "Sub categories";
             return this.View(allCategories);
+        }
+
+        public async Task<IActionResult> SubCategories(int id)
+        {
+            var model = new SubCategoriesListModel();
+            model.MainCategoryId = id;
+            model.SubCategories = await this.categoriesService.GetAllSubCategories(id);
+            this.ViewData["Title"] = "Sub Categories";
+            return this.View(model);
         }
 
         public IActionResult AddCategory()
@@ -39,10 +48,10 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
-        public IActionResult AddSubCategory([FromRoute] int id)
+        public IActionResult AddSubCategory(int parentId)
         {
             var category = new CategoryViewModel();
-            category.ParentId = id;
+            category.ParentId = parentId;
             return this.View(category);
         }
 

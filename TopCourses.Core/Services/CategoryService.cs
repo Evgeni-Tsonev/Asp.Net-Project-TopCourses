@@ -41,10 +41,11 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CategoryViewModel>> GetAllCategories()
+        public async Task<IEnumerable<CategoryViewModel>> GetAllMainCategories()
         {
-            var categories = await this.repository.AllReadonly<Category>()
-                .Where(c => c.IsDeleted == false)
+            var categories = await this.repository
+                .AllReadonly<Category>()
+                .Where(c => c.IsDeleted == false && c.ParentId == null)
                 .Select(c => new CategoryViewModel
                 {
                     Id = c.Id,
@@ -52,18 +53,22 @@
                     ParentId = c.ParentId,
                 }).ToListAsync();
 
-            var categoriesToReturn = new List<CategoryViewModel>();
-            foreach (var mainCategory in categories.Where(c => c.ParentId == null))
-            {
-                foreach (var subCategory in categories.Where(c => c.ParentId == mainCategory.Id))
+            return categories;
+        }
+
+        public async Task<IEnumerable<CategoryViewModel>> GetAllSubCategories(int mainCategoryId)
+        {
+            var subCategories = await this.repository
+                .AllReadonly<Category>()
+                .Where(c => c.IsDeleted == false && c.ParentId == mainCategoryId)
+                .Select(c => new CategoryViewModel
                 {
-                    mainCategory.SubCategories.Add(subCategory);
-                }
+                    Id = c.Id,
+                    Title = c.Title,
+                    ParentId = c.ParentId,
+                }).ToListAsync();
 
-                categoriesToReturn.Add(mainCategory);
-            }
-
-            return categoriesToReturn;
+            return subCategories;
         }
 
         public async Task<EditCategoryViewModel> GetCategoryForEdit(int id)

@@ -50,7 +50,7 @@
                 AllCoursesQueryModel.CoursesPerPage,
                 query.Sorting);
 
-            var allCategories = await this.categoryService.GetAllCategories();
+            var allCategories = await this.categoryService.GetAllMainCategories();
 
             query.Categories = allCategories.Where(c => c.ParentId == null);
             query.Languages = await this.languageService.GetAll();
@@ -61,7 +61,7 @@
 
         public async Task<IActionResult> Add()
         {
-            var categories = await this.categoryService.GetAllCategories();
+            var categories = await this.categoryService.GetAllMainCategories();
             var languages = await this.languageService.GetAll();
             var course = new AddCourseViewModel()
             {
@@ -75,7 +75,7 @@
         [HttpPost]
         public async Task<IActionResult> Add(AddCourseViewModel model)
         {
-            var categories = await this.categoryService.GetAllCategories();
+            var categories = await this.categoryService.GetAllMainCategories();
             if (!categories.Any(b => b.Id == model.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");

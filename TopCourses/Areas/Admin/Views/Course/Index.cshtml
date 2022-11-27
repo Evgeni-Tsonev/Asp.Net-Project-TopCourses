@@ -3,109 +3,33 @@
 @{
     ViewData["Title"] = "All Unapproved courses";
 }
-
-<div class="container border-dark">
-    <div class="row">
-        <div class="col-md-2 bg-secondary">
-            <div class="filter-sidebar">
-                <div class="row card-body py-2 mb-2 bg-dark twhite">
-                    <h4>Search Options</h4>
-                </div>
-                <div class="form-group">
-                    <select class="form-control">
-                        <option>Conditions</option>
-                        <option>New</option>
-                        <option>Used</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="conditionsselect2">
-                        <option>Body</option>
-                        <option>Compact</option>
-                        <option>Convertible</option>
-                        <option>Coupe</option>
-                        <option>Off-road</option>
-                        <option>Sedan</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="make1">
-                        <option>Make</option>
-                        <option>Ford</option>
-                        <option>Hyundai</option>
-                        <option>Kia</option>
-                        <option>Honda</option>
-                        <option>Skoda</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="make1">
-                        <option>Model</option>
-                        <option>Accord</option>
-                        <option>Camry</option>
-                        <option>Civic</option>
-                        <option>Rapid</option>
-                        <option>Octavia</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="mileage1">
-                        <option>Max Mileage</option>
-                        <option>&lt; 5000</option>
-                        <option>5000-10000</option>
-                        <option>10000-15000</option>
-                        <option>15000-20000</option>
-                        <option>20000-25000</option>
-                        <option>&gt; 25000</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="year1">
-                        <option>Year</option>
-                        <option>2000</option>
-                        <option>2001</option>
-                        <option>2002</option>
-                        <option>2003</option>
-                        <option>2004</option>
-                        <option>2005</option>
-                        <option>2006</option>
-                        <option>2007</option>
-                        <option>2008</option>
-                        <option>2009</option>
-                        <option>2010</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="make1">
-                        <option>Transmission</option>
-                        <option>Automatic</option>
-                        <option>Manaul</option>
-                        <option>Semi-Automatic</option>
-                    </select>
-                </div>
-                <hr>
-                <button type="btn" class="btn btn-primary">Find Now</button>
-                <button type="btn" class="btn btn-primary">Reset All</button>
-                <div class="pb-3"></div>
-            </div>
-        </div>
-        <div class="col-md-10">
-            <div class="card-group">
-                @foreach (var course in Model)
-                {
-                    <div class="card-group">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="@course.ImageUrl" alt="@course.Title - @course.Price">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">@course.Title - @course.Price lv.</h5>
-                            </div>
-                            <div>
-                                <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">Review Course</a>
+@if (Model.Count() == 0)
+{
+    <h1>Theres no Unaproved Courses</h1>
+}
+else
+{
+    <div class="container border-dark">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="card-group">
+                    @foreach (var course in Model)
+                    {
+                        <div class="card-group">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="@course.ImageUrl" alt="@course.Title - @course.Price">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">@course.Title - @course.Price lv.</h5>
+                                </div>
+                                <div>
+                                    <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">Review Course</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+
