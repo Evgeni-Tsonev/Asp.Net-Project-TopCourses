@@ -89,10 +89,10 @@
         </div>
         <div class="col-md-3 sticky-top">
             <img src="@Model.ImageUrl" style="width: 18rem;height: 18rem" class="img-thumbnail">
+            <div>Instructor:</div>
             <p>@Model.Creator.FirstName @Model.Creator.LastName</p>
             <p>@Model.Creator.Email</p>
             <a asp-controller="ShoppingCart" asp-action="Add" type="button" class="btn btn-block btn-primary btn-lg">Add to Cart</a>
-            <a asp-controller="Review" asp-action="CreateReview" asp-route-id="@Model.Id" type="button" class="btn btn-block btn-primary btn-lg">Add Review</a>
         </div>
     </div>
     <div class="row">
@@ -141,6 +141,7 @@
 
                 </div>
             </div>
+            <a asp-controller="Review" asp-action="CreateReview" asp-route-id="@Model.Id" type="button" class="btn btn-block btn-primary btn-lg">Add Review</a>
         </div>
     </div>
 </div>

@@ -13,7 +13,7 @@
 
     public class CourseController : BaseController
     {
-        private readonly ILogger<CourseController> logger;
+        private readonly ILogger logger;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ICourseService courseService;
         private readonly ICategoryService categoryService;
@@ -103,14 +103,14 @@
         public async Task<IActionResult> Details([FromRoute] int id)
         {
             var course = await this.courseService.GetCourseDetails(id);
-
             this.ViewData["Title"] = $"{course.Title}";
             this.ViewData["Subtitle"] = $"{course.Subtitle}";
             return this.View(course);
         }
 
         //todo
-        public async Task<IActionResult> UploadFile(IFormFile file, int sectionId)
+        [HttpPost]
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
             try
             {
@@ -124,7 +124,6 @@
                             FileName = file.FileName,
                             Content = stream.ToArray(),
                             ContentType = file.ContentType,
-                            SourceId = sectionId,
                         };
                         await this.fileService.SaveFile(fileToSave);
                     }
@@ -140,6 +139,15 @@
             this.TempData[MessageConstant.SuccessMessage] = "File uploaded successfully";
             //todo
             return this.RedirectToAction(nameof(this.Index));
+        }
+
+        public async Task<IActionResult> MyLearning()
+        {
+            var model = new MyLearningViewModel();
+            var userId = this.GetUserId();
+            model.CoursesEnrolled = await this.courseService.GetAllEnroledCourses(userId);
+            model.CoursesCreated = await this.courseService.GetAllCreatedCourses(userId);
+            return this.View(model);
         }
 
         private string GetUserId()

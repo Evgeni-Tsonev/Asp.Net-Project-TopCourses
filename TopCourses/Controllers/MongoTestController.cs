@@ -1,17 +1,22 @@
 ﻿namespace TopCourses.Controllers
 {
-    using System.IO;
     using Microsoft.AspNetCore.Mvc;
     using MongoDB.Bson;
+    using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
+    using SharpCompress.Compressors.Xz;
+    using System.IO;
+    using TopCourses.Core.Constants;
     using TopCourses.Infrastructure.Data.MongoInterfaceses;
 
     public class MongoTestController : Controller
     {
         private readonly GridFSBucket bucket;
+        private readonly ILogger logger;
 
-        public MongoTestController(IBucket bucketContex)
+        public MongoTestController(IBucket bucketContex, ILogger<MongoTestController> logger)
         {
+            this.logger = logger;
             this.bucket = bucketContex.Create();
         }
 
@@ -20,45 +25,82 @@
             return this.View();
         }
 
-
         [HttpPost]
-        public async Task UploadFile(IFormFile file)
+        [DisableRequestSizeLimit]
+        public async Task UploadFile(IFormFileCollection files)
         {
-            var type = file.ContentType.ToString();
-            var fileName = file.FileName;
-            var options = new GridFSUploadOptions
+            var filesIds = new List<string>();
+            foreach (var file in files)
             {
-                Metadata = new BsonDocument { { "FileName", fileName }, { "Type", type } },
-            };
+                try
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        var type = file.ContentType.ToString();
+                        var fileName = file.FileName;
+                        var options = new GridFSUploadOptions
+                        {
+                            Metadata = new BsonDocument { { "FileName", fileName }, { "Type", type } },
+                        };
 
-            using var stream = await this.bucket.OpenUploadStreamAsync(fileName, options); // Open the output stream
-            var id = stream.Id; // Unique Id of the file
-            file.CopyTo(stream); // Copy the contents to the stream
-            await stream.CloseAsync();
+                        //using (var str = new MemoryStream())
+                        //{
+                        //    var test = file.CopyToAsync(str);
+                        //    byte[] data = str.ToArray();
+                        //    await this.bucket.UploadFromBytesAsync(fileName, data, options);
+                        //}
+
+                        using (var stream = await this.bucket.OpenUploadStreamAsync(fileName, options))
+                        {
+                            await file.CopyToAsync(stream);
+                            filesIds.Add(stream.Id.ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+                }
+            }
         }
+        //public async Task<IActionResult> UploadFile(IFormFile file)
+        //{
+        //    try
+        //    {
+        //        if (file != null && file.Length > 0)
+        //        {
+        //            using (var stream = new MemoryStream())
+        //            {
+        //                await file.CopyToAsync(stream);
+        //                var fileToSave = new ApplicationFile()
+        //                {
+        //                    FileName = file.FileName,
+        //                    Content = stream.ToArray(),
+        //                    ContentType = file.ContentType,
+        //                };
+        //                await this.fileService.SaveFile(fileToSave);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this.logger.LogError(ex, "CourseController/UploadFile");
+
+        //        this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+        //    }
+
+        //    this.TempData[MessageConstant.SuccessMessage] = "File uploaded successfully";
+        //    //todo
+        //    return this.RedirectToAction(nameof(this.Index));
+        //}
 
         public async Task<IActionResult> Download(string id)
         {
-            using (var client = new HttpClient())
-            {
-                using (var stream = this.bucket.OpenDownloadStream(new ObjectId("637ea5b20b6f886d85cbe908")))
-                {
-                    using (var fs = new FileStream("localfile.jpg", FileMode.OpenOrCreate))
-                    {
-                        //stream.BeginWrite();
-                    }
-                }
-            }
-
-            var filePath = @"C:\Users\Local.Admin\Downloads";
-            using (var stream = this.bucket.OpenDownloadStream(new ObjectId("637ea5b20b6f886d85cbe908")))
-            {
-                var buffer = new byte[1024];
-                var file = new StreamWriter(filePath);
-                // read from stream until end of file is reached
-            }
-
-            return this.Ok();
+            var stream = await this.bucket.OpenDownloadStreamAsync(new ObjectId("6383ad2f3d5004fba5fa70ba"));
+            var fileName = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "FileName");
+            var fileType = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "Type");
+            return this.File(stream, fileType.Value.ToString(), fileName.Value.ToString());
         }
     }
 }

@@ -1,0 +1,53 @@
+﻿@model MyLearningViewModel
+
+@{
+    ViewData["Title"] = "My learing";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Courses Enrolled</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Courses Created</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="activity">
+                        @if (Model.CoursesEnrolled.Count() > 0)
+                        {
+                            @foreach (var course in Model.CoursesEnrolled)
+                            {
+                                <div>@course.Title</div>  
+                            }
+                        }
+                        else
+                        {
+                            <h2>Not Courses Enrolled Yet</h2>
+                        }
+                    </div>
+
+                    <div class="tab-pane" id="timeline">
+                        @if (Model.CoursesCreated.Count() > 0)
+                        {
+                            @foreach (var course in Model.CoursesCreated)
+                            {
+                                <div>@course.Title</div>
+                            }
+                        }
+                        else
+                        {
+                            <h2>Not Courses Created Yet</h2>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    
+
