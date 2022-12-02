@@ -7,5 +7,7 @@
         public IEnumerable<CourseListingViewModel> CoursesEnrolled { get; set; } = new List<CourseListingViewModel>();
 
         public IEnumerable<CourseListingViewModel> CoursesCreated { get; set; } = new List<CourseListingViewModel>();
+
+        public IEnumerable<CourseListingViewModel> ArchivedCourses { get; set; } = new List<CourseListingViewModel>();
     }
 }

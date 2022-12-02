@@ -11,6 +11,7 @@
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Courses Enrolled</a></li>
                     <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Courses Created</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#archive" data-toggle="tab">Archived Courses</a></li>
                 </ul>
             </div>
             <div class="card-body">
@@ -20,7 +21,26 @@
                         {
                             @foreach (var course in Model.CoursesEnrolled)
                             {
-                                <div>@course.Title</div>  
+                                <div class="row">
+                                    <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                                            <img src="@course.ImageUrl" class="rounded" width="100%" />
+                                        </a>
+                                    </div>
+                                    <div class="col-12 text-sm-center col-lg-6 text-lg-left">
+                                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                                            <h5><strong>@course.Title</strong></h5>
+                                        </a>
+                                    </div>
+                                    <div class="float-right mx-1">
+                                        <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr />
                             }
                         }
                         else
@@ -34,12 +54,70 @@
                         {
                             @foreach (var course in Model.CoursesCreated)
                             {
-                                <div>@course.Title</div>
+                                <div class="row">
+                                    <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                                            <img src="@course.ImageUrl" class="rounded" width="100%" />
+                                        </a>
+                                    </div>
+                                    <div class="col-12 text-sm-center col-lg-6 text-lg-left">
+                                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                                            <h5><strong>@course.Title</strong></h5>
+                                        </a>
+                                    </div>
+                                    <div class="float-right mx-1">
+                                        <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+                                    </div>
+                                    <form asp-controller="Course" asp-action="Delete" method="post">
+                                        <input type="hidden" name="courseId" value="@course.Id" />
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <hr />
                             }
                         }
                         else
                         {
                             <h2>Not Courses Created Yet</h2>
+                        }
+                    </div>
+
+                    <div class="tab-pane" id="archive">
+                        @if (Model.ArchivedCourses.Count() > 0)
+                        {
+                            @foreach (var course in Model.ArchivedCourses)
+                            {
+                                <div class="row">
+                                    <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                                            <img src="@course.ImageUrl" class="rounded" width="100%" />
+                                        </a>
+                                    </div>
+                                    <div class="col-12 text-sm-center col-lg-6 text-lg-left">
+                                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                                            <h5><strong>@course.Title</strong></h5>
+                                        </a>
+                                    </div>
+                                    <div class="float-right mx-1">
+                                        <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr />
+                            }
+                        }
+                        else
+                        {
+                            <h2>Not Courses Yet</h2>
                         }
                     </div>
                 </div>
@@ -49,5 +127,5 @@
     </div>
 </div>
 
-    
+
 

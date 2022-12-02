@@ -147,7 +147,16 @@
             var userId = this.GetUserId();
             model.CoursesEnrolled = await this.courseService.GetAllEnroledCourses(userId);
             model.CoursesCreated = await this.courseService.GetAllCreatedCourses(userId);
+            model.ArchivedCourses = await this.courseService.GetAllArchivedCourses(userId);
             return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromForm]int courseId)
+        {
+            var userId = this.GetUserId();
+            await this.courseService.Delete(courseId, userId);
+            return this.RedirectToAction("MyLearning");
         }
 
         private string GetUserId()

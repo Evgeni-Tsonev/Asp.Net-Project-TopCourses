@@ -290,7 +290,34 @@
                 throw new Exception("Invalid Id");
             }
 
-            return user.CoursesCreated.Select(c => new CourseListingViewModel()
+            return user.CoursesCreated
+                .Where(c => c.IsDeleted == false)
+                .Select(c => new CourseListingViewModel()
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ImageUrl = c.ImageUrl,
+                Price = c.Price,
+                //todo rating
+            });
+        }
+
+        public async Task<IEnumerable<CourseListingViewModel>> GetAllArchivedCourses(string userId)
+        {
+            var user = await this.repository
+                .AllReadonly<ApplicationUser>()
+                .Where(u => u.Id == userId)
+                .Include(c => c.CoursesCreated)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new Exception("Invalid User");
+            }
+
+            return user.CoursesCreated
+                .Where(c => c.IsDeleted == true)
+                .Select(c => new CourseListingViewModel()
             {
                 Id = c.Id,
                 Title = c.Title,
@@ -305,18 +332,18 @@
             var course = await this.GetCourseById(courseId);
             if (course == null)
             {
-                throw new Exception("Invalid Id");
+                throw new Exception("Invalid Course");
             }
 
             var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
             if (user == null)
             {
-                throw new Exception("Invalid Id");
+                throw new Exception("Invalid User");
             }
 
             if (course.CreatorId != user.Id)
             {
-                throw new Exception("Invalid operation");
+                throw new Exception("User doesn't have permission to delete this course");
             }
 
             course.IsDeleted = true;

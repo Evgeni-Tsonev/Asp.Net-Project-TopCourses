@@ -22,6 +22,8 @@
 
         Task<IEnumerable<CourseListingViewModel>> GetAllCreatedCourses(string userId);
 
+        Task<IEnumerable<CourseListingViewModel>> GetAllArchivedCourses(string userId);
+
         Task Delete(int courseId, string userId);
 
         Task CreateCourse(AddCourseViewModel courseModel, string sreatorId);
