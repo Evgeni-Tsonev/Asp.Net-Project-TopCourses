@@ -9,7 +9,7 @@
         <h3 class="card-title">@ViewData["Title"]</h3>
     </div>
 
-    <form asp-controller="Course" id="idForm" method="post">
+    <form asp-controller="Course" id="idForm" enctype="multipart/form-data" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="card-body">
             <div class="form-group">
@@ -125,55 +125,58 @@
                 let topicName = `Curriculum[${counter}]`;
                 let lastVideoCounter = 0;
                 $("#topic-container").append(`<div class="col">
-                                                  <div class="card card-indigo">
-                                                      <input name="curriculumName" value="${topicName}" hidden />
-                                                      <div class="card-header">
-                                                      <input name="last-video-counter" value="${lastVideoCounter}" hidden />
-                                                        <label>Topic Title:</label>
-                                                        <input class="form-control" name="${topicName}.Title" />
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="form-group">
-                                                            <label>Topic Description: </label>
-                                                            <textarea class="form-control" name="${topicName}.Description"></textarea>
-                                                        </div>
-                                                    </div>
-                                                  <div name="video-container">
-                                                      <div class="col-6 d-flex justify-content-center">
-                                                          <h4><strong>Videos:</strong></h4>
-                                                      </div>
-                                                 </div>
-                                              <div class="card-footer">
-                                                  <button name="add-video" class="btn-primary">Add Video</button>
-                                              </div>`);
-                 counter++;
+                                                          <div class="card card-indigo">
+                                                              <input name="curriculumName" value="${topicName}" hidden />
+                                                              <div class="card-header">
+                                                              <input name="last-video-counter" value="${lastVideoCounter}" hidden />
+                                                                <label>Topic Title:</label>
+                                                                <input class="form-control" name="${topicName}.Title" />
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="form-group">
+                                                                    <label>Topic Description: </label>
+                                                                    <textarea class="form-control" name="${topicName}.Description"></textarea>
+                                                                </div>
+                                                            </div>
+                                                          <div>
+                                                              <div class="col-12 d-flex justify-content-center">
+                                                                 <h4><strong>Files:</strong></h4>
+                                                              </div>
+                                                              <div class="col-12 d-flex justify-content-center">
+                                                                 <input type="file" form="idForm" name="${topicName}.Files" multiple>
+                                                              </div>
+                                                          </div>
+                                                          <div name="video-container">
+                                                              <div class="col-12 d-flex justify-content-center">
+                                                                  <h4><strong>Videos:</strong></h4>
+                                                              </div>
+                                                         </div>
+                                                      <div class="card-footer">
+                                                          <button name="add-video" class="btn-primary">Add Video</button>
+                                                      </div>`);
+                counter++;
             });
-
-            $(document).on('click','button[name="add-video"]' , function (e) {
+            $(document).on('click', 'button[name="add-video"]', function (e) {
                 e.preventDefault();
                 let parent = $(this).parent().parent();
-
                 let topicNameValue = parent.children('input[name="curriculumName"]').val();
-
                 let lastVideoCounterElement = parent.children().children('input[name="last-video-counter"]');
                 let lastVideoCounterValue = Number(lastVideoCounterElement.val());
-
                 let videoContainer = parent.children('div[name="video-container"]')
-                .append(`<div class="card-body">
-                         <div class="col-6">
-                         <div class="form-group">
-                         <label>Video Title:</label>
-                                 <input class="form-control" name="${topicNameValue}.Videos[${lastVideoCounterValue}].Title" />
-                         </div>
-                         <div class="form-group">
-                         <label>Video Url:</label>
-                         <input class="form-control" name="${topicNameValue}.Videos[${lastVideoCounterValue}].VideoUrl" />
-                         </div>
-                         </div>
-                         </div>`);
-
+                    .append(`<div class="card-body">
+                                 <div class="col-12">
+                                 <div class="form-group">
+                                 <label>Video Title:</label>
+                                         <input class="form-control" name="${topicNameValue}.Videos[${lastVideoCounterValue}].Title" />
+                                 </div>
+                                 <div class="form-group">
+                                 <label>Video Url:</label>
+                                 <input class="form-control" name="${topicNameValue}.Videos[${lastVideoCounterValue}].VideoUrl" />
+                                 </div>
+                                 </div>
+                                 </div>`);
                 lastVideoCounterElement.val(++lastVideoCounterValue);
             });
-        }); 
+        });
     </script>
 }

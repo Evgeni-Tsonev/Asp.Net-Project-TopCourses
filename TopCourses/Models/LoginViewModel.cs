@@ -1,7 +1,6 @@
 ﻿namespace TopCourses.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using Microsoft.AspNetCore.Authentication;
 
     public class LoginViewModel
     {
@@ -17,7 +16,5 @@
 
         [UIHint("hidden")]
         public string? ReturnUrl { get; set; }
-
-        //public IList<AuthenticationScheme> ExternalLogins { get; set; }
     }
 }

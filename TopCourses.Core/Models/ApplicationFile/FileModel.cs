@@ -1,20 +1,18 @@
-﻿namespace TopCourses.Infrastructure.Data.Models
+﻿namespace TopCourses.Core.Models.ApplicationFile
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class ApplicationFile
+    public class FileModel
     {
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
         public string FileName { get; set; }
 
         [Required]
         public string SourceId { get; set; }
 
         [Required]
-        [MaxLength(50)]
         public string ContentType { get; set; }
 
         [Required]

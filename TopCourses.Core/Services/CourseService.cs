@@ -114,6 +114,13 @@
                         Title = v.Title,
                         Url = v.VideoUrl,
                     }).ToList(),
+                    Files = c.FilesInfo.Select(f => new ApplicationFile()
+                    {
+                        FileName = f.FileName,
+                        FileLength = f.FileLength,
+                        SourceId = f.SourceId,
+                        ContentType = f.ContentType,
+                    }).ToList(),
                 }).ToList(),
                 Level = courseModel.Level,
                 CategoryId = courseModel.CategoryId,
@@ -293,13 +300,13 @@
             return user.CoursesCreated
                 .Where(c => c.IsDeleted == false)
                 .Select(c => new CourseListingViewModel()
-            {
-                Id = c.Id,
-                Title = c.Title,
-                ImageUrl = c.ImageUrl,
-                Price = c.Price,
-                //todo rating
-            });
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    ImageUrl = c.ImageUrl,
+                    Price = c.Price,
+                    //todo rating
+                });
         }
 
         public async Task<IEnumerable<CourseListingViewModel>> GetAllArchivedCourses(string userId)
@@ -318,13 +325,13 @@
             return user.CoursesCreated
                 .Where(c => c.IsDeleted == true)
                 .Select(c => new CourseListingViewModel()
-            {
-                Id = c.Id,
-                Title = c.Title,
-                ImageUrl = c.ImageUrl,
-                Price = c.Price,
-                //todo rating
-            });
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    ImageUrl = c.ImageUrl,
+                    Price = c.Price,
+                    //todo rating
+                });
         }
 
         public async Task Delete(int courseId, string userId)
