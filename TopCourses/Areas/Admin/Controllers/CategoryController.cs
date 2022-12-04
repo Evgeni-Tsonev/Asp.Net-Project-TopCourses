@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Areas.Admin.Controllers
 {
+    using Ganss.Xss;
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Areas.Admin.Models;
     using TopCourses.Core.Contracts;
@@ -39,6 +40,8 @@
         [HttpPost]
         public async Task<IActionResult> AddCategory(CategoryViewModel model)
         {
+            var sanitizer = new HtmlSanitizer();
+            model.Title = sanitizer.Sanitize(model.Title);
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
@@ -58,6 +61,8 @@
         [HttpPost]
         public async Task<IActionResult> AddSubCategoryPost(CategoryViewModel model)
         {
+            var sanitizer = new HtmlSanitizer();
+            model.Title = sanitizer.Sanitize(model.Title);
             if (!this.ModelState.IsValid)
             {
                 return this.View("AddSubCategory", model);
@@ -76,6 +81,8 @@
         [HttpPost]
         public async Task<IActionResult> Update(EditCategoryViewModel model)
         {
+            var sanitizer = new HtmlSanitizer();
+            model.Title = sanitizer.Sanitize(model.Title);
             if (!this.ModelState.IsValid)
             {
                 return this.View("Edit", model);

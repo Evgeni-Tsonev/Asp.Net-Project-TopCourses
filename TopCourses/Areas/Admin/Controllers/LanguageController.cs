@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Areas.Admin.Controllers
 {
+    using Ganss.Xss;
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Language;
@@ -22,13 +23,14 @@
         public IActionResult Add()
         {
             var model = new LanguageViewModel();
-
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(LanguageViewModel model)
         {
+            var sanitizer = new HtmlSanitizer();
+            model.Title = sanitizer.Sanitize(model.Title);
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
@@ -47,6 +49,8 @@
         [HttpPost]
         public async Task<IActionResult> Update(LanguageViewModel model)
         {
+            var sanitizer = new HtmlSanitizer();
+            model.Title = sanitizer.Sanitize(model.Title);
             if (!this.ModelState.IsValid)
             {
                 return this.View("Edit", model);

@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Controllers
 {
     using System.Security.Claims;
+    using Ganss.Xss;
     using Microsoft.AspNetCore.Mvc;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Review;
@@ -34,6 +35,8 @@
         [HttpPost]
         public async Task<IActionResult> AddReview(AddReviewViewModel model)
         {
+            var saitizer = new HtmlSanitizer();
+            model.Comment = saitizer.Sanitize(model.Comment);
             model.DateOfPublication = DateTime.Now;
             if (!this.ModelState.IsValid)
             {
@@ -43,8 +46,5 @@
             await this.reviewService.AddReview(model);
             return this.RedirectToAction("Details", "Course", new { id = model.CourseId });
         }
-
-        private string GetUserId()
-            => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

@@ -7,6 +7,7 @@
 		<UserSecretsId>aspnet-TopCourses-9941378D-EDED-4F10-95C6-544EE1FEB422</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="HtmlSanitizer" Version="8.0.601" />
 		<PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.9" />

@@ -1,6 +1,6 @@
 ﻿namespace TopCourses.Controllers
 {
-    using System.Security.Claims;
+    using Ganss.Xss;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,6 @@
     using TopCourses.Core.Models.ApplicationFile;
     using TopCourses.Core.Models.Course;
     using TopCourses.Infrastructure.Data.Identity;
-    using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Infrastructure.Data.MongoInterfaceses;
     using TopCourses.Models;
 
@@ -83,6 +82,23 @@
         [DisableRequestSizeLimit]
         public async Task<IActionResult> Add(AddCourseViewModel model)
         {
+            var senitizer = new HtmlSanitizer();
+            model.Title = senitizer.Sanitize(model.Title);
+            model.Subtitle = senitizer.Sanitize(model.Subtitle);
+            model.Description = senitizer.Sanitize(model.Description);
+            model.Goals = senitizer.Sanitize(model.Goals);
+            model.Requirements = senitizer.Sanitize(model.Requirements);
+            foreach (var topic in model.Curriculum)
+            {
+                topic.Title = senitizer.Sanitize(topic.Title);
+                topic.Description = senitizer.Sanitize(topic.Description);
+                foreach (var video in topic.Videos)
+                {
+                    video.Title = senitizer.Sanitize(video.Title);
+                    video.VideoUrl = senitizer.Sanitize(video.VideoUrl);
+                }
+            }
+
             var categories = await this.categoryService.GetAllMainCategories();
             if (!categories.Any(b => b.Id == model.CategoryId))
             {
@@ -221,8 +237,5 @@
             var fileType = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "Type");
             return this.File(stream, fileType.Value.ToString(), fileName.Value.ToString());
         }
-
-        private string GetUserId()
-            => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }
