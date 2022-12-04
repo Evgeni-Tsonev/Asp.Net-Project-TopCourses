@@ -21,7 +21,6 @@
             this.renderer = renderer;
         }
 
-        [HttpPost]
         public async Task<IActionResult> SendToEmail(int id)
         {
             var course = await this.courseService.GetCourseDetails(id);

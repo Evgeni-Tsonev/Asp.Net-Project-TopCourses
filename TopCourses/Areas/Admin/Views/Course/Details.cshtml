@@ -60,15 +60,22 @@
                                             <h6><strong>Videos:</strong></h6>
                                             @foreach (var video in topic.Videos)
                                             {
-                                                <a href="@video.VideoUrl">@video.Title</a>
+                                                <div class="row">
+                                                    <a asp-controller="Video" asp-action="Video" asp-route-id="@video.Id">@video.Title</a>
+                                                </div>
                                             }
                                         </div>
                                         <div class="col-6">
                                             <h6><strong>Files:</strong></h6>
-                                            @for (int k = 0; k < 3; k++)
-                                            {
-                                                <p>fale @k</p>
-                                            }
+                                            <div class="col-6">
+                                                <h6><strong>Files:</strong></h6>
+                                                @foreach (var file in topic.Files)
+                                                {
+                                                    <div class="row">
+                                                        <a asp-area="Admin" asp-controller="Course" asp-action="Download" asp-route-id="@file.SourceId">@file.FileName</a>
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -91,14 +98,14 @@
     </div>
     <br />
     <div class="row">
-        <form asp-controller="Email" asp-action="SendToEmail" asp-route-id="@Model.Id" method="post">
+        <form asp-controller="Email" asp-action="SendToEmail"  method="post">
             <button type="submit" class="btn btn-block btn-warning btn-lg">Send Email</button>
         </form>
     </div>
     <br />
     <div class="row md-12">
-        <form asp-action="Unapprove" asp-route-id="@Model.Id" method="post">
-            <button type="submit"  class="btn btn-block btn-danger btn-lg">Unapprove</button>
+        <form asp-area="Admin" asp-controller="Course" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <button type="submit"  class="btn btn-block btn-danger btn-lg">Delete</button>
         </form>
     </div>
 </div>

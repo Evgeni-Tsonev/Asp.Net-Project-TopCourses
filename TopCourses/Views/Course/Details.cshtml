@@ -74,9 +74,11 @@
                                         </div>
                                         <div class="col-6">
                                             <h6><strong>Files:</strong></h6>
-                                            @for (int k = 0; k < 3; k++)
+                                            @foreach (var file in topic.Files)
                                             {
-                                                <p>fale @k</p>
+                                                <div class="row">
+                                                    <a asp-controller="Course" asp-action="Download" asp-route-id="@file.SourceId">@file.FileName</a>
+                                                </div>
                                             }
                                         </div>
                                     </div>

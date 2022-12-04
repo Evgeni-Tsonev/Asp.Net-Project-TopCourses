@@ -20,6 +20,6 @@
 
         public ICollection<IFormFile> Files { get; set; } = new List<IFormFile>();
 
-        public ICollection<AddFileViewModel> FilesInfo { get; set; } = new List<AddFileViewModel>();
+        public ICollection<FileViewModel> FilesInfo { get; set; } = new List<FileViewModel>();
     }
 }

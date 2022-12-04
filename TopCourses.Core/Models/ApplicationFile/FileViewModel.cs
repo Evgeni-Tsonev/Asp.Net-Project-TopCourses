@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class AddFileViewModel
+    public class FileViewModel
     {
         public int Id { get; set; }
 

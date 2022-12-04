@@ -5,6 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
+    using TopCourses.Core.Models.ApplicationFile;
     using TopCourses.Core.Models.Course;
     using TopCourses.Core.Models.Review;
     using TopCourses.Core.Models.Topic;
@@ -34,6 +35,8 @@
                 .ThenInclude(u => u.User)
                 .Include(c => c.Curriculum)
                 .ThenInclude(v => v.Videos)
+                .Include(c => c.Curriculum)
+                .ThenInclude(f => f.Files)
                 .Include(u => u.Creator)
                 .FirstOrDefaultAsync(x => x.Id == courseId);
 
@@ -57,6 +60,14 @@
                         Id = v.Id,
                         Title = v.Title,
                         VideoUrl = v.Url,
+                    }).ToList(),
+                    Files = s.Files.Select(f => new FileViewModel()
+                    {
+                        Id= f.Id,
+                        FileName = f.FileName,
+                        ContentType = f.ContentType,
+                        FileLength = f.FileLength,
+                        SourceId = f.SourceId,
                     }).ToList(),
                 }).ToList(),
                 Reviews = course.Reviews
@@ -334,7 +345,7 @@
                 });
         }
 
-        public async Task Delete(int courseId, string userId)
+        public async Task Delete(int courseId, string userId, bool isAdministrator = false)
         {
             var course = await this.GetCourseById(courseId);
             if (course == null)
@@ -348,7 +359,7 @@
                 throw new Exception("Invalid User");
             }
 
-            if (course.CreatorId != user.Id)
+            if (course.CreatorId != user.Id || isAdministrator == false)
             {
                 throw new Exception("User doesn't have permission to delete this course");
             }

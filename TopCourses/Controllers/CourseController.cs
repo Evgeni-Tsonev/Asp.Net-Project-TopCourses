@@ -138,38 +138,6 @@
             return this.View(course);
         }
 
-        //todo
-        //[HttpPost]
-        //public async Task<IActionResult> UploadFile(IFormFile file)
-        //{
-        //    try
-        //    {
-        //        if (file != null && file.Length > 0)
-        //        {
-        //            using (var stream = new MemoryStream())
-        //            {
-        //                await file.CopyToAsync(stream);
-        //                var fileToSave = new ApplicationFile()
-        //                {
-        //                    FileName = file.FileName,
-        //                    Content = stream.ToArray(),
-        //                    ContentType = file.ContentType,
-        //                };
-        //                await this.fileService.SaveFile(fileToSave);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        this.logger.LogError(ex, "CourseController/UploadFile");
-        //        this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
-        //    }
-
-        //    this.TempData[MessageConstant.SuccessMessage] = "File uploaded successfully";
-        //    //todo
-        //    return this.RedirectToAction(nameof(this.Index));
-        //}
-
         public async Task<IActionResult> MyLearning()
         {
             var model = new MyLearningViewModel();
@@ -188,9 +156,9 @@
             return this.RedirectToAction("MyLearning");
         }
 
-        private async Task<ICollection<AddFileViewModel>> UploadFile(ICollection<IFormFile> files)
+        private async Task<ICollection<FileViewModel>> UploadFile(ICollection<IFormFile> files)
         {
-            var filesToReturn = new List<AddFileViewModel>();
+            var filesToReturn = new List<FileViewModel>();
             foreach (var file in files)
             {
                 try
@@ -208,7 +176,7 @@
                         {
                             await file.CopyToAsync(stream);
 
-                            var fileToReturn = new AddFileViewModel()
+                            var fileToReturn = new FileViewModel()
                             {
                                 FileName = file.FileName,
                                 SourceId = stream.Id.ToString(),
