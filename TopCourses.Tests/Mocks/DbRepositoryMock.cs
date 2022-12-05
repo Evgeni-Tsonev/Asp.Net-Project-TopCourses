@@ -1,18 +1,25 @@
-﻿namespace TopCourses.Core.Data.Common
+﻿namespace TopCourses.Tests.Mocks
 {
-    using System.Linq.Expressions;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+    using TopCourses.Core.Data.Common;
     using TopCourses.Infrastructure.Data;
 
-    /// <summary>
-    /// Implementation of repository access methods
-    /// for Relational Database Engine
-    /// </summary>
-    /// <typeparam name="T">Type of the data table to which 
-    /// current reposity is attached</typeparam>
-    public class DbRepository : IDbRepository
+    public class DbRepositoryMock : IDbRepository
     {
+
+        /// <summary>
+        /// Implementation of repository access methods
+        /// for Relational Database Engine
+        /// </summary>
+        /// <typeparam name="T">Type of the data table to which 
+        /// current reposity is attached</typeparam>
+
         /// <summary>
         /// Entity framework DB context holding connection information and properties
         /// and tracking entity states 
@@ -27,7 +34,7 @@
             return this.Context.Set<T>();
         }
 
-        public DbRepository(TopCoursesDbContext context)
+        public DbRepositoryMock(TopCoursesDbContext context)
         {
             this.Context = context;
         }
@@ -198,3 +205,4 @@
         }
     }
 }
+

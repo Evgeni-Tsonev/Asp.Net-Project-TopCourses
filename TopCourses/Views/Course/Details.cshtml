@@ -94,6 +94,7 @@
             <div>Instructor:</div>
             <p>@Model.Creator.FirstName @Model.Creator.LastName</p>
             <p>@Model.Creator.Email</p>
+            <p><strong>Price: @Model.Price LV.</strong></p>
             <a asp-controller="ShoppingCart" asp-action="Add" type="button" class="btn btn-block btn-primary btn-lg">Add to Cart</a>
         </div>
     </div>

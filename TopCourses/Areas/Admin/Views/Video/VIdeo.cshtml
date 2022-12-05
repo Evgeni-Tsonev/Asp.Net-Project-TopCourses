@@ -2,9 +2,15 @@
 
 <div class="container">
     <div class="row">
-        <h1>@Model.Title</h1>
+        <h1>@Model.CourseTitle</h1>
     </div>
     <div class="row">
+        <h2>@Model.TopicTitle</h2>
+    </div>
+    <div class="row">
+        <div class="row">
+            <h3>@Model.Title</h3>
+        </div>
         <div class="col-md-9">
             <iframe width="854" height="480"
                     src="@Model.VideoUrl">

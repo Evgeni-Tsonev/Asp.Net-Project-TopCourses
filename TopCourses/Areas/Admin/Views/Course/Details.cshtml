@@ -68,7 +68,6 @@
                                         <div class="col-6">
                                             <h6><strong>Files:</strong></h6>
                                             <div class="col-6">
-                                                <h6><strong>Files:</strong></h6>
                                                 @foreach (var file in topic.Files)
                                                 {
                                                     <div class="row">
@@ -89,23 +88,33 @@
             <img src="@Model.ImageUrl" style="width: 18rem;height: 18rem" class="img-thumbnail">
             <p>@Model.Creator.FirstName @Model.Creator.LastName</p>
             <p>@Model.Creator.Email</p>
+            <p><strong>Price: @Model.Price LV.</strong></p>
         </div>
     </div>
     <div class="row">
-        <form asp-action="Approve" asp-route-id="@Model.Id" method="post">
-            <button type="submit" class="btn btn-block btn-success btn-lg">Approve</button>
-        </form>
+        <div class="col-6">
+            <form asp-action="Approve" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-block btn-success btn-lg">Approve</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <form asp-area="Admin" asp-controller="Course" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-block btn-danger btn-lg">Delete</button>
+            </form>
+        </div>
     </div>
-    <br />
     <div class="row">
-        <form asp-controller="Email" asp-action="SendToEmail"  method="post">
-            <button type="submit" class="btn btn-block btn-warning btn-lg">Send Email</button>
+        <form asp-controller="Email" asp-action="SendToEmail" method="post">
+            <div class="row">
+                <input name="id" value="@Model.Id" hidden />
+                <label for="message" class="control-label">
+                    Message:
+                    <textarea class="form-control" name="message" rows="2" style="min-width: 100%"></textarea>
+                </label>
+                <button type="submit" class="btn btn-block btn-warning btn-lg">Send Email</button>
+            </div>
         </form>
     </div>
     <br />
-    <div class="row md-12">
-        <form asp-area="Admin" asp-controller="Course" asp-action="Delete" asp-route-id="@Model.Id" method="post">
-            <button type="submit"  class="btn btn-block btn-danger btn-lg">Delete</button>
-        </form>
-    </div>
+    <br />
 </div>
