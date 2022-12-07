@@ -1,13 +1,12 @@
 ﻿namespace TopCourses.Controllers
 {
-    using EllipticCurve.Utils;
+    using System.IO;
     using Ganss.Xss;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MongoDB.Bson;
     using MongoDB.Driver.GridFS;
-    using System.IO;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.ApplicationFile;

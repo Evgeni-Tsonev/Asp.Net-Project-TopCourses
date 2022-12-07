@@ -35,5 +35,7 @@
         Task<CourseDetailsViewModel> GetCourseDetails(int courseId);
 
         Task AddStudentToCourse(int courseId, string studentId);
+
+        Task<bool> DoUserHavePermission(string userId, int courseId);
     }
 }

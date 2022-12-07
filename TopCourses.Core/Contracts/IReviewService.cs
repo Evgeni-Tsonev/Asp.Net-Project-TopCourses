@@ -6,12 +6,12 @@
     {
         Task AddReview(AddReviewViewModel model);
 
-        Task DeleteReview(int id, string userId);
+        //Task DeleteReview(int id, string userId);
 
-        Task<EditReviewViewModel> GetReviewForEdit(int id, string userId);
+        //Task<EditReviewViewModel> GetReviewForEdit(int id, string userId);
 
-        Task Update(EditReviewViewModel model, string userId);
+        //Task Update(EditReviewViewModel model, string userId);
 
-        double GetAverageRating(int courseId);
+        //double GetAverageRating(int courseId);
     }
 }

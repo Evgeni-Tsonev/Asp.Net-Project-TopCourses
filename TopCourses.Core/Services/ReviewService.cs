@@ -44,90 +44,90 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task DeleteReview(int id, string userId)
-        {
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
-            if (user == null)
-            {
-                throw new Exception();
-            }
+        //public async Task DeleteReview(int id, string userId)
+        //{
+        //    var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+        //    if (user == null)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            var review = await this.repository.GetByIdAsync<Review>(id);
-            if (review == null)
-            {
-                throw new Exception();
-            }
+        //    var review = await this.repository.GetByIdAsync<Review>(id);
+        //    if (review == null)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            if (review.UserId != user.Id)
-            {
-                throw new Exception("Invalid operation");
-            }
+        //    if (review.UserId != user.Id)
+        //    {
+        //        throw new Exception("Invalid operation");
+        //    }
 
-            review.IsDeleted = true;
-            await this.repository.SaveChangesAsync();
-        }
+        //    review.IsDeleted = true;
+        //    await this.repository.SaveChangesAsync();
+        //}
 
-        public async Task Update(EditReviewViewModel model, string userId)
-        {
-            var review = await this.repository.GetByIdAsync<Review>(model.Id);
-            if (review == null)
-            {
-                throw new Exception();
-            }
+        //public async Task Update(EditReviewViewModel model, string userId)
+        //{
+        //    var review = await this.repository.GetByIdAsync<Review>(model.Id);
+        //    if (review == null)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
-            if (user == null)
-            {
-                throw new Exception();
-            }
+        //    var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+        //    if (user == null)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            if (model.UserId != user.Id)
-            {
-                throw new Exception();
-            }
+        //    if (model.UserId != user.Id)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            review.Rating = model.Rating;
-            review.Comment = model.Comment;
-            review.LastUpdate = model.LastUpdate;
+        //    review.Rating = model.Rating;
+        //    review.Comment = model.Comment;
+        //    review.LastUpdate = model.LastUpdate;
 
-            await this.repository.SaveChangesAsync();
-        }
+        //    await this.repository.SaveChangesAsync();
+        //}
 
-        public async Task<EditReviewViewModel> GetReviewForEdit(int id, string userId)
-        {
-            var model = await this.repository.GetByIdAsync<Review>(id);
-            if (model == null)
-            {
-                throw new Exception();
-            }
+        //public async Task<EditReviewViewModel> GetReviewForEdit(int id, string userId)
+        //{
+        //    var model = await this.repository.GetByIdAsync<Review>(id);
+        //    if (model == null)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
-            if (user == null)
-            {
-                throw new Exception();
-            }
+        //    var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+        //    if (user == null)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            if (model.UserId != user.Id)
-            {
-                throw new Exception();
-            }
+        //    if (model.UserId != user.Id)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            return new EditReviewViewModel()
-            {
-                Id = model.Id,
-                Rating = model.Rating,
-                Comment = model.Comment,
-                UserId = model.UserId,
-            };
-        }
+        //    return new EditReviewViewModel()
+        //    {
+        //        Id = model.Id,
+        //        Rating = model.Rating,
+        //        Comment = model.Comment,
+        //        UserId = model.UserId,
+        //    };
+        //}
 
-        public double GetAverageRating(int courseId)
-        {
-            var averageRating = this.repository
-                .AllReadonly<Review>()
-                .Where(c => c.CourseId == courseId)
-                .Average(r => r.Rating);
-            return averageRating;
-        }
+        //public double GetAverageRating(int courseId)
+        //{
+        //    var averageRating = this.repository
+        //        .AllReadonly<Review>()
+        //        .Where(c => c.CourseId == courseId)
+        //        .Average(r => r.Rating);
+        //    return averageRating;
+        //}
     }
 }

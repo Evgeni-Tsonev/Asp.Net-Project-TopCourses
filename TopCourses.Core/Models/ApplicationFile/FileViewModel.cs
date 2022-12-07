@@ -17,5 +17,7 @@
 
         [Required]
         public long FileLength { get; set; }
+
+        public byte[] Bytes { get; set; }
     }
 }

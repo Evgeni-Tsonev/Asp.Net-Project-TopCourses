@@ -18,13 +18,11 @@
     {
         private readonly IDbRepository repository;
         private readonly IVideoService videoService;
-        private readonly IReviewService reviewService;
 
-        public CourseService(IDbRepository repository, IVideoService videoService, IReviewService reviewService)
+        public CourseService(IDbRepository repository, IVideoService videoService)
         {
             this.repository = repository;
             this.videoService = videoService;
-            this.reviewService = reviewService;
         }
 
         public async Task<CourseDetailsViewModel> GetCourseDetails(int courseId)
@@ -38,6 +36,7 @@
                 .Include(c => c.Curriculum)
                 .ThenInclude(f => f.Files)
                 .Include(u => u.Creator)
+                .Include(f => f.Image)
                 .FirstOrDefaultAsync(x => x.Id == courseId);
 
             if (course == null)
@@ -51,6 +50,13 @@
                 Title = course.Title,
                 Subtitle = course.Subtitle,
                 ImageUrl = course.ImageUrl,
+                Image = new FileViewModel()
+                {
+                    FileName = course.Image.FileName,
+                    FileLength = course.Image.FileLength,
+                    SourceId = course.Image.SourceId,
+                    ContentType = course.Image.ContentType,
+                },
                 Curriculum = course.Curriculum.Select(s => new TopicViewModel()
                 {
                     Title = s.Title,
@@ -63,7 +69,7 @@
                     }).ToList(),
                     Files = s.Files.Select(f => new FileViewModel()
                     {
-                        Id= f.Id,
+                        Id = f.Id,
                         FileName = f.FileName,
                         ContentType = f.ContentType,
                         FileLength = f.FileLength,
@@ -114,7 +120,7 @@
                 Title = courseModel.Title,
                 Subtitle = courseModel.Subtitle,
                 ImageUrl = courseModel.ImageUrl,
-                Image = new ApplicationFile() 
+                Image = new ApplicationFile()
                 {
                     FileName = courseModel.Image.FileName,
                     FileLength = courseModel.Image.FileLength,
@@ -157,13 +163,22 @@
 
         public async Task<IEnumerable<CourseListingViewModel>> GetAllNotApproved()
         {
-            var allCourses = await this.repository.AllReadonly<Course>()
+            var allCourses = await this.repository
+                .AllReadonly<Course>()
+                .Include(c => c.Image)
                 .Where(c => c.IsDeleted == false && c.IsApproved == false)
                 .Select(c => new CourseListingViewModel
                 {
                     Id = c.Id,
                     Title = c.Title,
                     ImageUrl = c.ImageUrl,
+                    Image = new FileViewModel()
+                    {
+                        FileName = c.Image.FileName,
+                        FileLength = c.Image.FileLength,
+                        SourceId = c.Image.SourceId,
+                        ContentType = c.Image.ContentType,
+                    },
                     Price = c.Price,
                 }).ToListAsync();
 
@@ -224,6 +239,7 @@
         {
             var courses = this.repository.AllReadonly<Course>()
                 .Include(c => c.Reviews)
+                .Include(i => i.Image)
                 .Where(c => c.IsDeleted == false && c.IsApproved == true);
 
             if (!string.IsNullOrEmpty(category))
@@ -262,6 +278,13 @@
                     Id = c.Id,
                     Title = c.Title,
                     ImageUrl = c.ImageUrl,
+                    Image = new FileViewModel()
+                    {
+                        FileName = c.Image.FileName,
+                        FileLength = c.Image.FileLength,
+                        SourceId = c.Image.SourceId,
+                        ContentType = c.Image.ContentType,
+                    },
                     Rating = c.Rating,
                     Price = c.Price,
                     TotalCoursesCount = courses.Count(),
@@ -286,6 +309,7 @@
                 .Where(u => u.Id == userId)
                 .Include(c => c.CoursesEnrolled)
                 .ThenInclude(c => c.Course)
+                .ThenInclude(i => i.Image)
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -298,6 +322,13 @@
                 Id = c.Course.Id,
                 Title = c.Course.Title,
                 ImageUrl = c.Course.ImageUrl,
+                Image = new FileViewModel()
+                {
+                    FileName = c.Course.Image.FileName,
+                    FileLength = c.Course.Image.FileLength,
+                    SourceId = c.Course.Image.SourceId,
+                    ContentType = c.Course.Image.ContentType,
+                },
                 Price = c.Course.Price,
                 //todo rating
             });
@@ -309,6 +340,7 @@
                 .AllReadonly<ApplicationUser>()
                 .Where(u => u.Id == userId)
                 .Include(c => c.CoursesCreated)
+                .ThenInclude(i => i.Image)
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -324,6 +356,13 @@
                     Title = c.Title,
                     ImageUrl = c.ImageUrl,
                     Price = c.Price,
+                    Image = new FileViewModel()
+                    {
+                        FileName = c.Image.FileName,
+                        FileLength = c.Image.FileLength,
+                        SourceId = c.Image.SourceId,
+                        ContentType = c.Image.ContentType,
+                    },
                     //todo rating
                 });
         }
@@ -334,6 +373,7 @@
                 .AllReadonly<ApplicationUser>()
                 .Where(u => u.Id == userId)
                 .Include(c => c.CoursesCreated)
+                .ThenInclude(i => i.Image)
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -349,6 +389,13 @@
                     Title = c.Title,
                     ImageUrl = c.ImageUrl,
                     Price = c.Price,
+                    Image = new FileViewModel()
+                    {
+                        FileName = c.Image.FileName,
+                        FileLength = c.Image.FileLength,
+                        SourceId = c.Image.SourceId,
+                        ContentType = c.Image.ContentType,
+                    },
                     //todo rating
                 });
         }
@@ -374,6 +421,30 @@
 
             course.IsDeleted = true;
             await this.repository.SaveChangesAsync();
+        }
+
+        public async Task<bool> DoUserHavePermission(string userId, int courseId)
+        {
+            var user = await this.repository
+                .AllReadonly<ApplicationUser>()
+                .Where(u => u.Id == userId)
+                .Include(u => u.CoursesCreated)
+                .Include(u => u.CoursesEnrolled)
+                .ThenInclude(c => c.Course)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new Exception("Invalid user");
+            }
+
+            if (user.CoursesEnrolled.Any(c => c.Course.Id == courseId)
+                || user.CoursesCreated.Any(c => c.Id == courseId))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
