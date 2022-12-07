@@ -12,8 +12,8 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    [Migration("20221123142201_InitializeDatabase")]
-    partial class InitializeDatabase
+    [Migration("20221207112320_addedImageToCourse")]
+    partial class addedImageToCourse
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -265,23 +265,29 @@ namespace TopCourses.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("ContentType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<long>("FileLength")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("SourceId")
+                    b.Property<string>("SourceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TopicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TopicId");
 
                     b.ToTable("Files");
                 });
@@ -340,6 +346,9 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -388,6 +397,8 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CreatorId");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("LanguageId");
 
@@ -668,6 +679,13 @@ namespace TopCourses.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ApplicationFile", b =>
+                {
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.Topic", null)
+                        .WithMany("Files")
+                        .HasForeignKey("TopicId");
+                });
+
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Category", b =>
                 {
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Category", "Parent")
@@ -691,6 +709,12 @@ namespace TopCourses.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.ApplicationFile", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Language", "Language")
                         .WithMany("Courses")
                         .HasForeignKey("LanguageId")
@@ -710,6 +734,8 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Creator");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Language");
 
@@ -846,6 +872,8 @@ namespace TopCourses.Infrastructure.Migrations
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Topic", b =>
                 {
+                    b.Navigation("Files");
+
                     b.Navigation("Videos");
                 });
 #pragma warning restore 612, 618

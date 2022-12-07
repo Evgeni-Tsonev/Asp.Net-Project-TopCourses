@@ -10,7 +10,7 @@ namespace TopCourses.Tests
         [SetUp]
         public void Setup()
         {
-            this.categoryService = new CategoryService(this.repository);
+            //this.categoryService = new CategoryService(this.repository);
         }
 
         [Test]

@@ -6,7 +6,7 @@
 
     public class UnitTestBase
     {
-        protected TopCoursesTestDb testDb;
+        //protected TopCoursesTestDb testDb;
         private TopCoursesDbContext dbContext;
         protected IDbRepository repository;
     }

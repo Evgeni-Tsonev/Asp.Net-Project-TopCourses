@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TopCourses.Infrastructure.Migrations
 {
-    public partial class InitializeDatabase : Migration
+    public partial class initializeDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,22 +70,6 @@ namespace TopCourses.Infrastructure.Migrations
                         column: x => x.ParentId,
                         principalTable: "Categories",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Content = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    SourceId = table.Column<int>(type: "int", nullable: false),
-                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Files", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -389,6 +373,23 @@ namespace TopCourses.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    SourceId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FileLength = table.Column<long>(type: "bigint", nullable: false),
+                    TopicId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Topics",
                 columns: table => new
                 {
@@ -518,6 +519,11 @@ namespace TopCourses.Infrastructure.Migrations
                 column: "ShoppingCartId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Files_TopicId",
+                table: "Files",
+                column: "TopicId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
                 table: "Orders",
                 column: "CustomerId");
@@ -553,10 +559,33 @@ namespace TopCourses.Infrastructure.Migrations
                 name: "IX_Video_TopicId",
                 table: "Video",
                 column: "TopicId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Files_Topics_TopicId",
+                table: "Files",
+                column: "TopicId",
+                principalTable: "Topics",
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Courses_AspNetUsers_CreatorId",
+                table: "Courses");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Orders_AspNetUsers_CustomerId",
+                table: "Orders");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Topics_Courses_CourseId",
+                table: "Topics");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Files_Topics_TopicId",
+                table: "Files");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -591,13 +620,10 @@ namespace TopCourses.Infrastructure.Migrations
                 name: "ShoppingCarts");
 
             migrationBuilder.DropTable(
-                name: "Topics");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Courses");
-
-            migrationBuilder.DropTable(
-                name: "Files");
 
             migrationBuilder.DropTable(
                 name: "Categories");
@@ -609,7 +635,10 @@ namespace TopCourses.Infrastructure.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Topics");
+
+            migrationBuilder.DropTable(
+                name: "Files");
         }
     }
 }

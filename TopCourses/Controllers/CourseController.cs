@@ -1,11 +1,13 @@
 ﻿namespace TopCourses.Controllers
 {
+    using EllipticCurve.Utils;
     using Ganss.Xss;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MongoDB.Bson;
     using MongoDB.Driver.GridFS;
+    using System.IO;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.ApplicationFile;
@@ -61,6 +63,7 @@
             query.Categories = allCategories.Where(c => c.ParentId == null);
             query.Languages = await this.languageService.GetAll();
             query.Courses = result;
+            query.TotalCoursesCount = result.FirstOrDefault() != null ? result.FirstOrDefault().TotalCoursesCount : 0;
 
             return this.View(query);
         }
@@ -80,7 +83,9 @@
 
         [HttpPost]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> Add(AddCourseViewModel model)
+        public async Task<IActionResult> Add(
+            AddCourseViewModel model,
+            [FromForm] IFormFile image)
         {
             var senitizer = new HtmlSanitizer();
             model.Title = senitizer.Sanitize(model.Title);
@@ -97,6 +102,23 @@
                     video.Title = senitizer.Sanitize(video.Title);
                     video.VideoUrl = senitizer.Sanitize(video.VideoUrl);
                 }
+            }
+
+            if (image != null)
+            {
+                string[] acceptedExtensions = { ".png", ".jpg", ".jpeg", ".gif", ".tif" };
+                if (!acceptedExtensions.Contains(Path.GetExtension(image.FileName)))
+                {
+                    this.TempData["Error"] = "Error: Unsupported file!";
+                    return this.View(model);
+                }
+
+                model.Image = await this.UploadImage(image);
+            }
+            else
+            {
+                this.TempData["Error"] = "Error: Unsupported file! File should be one of the following types: png/jpg/jpeg/gif/tif";
+                return this.View(model);
             }
 
             var categories = await this.categoryService.GetAllMainCategories();
@@ -149,11 +171,19 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete([FromForm]int courseId)
+        public async Task<IActionResult> Delete([FromForm] int courseId)
         {
             var userId = this.GetUserId();
             await this.courseService.Delete(courseId, userId);
             return this.RedirectToAction("MyLearning");
+        }
+
+        public async Task<IActionResult> Download(string id)
+        {
+            var stream = await this.bucket.OpenDownloadStreamAsync(new ObjectId(id));
+            var fileName = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "FileName");
+            var fileType = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "Type");
+            return this.File(stream, fileType.Value.ToString(), fileName.Value.ToString());
         }
 
         private async Task<ICollection<FileViewModel>> UploadFile(ICollection<IFormFile> files)
@@ -198,12 +228,31 @@
             return filesToReturn;
         }
 
-        public async Task<IActionResult> Download(string id)
+        private async Task<FileViewModel> UploadImage(IFormFile file)
         {
-            var stream = await this.bucket.OpenDownloadStreamAsync(new ObjectId(id));
-            var fileName = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "FileName");
-            var fileType = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "Type");
-            return this.File(stream, fileType.Value.ToString(), fileName.Value.ToString());
+            var image = new FileViewModel();
+            try
+            {
+                if (file != null && file.Length > 0)
+                {
+                    using MemoryStream memoryStream = new MemoryStream();
+                    await file.CopyToAsync(memoryStream);
+                    var source = memoryStream.ToArray();
+                    var id = await this.bucket.UploadFromBytesAsync(file.FileName, source);
+
+                    image.FileName = file.FileName;
+                    image.SourceId = id.ToString();
+                    image.ContentType = file.ContentType;
+                    image.FileLength = file.Length;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "CourseController/UploadFile");
+                this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+            }
+
+            return image;
         }
     }
 }

@@ -21,6 +21,8 @@
         [Url]
         public string ImageUrl { get; set; } = null!;
 
+        public ApplicationFile Image { get; set; }
+
         [Required]
         [StringLength(1000)]
         public string Goals { get; set; } = null!;

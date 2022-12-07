@@ -12,8 +12,8 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    [Migration("20221203181901_changedApplicationFile")]
-    partial class changedApplicationFile
+    [Migration("20221205151827_initializeDatabase")]
+    partial class initializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

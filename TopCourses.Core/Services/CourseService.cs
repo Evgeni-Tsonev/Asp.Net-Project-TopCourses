@@ -114,6 +114,13 @@
                 Title = courseModel.Title,
                 Subtitle = courseModel.Subtitle,
                 ImageUrl = courseModel.ImageUrl,
+                Image = new ApplicationFile() 
+                {
+                    FileName = courseModel.Image.FileName,
+                    FileLength = courseModel.Image.FileLength,
+                    SourceId = courseModel.Image.SourceId,
+                    ContentType = courseModel.Image.ContentType,
+                },
                 Goals = courseModel.Goals,
                 Requirements = courseModel.Requirements,
                 Curriculum = courseModel.Curriculum.Select(c => new Topic()
@@ -257,6 +264,7 @@
                     ImageUrl = c.ImageUrl,
                     Rating = c.Rating,
                     Price = c.Price,
+                    TotalCoursesCount = courses.Count(),
                 }).ToListAsync();
 
             result = sorting switch

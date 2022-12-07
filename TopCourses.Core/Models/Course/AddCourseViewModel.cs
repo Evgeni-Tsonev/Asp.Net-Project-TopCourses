@@ -1,6 +1,8 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+    using TopCourses.Core.Models.ApplicationFile;
     using TopCourses.Core.Models.Category;
     using TopCourses.Core.Models.Language;
     using TopCourses.Core.Models.Topic;
@@ -20,6 +22,9 @@
         [Url]
         [Display(Name = "Image Url")]
         public string ImageUrl { get; set; } = null!;
+
+        [ValidateNever]
+        public FileViewModel Image { get; set; }
 
         [Required]
         [StringLength(1000, MinimumLength = 10)]

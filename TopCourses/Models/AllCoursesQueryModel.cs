@@ -24,6 +24,8 @@
 
         public int CurrentPage { get; set; } = 1;
 
+        public int TotalCoursesCount { get; set; }
+
         public IEnumerable<CategoryViewModel> Categories { get; set; } = Enumerable.Empty<CategoryViewModel>();
 
         public IEnumerable<LanguageViewModel> Languages { get; set; } = Enumerable.Empty<LanguageViewModel>();

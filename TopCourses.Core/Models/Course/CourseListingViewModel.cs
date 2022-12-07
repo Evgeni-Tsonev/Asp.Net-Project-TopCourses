@@ -18,5 +18,7 @@
         public decimal Price { get; set; }
 
         public double Rating { get; set; }
+
+        public int TotalCoursesCount { get; set; }
     }
 }

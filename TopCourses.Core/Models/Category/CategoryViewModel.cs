@@ -7,7 +7,7 @@
         public int Id { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(50)]
         public string Title { get; set; } = null!;
 
         public int? ParentId { get; set; }
