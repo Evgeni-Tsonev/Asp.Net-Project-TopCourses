@@ -1,8 +1,8 @@
 ﻿namespace TopCourses.Areas.Admin.Controllers
 {
+    using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
     using TopCourses.Core.Constants;
 
     [Authorize(Roles = RoleConstants.Administrator)]

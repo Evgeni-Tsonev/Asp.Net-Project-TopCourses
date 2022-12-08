@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Core.Models.ShoppingCart
 {
+    using TopCourses.Core.Models.ApplicationFile;
 
     public class ShoppingCartCourseViewModel
     {
@@ -9,7 +10,7 @@
 
         public string CreatorFullName { get; set; }
 
-        public string ImageUrl { get; set; }
+        public ImageFileViewModel Image { get; set; }
 
         public decimal Price { get; set; }
     }

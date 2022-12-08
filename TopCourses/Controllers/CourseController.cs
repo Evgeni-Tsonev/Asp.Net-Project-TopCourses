@@ -3,6 +3,7 @@
     using System.IO;
     using Ganss.Xss;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MongoDB.Bson;
@@ -86,12 +87,16 @@
             AddCourseViewModel model,
             [FromForm] IFormFile image)
         {
+            var categories = await this.categoryService.GetAllMainCategories();
+            var languages = await this.languageService.GetAll();
+
             var senitizer = new HtmlSanitizer();
             model.Title = senitizer.Sanitize(model.Title);
             model.Subtitle = senitizer.Sanitize(model.Subtitle);
             model.Description = senitizer.Sanitize(model.Description);
             model.Goals = senitizer.Sanitize(model.Goals);
             model.Requirements = senitizer.Sanitize(model.Requirements);
+
             foreach (var topic in model.Curriculum)
             {
                 topic.Title = senitizer.Sanitize(topic.Title);
@@ -105,9 +110,19 @@
 
             if (image != null)
             {
+                if (image.Length > 2097152)
+                {
+                    model.Languages = languages;
+                    model.Categories = categories;
+                    this.TempData["Error"] = "The file is too large.";
+                    return this.View(model);
+                }
+
                 string[] acceptedExtensions = { ".png", ".jpg", ".jpeg", ".gif", ".tif" };
                 if (!acceptedExtensions.Contains(Path.GetExtension(image.FileName)))
                 {
+                    model.Languages = languages;
+                    model.Categories = categories;
                     this.TempData["Error"] = "Error: Unsupported file!";
                     return this.View(model);
                 }
@@ -116,17 +131,17 @@
             }
             else
             {
-                this.TempData["Error"] = "Error: Unsupported file! File should be one of the following types: png/jpg/jpeg/gif/tif";
+                model.Languages = languages;
+                model.Categories = categories;
+                this.TempData["Error"] = "Field Image is required";
                 return this.View(model);
             }
 
-            var categories = await this.categoryService.GetAllMainCategories();
             if (!categories.Any(b => b.Id == model.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
             }
 
-            var languages = await this.languageService.GetAll();
             if (!languages.Any(b => b.Id == model.LanguageId))
             {
                 this.ModelState.AddModelError(nameof(model.LanguageId), "Language does not exist");
@@ -177,8 +192,16 @@
             return this.RedirectToAction("MyLearning");
         }
 
-        public async Task<IActionResult> Download(string id)
+        public async Task<IActionResult> Download(string id, int courseId)
         {
+            var userId = this.GetUserId();
+            var doUserHavePermission = await this.courseService.DoUserHavePermission(userId, courseId);
+            if (!doUserHavePermission)
+            {
+                this.TempData[MessageConstant.WarningMessage] = "You do not have access to this resource.";
+                return this.RedirectToAction("Details", "Course", new { Id = courseId });
+            }
+
             var stream = await this.bucket.OpenDownloadStreamAsync(new ObjectId(id));
             var fileName = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "FileName");
             var fileType = stream.FileInfo.Metadata.FirstOrDefault(x => x.Name == "Type");
@@ -227,22 +250,31 @@
             return filesToReturn;
         }
 
-        private async Task<FileViewModel> UploadImage(IFormFile file)
+        private async Task<ImageFileViewModel> UploadImage(IFormFile file)
         {
-            var image = new FileViewModel();
+            var image = new ImageFileViewModel();
             try
             {
                 if (file != null && file.Length > 0)
                 {
-                    using MemoryStream memoryStream = new MemoryStream();
-                    await file.CopyToAsync(memoryStream);
-                    var source = memoryStream.ToArray();
-                    var id = await this.bucket.UploadFromBytesAsync(file.FileName, source);
+                    using (var ms = new MemoryStream())
+                    {
+                        await file.CopyToAsync(ms);
+                        image.FileName = file.FileName;
+                        image.ContentType = file.ContentType;
+                        image.FileLength = file.Length;
+                        image.Bytes = ms.ToArray();
+                    }
 
-                    image.FileName = file.FileName;
-                    image.SourceId = id.ToString();
-                    image.ContentType = file.ContentType;
-                    image.FileLength = file.Length;
+                    //using MemoryStream memoryStream = new MemoryStream();
+                    //await file.CopyToAsync(memoryStream);
+                    //var source = memoryStream.ToArray();
+                    //var id = await this.bucket.UploadFromBytesAsync(file.FileName, source);
+
+                    //image.FileName = file.FileName;
+                    //image.SourceId = id.ToString();
+                    //image.ContentType = file.ContentType;
+                    //image.FileLength = file.Length;
                 }
             }
             catch (Exception ex)

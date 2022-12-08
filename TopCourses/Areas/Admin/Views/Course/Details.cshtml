@@ -85,7 +85,12 @@
             </div>
         </div>
         <div class="col-md-3 sticky-top">
-            <img src="@Model.ImageUrl" style="width: 18rem;height: 18rem" class="img-thumbnail">
+            @{
+                var base64 = Convert.ToBase64String(Model.Image.Bytes);
+                var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+            }
+
+            <img src="@imgSrc" style="width: 18rem;height: 18rem" class="img-thumbnail" />
             <p>@Model.Creator.FirstName @Model.Creator.LastName</p>
             <p>@Model.Creator.Email</p>
             <p><strong>Price: @Model.Price LV.</strong></p>
@@ -98,7 +103,7 @@
             </form>
         </div>
         <div class="col-6">
-            <form asp-area="Admin" asp-controller="Course" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <form asp-area="Admin" asp-controller="Course" asp-action="Delete" asp-route-courseId="@Model.Id" method="post">
                 <button type="submit" class="btn btn-block btn-danger btn-lg">Delete</button>
             </form>
         </div>

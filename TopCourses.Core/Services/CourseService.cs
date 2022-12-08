@@ -49,13 +49,12 @@
                 Id = course.Id,
                 Title = course.Title,
                 Subtitle = course.Subtitle,
-                ImageUrl = course.ImageUrl,
-                Image = new FileViewModel()
+                Image = new ImageFileViewModel()
                 {
                     FileName = course.Image.FileName,
                     FileLength = course.Image.FileLength,
-                    SourceId = course.Image.SourceId,
                     ContentType = course.Image.ContentType,
+                    Bytes = course.Image.Bytes,
                 },
                 Curriculum = course.Curriculum.Select(s => new TopicViewModel()
                 {
@@ -119,13 +118,12 @@
             {
                 Title = courseModel.Title,
                 Subtitle = courseModel.Subtitle,
-                ImageUrl = courseModel.ImageUrl,
-                Image = new ApplicationFile()
+                Image = new ImageFile()
                 {
                     FileName = courseModel.Image.FileName,
                     FileLength = courseModel.Image.FileLength,
-                    SourceId = courseModel.Image.SourceId,
                     ContentType = courseModel.Image.ContentType,
+                    Bytes = courseModel.Image.Bytes,
                 },
                 Goals = courseModel.Goals,
                 Requirements = courseModel.Requirements,
@@ -171,12 +169,11 @@
                 {
                     Id = c.Id,
                     Title = c.Title,
-                    ImageUrl = c.ImageUrl,
-                    Image = new FileViewModel()
+                    Image = new ImageFileViewModel()
                     {
                         FileName = c.Image.FileName,
                         FileLength = c.Image.FileLength,
-                        SourceId = c.Image.SourceId,
+                        Bytes = c.Image.Bytes,
                         ContentType = c.Image.ContentType,
                     },
                     Price = c.Price,
@@ -277,12 +274,12 @@
                 {
                     Id = c.Id,
                     Title = c.Title,
-                    ImageUrl = c.ImageUrl,
-                    Image = new FileViewModel()
+                    //ImageUrl = c.ImageUrl,
+                    Image = new ImageFileViewModel()
                     {
                         FileName = c.Image.FileName,
                         FileLength = c.Image.FileLength,
-                        SourceId = c.Image.SourceId,
+                        Bytes = c.Image.Bytes,
                         ContentType = c.Image.ContentType,
                     },
                     Rating = c.Rating,
@@ -321,12 +318,11 @@
             {
                 Id = c.Course.Id,
                 Title = c.Course.Title,
-                ImageUrl = c.Course.ImageUrl,
-                Image = new FileViewModel()
+                Image = new ImageFileViewModel()
                 {
                     FileName = c.Course.Image.FileName,
                     FileLength = c.Course.Image.FileLength,
-                    SourceId = c.Course.Image.SourceId,
+                    Bytes = c.Course.Image.Bytes,
                     ContentType = c.Course.Image.ContentType,
                 },
                 Price = c.Course.Price,
@@ -354,13 +350,12 @@
                 {
                     Id = c.Id,
                     Title = c.Title,
-                    ImageUrl = c.ImageUrl,
                     Price = c.Price,
-                    Image = new FileViewModel()
+                    Image = new ImageFileViewModel()
                     {
                         FileName = c.Image.FileName,
                         FileLength = c.Image.FileLength,
-                        SourceId = c.Image.SourceId,
+                        Bytes = c.Image.Bytes,
                         ContentType = c.Image.ContentType,
                     },
                     //todo rating
@@ -387,13 +382,12 @@
                 {
                     Id = c.Id,
                     Title = c.Title,
-                    ImageUrl = c.ImageUrl,
                     Price = c.Price,
-                    Image = new FileViewModel()
+                    Image = new ImageFileViewModel()
                     {
                         FileName = c.Image.FileName,
                         FileLength = c.Image.FileLength,
-                        SourceId = c.Image.SourceId,
+                        Bytes = c.Image.Bytes,
                         ContentType = c.Image.ContentType,
                     },
                     //todo rating
@@ -414,9 +408,12 @@
                 throw new Exception("Invalid User");
             }
 
-            if (course.CreatorId != user.Id || isAdministrator == false)
+            if (course.CreatorId != user.Id)
             {
-                throw new Exception("User doesn't have permission to delete this course");
+                if (isAdministrator == false)
+                {
+                    throw new Exception("User doesn't have permission to delete this course");
+                }
             }
 
             course.IsDeleted = true;

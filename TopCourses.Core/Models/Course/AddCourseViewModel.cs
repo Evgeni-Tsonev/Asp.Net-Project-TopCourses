@@ -18,13 +18,8 @@
         [StringLength(50, MinimumLength = 2)]
         public string Subtitle { get; set; } = null!;
 
-        [Required]
-        [Url]
-        [Display(Name = "Image Url")]
-        public string ImageUrl { get; set; } = null!;
-
         [ValidateNever]
-        public FileViewModel Image { get; set; }
+        public ImageFileViewModel Image { get; set; }
 
         [Required]
         [StringLength(1000, MinimumLength = 10)]

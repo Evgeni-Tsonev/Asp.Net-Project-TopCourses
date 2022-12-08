@@ -5,6 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
+    using TopCourses.Core.Models.ApplicationFile;
     using TopCourses.Core.Models.Order;
     using TopCourses.Core.Models.ShoppingCart;
     using TopCourses.Infrastructure.Data.Identity;
@@ -54,22 +55,33 @@
 
         public async Task<OrderViewModel> GetOrderById(int orderId)
         {
-            var order = await this.repository.All<Order>().Where(o => o.Id == orderId).Include(o => o.Courses).Select(o => new OrderViewModel()
-            {
-                Id = o.Id,
-                OrderDate = o.OrderDate,
-                TotalPrice = o.OrderTotal,
-                PaymentStatus = o.PaymentStatus,
-                OrderStatus = o.OrderStatus,
-                Courses = o.Courses.Select(c => new ShoppingCartCourseViewModel()
+            var order = await this.repository
+                .All<Order>()
+                .Where(o => o.Id == orderId)
+                .Include(o => o.Courses)
+                .ThenInclude(c => c.Image)
+                .Select(o => new OrderViewModel()
                 {
-                    Id = c.Id,
-                    ImageUrl = c.ImageUrl,
-                    Name = c.Title,
-                    Price = c.Price,
-                    CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,
-                }).ToList(),
-            }).FirstOrDefaultAsync();
+                    Id = o.Id,
+                    OrderDate = o.OrderDate,
+                    TotalPrice = o.OrderTotal,
+                    PaymentStatus = o.PaymentStatus,
+                    OrderStatus = o.OrderStatus,
+                    Courses = o.Courses.Select(c => new ShoppingCartCourseViewModel()
+                    {
+                        Id = c.Id,
+                        Image = new ImageFileViewModel()
+                        {
+                            FileName = c.Image.FileName,
+                            FileLength = c.Image.FileLength,
+                            Bytes = c.Image.Bytes,
+                            ContentType = c.Image.ContentType,
+                        },
+                        Name = c.Title,
+                        Price = c.Price,
+                        CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,
+                    }).ToList(),
+                }).FirstOrDefaultAsync();
 
             return order;
         }

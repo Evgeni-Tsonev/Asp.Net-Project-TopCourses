@@ -43,7 +43,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete([FromForm] int courseId)
+        public async Task<IActionResult> Delete(int courseId)
         {
             var userId = this.GetUserId();
             var isAdministrator = this.User.IsInRole(RoleConstants.Administrator);

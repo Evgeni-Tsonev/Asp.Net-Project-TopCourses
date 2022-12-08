@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
+    using TopCourses.Core.Models.ApplicationFile;
     using TopCourses.Core.Models.ShoppingCart;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
@@ -105,6 +106,9 @@
                 .Include(sc => sc.ShoppingCart)
                 .ThenInclude(c => c.ShoppingCartCourses)
                 .ThenInclude(c => c.Creator)
+                .Include(sc => sc.ShoppingCart)
+                .ThenInclude(c => c.ShoppingCartCourses)
+                .ThenInclude(c => c.Image)
                 .FirstOrDefaultAsync();
 
             if (user == null || user.ShoppingCartId == null)
@@ -112,14 +116,22 @@
                 return null;
             }
 
-            var courses = user.ShoppingCart?.ShoppingCartCourses.Select(c => new ShoppingCartCourseViewModel()
-            {
-                Id = c.Id,
-                Name = c.Title,
-                CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,
-                ImageUrl = c.ImageUrl,
-                Price = c.Price,
-            }).ToList();
+            var courses = user.ShoppingCart?
+                .ShoppingCartCourses
+                .Select(c => new ShoppingCartCourseViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Title,
+                    CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,
+                    Image = new ImageFileViewModel()
+                    {
+                        FileName = c.Image.FileName,
+                        FileLength = c.Image.FileLength,
+                        Bytes = c.Image.Bytes,
+                        ContentType = c.Image.ContentType,
+                    },
+                    Price = c.Price,
+                }).ToList();
 
             var cart = new ShoppingCartViewModel()
             {

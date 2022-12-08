@@ -246,7 +246,7 @@
 
         public async Task<IActionResult> AddUsersToRoles()
         {
-            string userId = "9aa20cf8-0e28-4828-8977-c140003d8137";
+            string userId = "257e7d01-d602-4eb1-b434-a81eca6c2d5b";
             var user = await this.userManager.FindByIdAsync(userId);
             await this.userManager.AddToRolesAsync(user, new string[] { RoleConstants.Administrator });
             return this.RedirectToAction("Index", "Home");

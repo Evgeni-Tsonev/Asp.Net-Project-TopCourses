@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TopCourses.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    partial class TopCoursesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208180532_RemovedPropertyImageUrlFormCourse")]
+    partial class RemovedPropertyImageUrlFormCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

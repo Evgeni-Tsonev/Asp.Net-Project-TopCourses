@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TopCourses.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    partial class TopCoursesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208141954_addedByteArrayToApplicationFile")]
+    partial class addedByteArrayToApplicationFile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,6 +265,10 @@ namespace TopCourses.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<byte[]>("Bytes")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("ContentType")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -347,6 +353,10 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
@@ -416,36 +426,6 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("CourseApplicationUser");
-                });
-
-            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ImageFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<byte[]>("Bytes")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<long>("FileLength")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ImageFile");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Language", b =>
@@ -733,7 +713,7 @@ namespace TopCourses.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TopCourses.Infrastructure.Data.Models.ImageFile", "Image")
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.ApplicationFile", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)

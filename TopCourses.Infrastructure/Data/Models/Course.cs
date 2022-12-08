@@ -17,11 +17,9 @@
         [StringLength(50)]
         public string Subtitle { get; set; } = null!;
 
-        [Required]
-        [Url]
-        public string ImageUrl { get; set; } = null!;
+        public int ImageId { get; set; }
 
-        public ApplicationFile Image { get; set; }
+        public ImageFile Image { get; set; }
 
         [Required]
         [StringLength(1000)]

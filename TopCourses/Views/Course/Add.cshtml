@@ -23,11 +23,6 @@
                 <span asp-validation-for="Subtitle" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageUrl"></label>
-                <input asp-for="ImageUrl" class="form-control" placeholder="Image Url" />
-                <span asp-validation-for="ImageUrl" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Image"></label>
                 <input type="file" form="idForm" name="image" accept=".png,.jpg,.jpeg,.gif,.tif" multiple>
                 @if (this.TempData.ContainsKey("Error"))

@@ -17,7 +17,12 @@ else
                     {
                         <div class="card-group">
                             <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="@course.ImageUrl" alt="@course.Title - @course.Price">
+                                @{
+                                    var base64 = Convert.ToBase64String(course.Image.Bytes);
+                                    var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                                }
+
+                                <img class="card-img-top" src="@imgSrc" alt="@course.Title - @course.Price">
                                 <div class="card-body text-center">
                                     <h5 class="card-title">@course.Title - @course.Price lv.</h5>
                                 </div>

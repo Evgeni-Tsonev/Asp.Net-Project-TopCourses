@@ -14,9 +14,7 @@
 
         public string Subtitle { get; set; } = null!;
 
-        public string ImageUrl { get; set; } = null!;
-
-        public FileViewModel Image { get; set; }
+        public ImageFileViewModel Image { get; set; }
 
         public string Goals = null!;
 
