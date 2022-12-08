@@ -19,6 +19,9 @@
         public string Subtitle { get; set; } = null!;
 
         [ValidateNever]
+        public int ImageId { get; set; }
+
+        [ValidateNever]
         public ImageFileViewModel Image { get; set; }
 
         [Required]

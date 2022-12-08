@@ -118,13 +118,7 @@
             {
                 Title = courseModel.Title,
                 Subtitle = courseModel.Subtitle,
-                Image = new ImageFile()
-                {
-                    FileName = courseModel.Image.FileName,
-                    FileLength = courseModel.Image.FileLength,
-                    ContentType = courseModel.Image.ContentType,
-                    Bytes = courseModel.Image.Bytes,
-                },
+                ImageId = courseModel.Image.Id,
                 Goals = courseModel.Goals,
                 Requirements = courseModel.Requirements,
                 Curriculum = courseModel.Curriculum.Select(c => new Topic()

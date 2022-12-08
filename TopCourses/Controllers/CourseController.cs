@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Controllers
 {
+    using System.Drawing;
     using System.IO;
     using Ganss.Xss;
     using Microsoft.AspNetCore.Authorization;
@@ -24,6 +25,7 @@
         private readonly ICategoryService categoryService;
         private readonly ILanguageService languageService;
         private readonly IFileService fileService;
+        private readonly IImageService imageService;
         private readonly GridFSBucket bucket;
 
         public CourseController(
@@ -33,7 +35,8 @@
                                 UserManager<ApplicationUser> userManager,
                                 IFileService fileService,
                                 ILogger<CourseController> logger,
-                                IBucket bucketContex)
+                                IBucket bucketContex,
+                                IImageService imageService)
         {
             this.courseService = courseService;
             this.categoryService = categoryService;
@@ -42,6 +45,7 @@
             this.fileService = fileService;
             this.logger = logger;
             this.bucket = bucketContex.Create();
+            this.imageService = imageService;
         }
 
         [AllowAnonymous]
@@ -265,17 +269,9 @@
                         image.FileLength = file.Length;
                         image.Bytes = ms.ToArray();
                     }
-
-                    //using MemoryStream memoryStream = new MemoryStream();
-                    //await file.CopyToAsync(memoryStream);
-                    //var source = memoryStream.ToArray();
-                    //var id = await this.bucket.UploadFromBytesAsync(file.FileName, source);
-
-                    //image.FileName = file.FileName;
-                    //image.SourceId = id.ToString();
-                    //image.ContentType = file.ContentType;
-                    //image.FileLength = file.Length;
                 }
+
+                image.Id = await this.imageService.UploadImage(image);
             }
             catch (Exception ex)
             {
