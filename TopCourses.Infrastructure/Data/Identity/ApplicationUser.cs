@@ -1,8 +1,8 @@
 ﻿namespace TopCourses.Infrastructure.Data.Identity
 {
-    using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
     public class ApplicationUser : IdentityUser
@@ -15,9 +15,12 @@
         [StringLength(50)]
         public string LastName { get; set; } = null!;
 
+        public byte[] ProfileImage { get; set; }
+
         public bool IsDeleted { get; set; }
 
         public int? ShoppingCartId { get; set; }
+
         public ShoppingCart? ShoppingCart { get; set; }
 
         public ICollection<Course> CoursesCreated { get; set; } = new HashSet<Course>();

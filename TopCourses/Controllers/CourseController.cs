@@ -128,7 +128,22 @@
                     return this.View(model);
                 }
 
-                model.Image = await this.UploadImage(image);
+                try
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            await image.CopyToAsync(ms);
+                            model.Image = ms.ToArray();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+                }
             }
             else
             {

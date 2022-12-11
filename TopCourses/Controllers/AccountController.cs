@@ -9,6 +9,7 @@
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.User;
     using TopCourses.Infrastructure.Data.Identity;
+    using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Models;
 
     public class AccountController : BaseController
@@ -39,8 +40,46 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, IFormFile image)
         {
+            if (image != null)
+            {
+                if (image.Length > 2097152)
+                {
+                    this.TempData["Error"] = "The file is too large.";
+                    return this.View(model);
+                }
+
+                string[] acceptedExtensions = { ".png", ".jpg", ".jpeg", ".gif", ".tif" };
+                if (!acceptedExtensions.Contains(Path.GetExtension(image.FileName)))
+                {
+                    this.TempData["Error"] = "Error: Unsupported file!";
+                    return this.View(model);
+                }
+
+                try
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            await image.CopyToAsync(ms);
+                            model.ProfileImage = ms.ToArray();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+                }
+            }
+            else
+            {
+                this.TempData["Error"] = "Profile Image cannot be empty";
+                return this.View(model);
+            }
+
             var isUsernameexists = await this.userManager.Users.AnyAsync(u => u.UserName == model.UserName);
             if (isUsernameexists)
             {
@@ -59,6 +98,7 @@
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 UserName = model.UserName,
+                ProfileImage = model.ProfileImage,
             };
 
             var result = await this.userManager.CreateAsync(user, model.Password);

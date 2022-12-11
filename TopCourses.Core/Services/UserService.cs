@@ -30,6 +30,7 @@
                 LastName = user.LastName,
                 UserName = user.UserName,
                 Email = user.Email,
+                ProfileImage = user.ProfileImage,
             };
         }
 
@@ -42,6 +43,7 @@
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                ProfileImage = user.ProfileImage,
             };
         }
 
@@ -54,6 +56,7 @@
                     Id = u.Id,
                     FullName = $"{u.FirstName} {u.LastName}",
                     Username = u.UserName,
+                    ProfileImage = u.ProfileImage,
                 })
                 .ToListAsync();
 
@@ -64,7 +67,7 @@
         {
             bool result = false;
             var user = await this.repository.GetByIdAsync<ApplicationUser>(model.Id);
-
+            //todo
             if (user != null)
             {
                 user.FirstName = model.FirstName;

@@ -15,5 +15,8 @@
         [StringLength(50, MinimumLength = 2)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Display(Name = "Profile Image")]
+        public byte[] ProfileImage { get; set; }
     }
 }

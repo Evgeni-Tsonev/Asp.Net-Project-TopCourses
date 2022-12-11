@@ -18,5 +18,8 @@
 
         [Display(Name = "E-mail")]
         public string Email { get; set; }
+
+        [Display(Name = "Profile Image")]
+        public byte[] ProfileImage { get; set; }
     }
 }

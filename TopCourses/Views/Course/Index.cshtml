@@ -5,164 +5,164 @@
 }
 
 <div class="container border-dark">
-    <div class="row">
-        <form method="get">
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <label asp-for="SearchTerm"></label>
-                    <input asp-for="SearchTerm" class="form-control" placeholder="...">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-2 d-flex justify-content-between">
-                    <div class="form-group">
-                        <label asp-for="Category"></label>
-                        <select asp-for="Category" class="form-control">
-                            <option value="">All</option>
-                            @foreach (var category in Model.Categories)
-                            {
-                                <option value="@category.Title">@category.Title</option>
-                            }
-                        </select>
-                    </div>
-                </div>
 
-                <div class="form-group col-md-2 d-flex justify-content-between">
-                    <div class="form-group">
-                        <label asp-for="SubCategory"></label>
-                        <select asp-for="SubCategory" class="form-control">
-                            <option value="">All</option>
-                            @foreach (var category in Model.Categories)
-                            {
-                                <option value="@category.Title">@category.Title</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-2 d-flex justify-content-between">
-                    <div class="form-group">
-                        <label asp-for="Language"></label>
-                        <select asp-for="Language" class="form-control">
-                            <option value="">All</option>
-                            @foreach (var language in Model.Languages)
-                            {
-                                <option value="@language.Title">@language.Title</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label asp-for="MinPrice"></label>
-                    <input asp-for="MinPrice" class="form-control">
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label asp-for="MaxPrice"></label>
-                    <input asp-for="MaxPrice" class="form-control">
-                </div>
-
-                <div class="form-group col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Sorting"></label>
-                        <select asp-for="Sorting" class="form-control">
-                            <option value="0">Newest</option>
-                            <option value="1">Lowest price first</option>
-                            <option value="2">Highest Rated</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-group mt-4 p-2">
-                        <input type="submit" value="Search" class="btn btn-primary" />
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        @{
-            var previousPage = Model.CurrentPage - 1;
-            if (previousPage < 1)
-            {
-                previousPage = 1;
-            }
-
-            var maxPage = Math.Ceiling((double)Model.TotalCoursesCount /
-            AllCoursesQueryModel.CoursesPerPage);
-        }
-
-        <div class="row mb-5">
-            <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
-                <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-                   asp-controller="Course"
-                   asp-action="Index"
-                   asp-route-currentPage="@previousPage"
-                   asp-route-category="@Model.Category"
-                   asp-route-subCategory="@Model.SubCategory"
-                   asp-route-language="@Model.Language"
-                   asp-route-minPrice="@Model.MinPrice"
-                   asp-route-maxPrice="@Model.MaxPrice"
-                   asp-route-searchTerm="@Model.SearchTerm"
-                   asp-route-sorting="@((int)Model.Sorting)"><<</a>
-            </div>
-
-            @{
-                var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
-                !Model.Courses.Any();
-            }
-
-            <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
-                <a class="btn btn-primary
-           @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
-                   asp-controller="Course"
-                   asp-action="Index"
-                   asp-route-currentPage="@(Model.CurrentPage + 1)"
-                   asp-route-category="@Model.Category"
-                   asp-route-subCategory="@Model.SubCategory"
-                   asp-route-language="@Model.Language"
-                   asp-route-minPrice="@Model.MinPrice"
-                   asp-route-maxPrice="@Model.MaxPrice"
-                   asp-route-searchTerm="@Model.SearchTerm"
-                   asp-route-sorting="@((int)Model.Sorting)">>></a>
+    <form method="get">
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="...">
             </div>
         </div>
-        <br />
-
-        @if (!Model.Courses.Any())
-        {
-            <h2 class="text-center">No courses found by the given criteria!</h2>
-        }
-        else
-        {
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="card-group">
-                        @foreach (var course in Model.Courses)
+        <div class="row">
+            <div class="form-group col-md-2 d-flex justify-content-between">
+                <div class="form-group">
+                    <label asp-for="Category"></label>
+                    <select asp-for="Category" class="form-control">
+                        <option value="">All</option>
+                        @foreach (var category in Model.Categories)
                         {
-                            <div class="card-group">
-                                <div class="card" style="width: 18rem;">
-                                    @{
-                                        var base64 = Convert.ToBase64String(course.Image);
-                                        var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
-                                    }
-
-                                    <img class="card-img-top" src="@imgSrc" alt="@course.Title - @course.Price">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">@course.Title - @course.Price LV.</h5>
-                                    </div>
-                                    <div>
-                                        <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
-                                        <a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
-                                        <a asp-controller="ShoppingCart" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Add </a>
-                                    </div>
-                                </div>
-                            </div>
+                            <option value="@category.Title">@category.Title</option>
                         }
-                    </div>
+                    </select>
                 </div>
             </div>
+
+            <div class="form-group col-md-2 d-flex justify-content-between">
+                <div class="form-group">
+                    <label asp-for="SubCategory"></label>
+                    <select asp-for="SubCategory" class="form-control">
+                        <option value="">All</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Title">@category.Title</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group col-md-2 d-flex justify-content-between">
+                <div class="form-group">
+                    <label asp-for="Language"></label>
+                    <select asp-for="Language" class="form-control">
+                        <option value="">All</option>
+                        @foreach (var language in Model.Languages)
+                        {
+                            <option value="@language.Title">@language.Title</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="MinPrice"></label>
+                <input asp-for="MinPrice" class="form-control">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="MaxPrice"></label>
+                <input asp-for="MaxPrice" class="form-control">
+            </div>
+
+            <div class="form-group col-md-3">
+                <div class="form-group">
+                    <label asp-for="Sorting"></label>
+                    <select asp-for="Sorting" class="form-control">
+                        <option value="0">Newest</option>
+                        <option value="1">Lowest price first</option>
+                        <option value="2">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group mt-4 p-2">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    @{
+        var previousPage = Model.CurrentPage - 1;
+        if (previousPage < 1)
+        {
+            previousPage = 1;
         }
+
+        var maxPage = Math.Ceiling((double)Model.TotalCoursesCount /
+        AllCoursesQueryModel.CoursesPerPage);
+    }
+
+    <div class="row mb-5">
+        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+            <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+               asp-controller="Course"
+               asp-action="Index"
+               asp-route-currentPage="@previousPage"
+               asp-route-category="@Model.Category"
+               asp-route-subCategory="@Model.SubCategory"
+               asp-route-language="@Model.Language"
+               asp-route-minPrice="@Model.MinPrice"
+               asp-route-maxPrice="@Model.MaxPrice"
+               asp-route-searchTerm="@Model.SearchTerm"
+               asp-route-sorting="@((int)Model.Sorting)"><<</a>
+        </div>
+
+        @{
+            var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+            !Model.Courses.Any();
+        }
+
+        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-primary
+           @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+               asp-controller="Course"
+               asp-action="Index"
+               asp-route-currentPage="@(Model.CurrentPage + 1)"
+               asp-route-category="@Model.Category"
+               asp-route-subCategory="@Model.SubCategory"
+               asp-route-language="@Model.Language"
+               asp-route-minPrice="@Model.MinPrice"
+               asp-route-maxPrice="@Model.MaxPrice"
+               asp-route-searchTerm="@Model.SearchTerm"
+               asp-route-sorting="@((int)Model.Sorting)">>></a>
+        </div>
     </div>
+    <br />
+
+    @if (!Model.Courses.Any())
+    {
+        <h2 class="text-center">No courses found by the given criteria!</h2>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="card-group">
+                    @foreach (var course in Model.Courses)
+                    {
+                        <div class="card-group">
+                            <div class="card" style="width: 18rem;">
+                                @{
+                                    var base64 = Convert.ToBase64String(course.Image);
+                                    var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                                }
+
+                                <img class="card-img-top" src="@imgSrc" alt="@course.Title - @course.Price">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">@course.Title - @course.Price LV.</h5>
+                                </div>
+                                <div>
+                                    <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
+                                    <a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
+                                    <a asp-controller="ShoppingCart" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Add </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    <br />
 </div>

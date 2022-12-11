@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Models
 {
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
     using System.ComponentModel.DataAnnotations;
 
     public class RegisterViewModel
@@ -28,5 +29,8 @@
         [Required]
         [StringLength(50, MinimumLength = 2)]
         public string LastName { get; set; } = null!;
+
+        [ValidateNever]
+        public byte[] ProfileImage { get; set; }
     }
 }

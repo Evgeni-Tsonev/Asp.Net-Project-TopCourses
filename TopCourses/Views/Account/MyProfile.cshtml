@@ -9,9 +9,14 @@
         <div class="card card-primary card-outline">
             <div class="card-body box-profile">
                 <div class="text-center">
-                    <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+                    @{
+                        var base64 = Convert.ToBase64String(Model.ProfileImage);
+                        var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                    }
+
+                    <img class="profile-user-img img-fluid img-circle" src="@imgSrc" alt="User profile picture">
                 </div>
-                <h3 class="profile-username text-center">Nina Mcintire</h3>
+                @*<h3 class="profile-username text-center">Nina Mcintire</h3>
                 <p class="text-muted text-center">Software Engineer</p>
                 <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item">
@@ -24,7 +29,7 @@
                         <b>Friends</b> <a class="float-right">13,287</a>
                     </li>
                 </ul>
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>*@
             </div>
 
         </div>

@@ -30,8 +30,16 @@
             <div class="card-body">
                 <p class="login-box-msg">Register a new membership</p>
 
-                <form asp-controller="Account" asp-action="Register" method="post">
+                <form asp-controller="Account" asp-action="Register" enctype="multipart/form-data" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-group mb-3">
+                        <label asp-for="ProfileImage"></label>
+                        <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif,.tif">
+                        @if (this.TempData.ContainsKey("Error"))
+                        {
+                            <span class="text-danger mt-3">@this.TempData["Error"]</span>
+                        }
+                    </div>
                     <div class="input-group mb-3">
                         <span asp-validation-for="FirstName" class="small text-danger"></span>
                         <input asp-for="FirstName" class="form-control" placeholder="First name">
