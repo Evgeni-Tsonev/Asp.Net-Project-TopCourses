@@ -179,8 +179,41 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UserEditViewModel model)
+        public async Task<IActionResult> Edit(UserEditViewModel model, IFormFile image)
         {
+            if (image != null)
+            {
+                if (image.Length > 2097152)
+                {
+                    this.TempData["Error"] = "The file is too large.";
+                    return this.View(model);
+                }
+
+                string[] acceptedExtensions = { ".png", ".jpg", ".jpeg", ".gif", ".tif" };
+                if (!acceptedExtensions.Contains(Path.GetExtension(image.FileName)))
+                {
+                    this.TempData["Error"] = "Error: Unsupported file!";
+                    return this.View(model);
+                }
+
+                try
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            await image.CopyToAsync(ms);
+                            model.ProfileImage = ms.ToArray();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+                }
+            }
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             model.Id = userId;
             if (!this.ModelState.IsValid)

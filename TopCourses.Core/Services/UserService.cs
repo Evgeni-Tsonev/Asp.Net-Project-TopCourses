@@ -67,11 +67,14 @@
         {
             bool result = false;
             var user = await this.repository.GetByIdAsync<ApplicationUser>(model.Id);
-            //todo
             if (user != null)
             {
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+                if (model.ProfileImage != null && model.ProfileImage.Length > 0)
+                {
+                    user.ProfileImage = model.ProfileImage;
+                }
 
                 await this.repository.SaveChangesAsync();
                 result = true;

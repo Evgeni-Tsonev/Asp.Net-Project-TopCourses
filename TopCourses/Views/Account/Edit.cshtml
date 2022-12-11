@@ -14,7 +14,15 @@
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane active">
-                    <form method="post" class="form-horizontal">
+                    <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <div class="input-group mb-3">
+                            <label asp-for="ProfileImage"></label>
+                            <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif,.tif">
+                            @if (this.TempData.ContainsKey("Error"))
+                            {
+                                <span class="text-danger mt-3">@this.TempData["Error"]</span>
+                            }
+                        </div>
                         <div class="form-group row">
                             <label asp-for="@Model.FirstName" class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-10">

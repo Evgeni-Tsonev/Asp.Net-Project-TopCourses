@@ -1,9 +1,11 @@
 ﻿namespace TopCourses.Core.Models.User
 {
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
     public class UserEditViewModel
     {
+        [ValidateNever]
         public string Id { get; set; }
 
         [Required]
@@ -17,6 +19,7 @@
         public string LastName { get; set; }
 
         [Display(Name = "Profile Image")]
+        [ValidateNever]
         public byte[] ProfileImage { get; set; }
     }
 }
