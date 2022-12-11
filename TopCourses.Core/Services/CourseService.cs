@@ -148,6 +148,98 @@
             await this.repository.SaveChangesAsync();
         }
 
+        public async Task<EditCourseViewModel> GetCourseToEdit(int courseId)
+        {
+            var course = await this.repository
+                .All<Course>()
+                .Where(c => c.Id == courseId)
+                .Include(c => c.Curriculum)
+                .ThenInclude(t => t.Videos)
+                .FirstOrDefaultAsync();
+
+            if (course == null)
+            {
+                throw new Exception("Invalid course");
+            }
+
+            var model = new EditCourseViewModel()
+            {
+                Id = course.Id,
+                Title = course.Title,
+                Subtitle = course.Subtitle,
+                Image = course.Image,
+                Goals = course.Goals,
+                Requirements = course.Requirements,
+                Curriculum = course.Curriculum.Select(c => new TopicViewModel()
+                {
+                    Title = c.Title,
+                    Description = c.Description,
+                    Videos = c.Videos.Select(v => new VideoViewModel()
+                    {
+                        Id = v.Id,
+                        Title = v.Title,
+                        VideoUrl = v.Url,
+                    }).ToList(),
+                    Files = c.Files.Select(f => new FileViewModel()
+                    {
+                        Id = f.Id,
+                        FileName = f.FileName,
+                        FileLength = f.FileLength,
+                        SourceId = f.SourceId,
+                        ContentType = f.ContentType,
+                    }).ToList(),
+                }).ToList(),
+                Level = course.Level,
+                CategoryId = course.CategoryId,
+                //to do
+                SubCategoryId = course.CategoryId,
+                LanguageId = course.LanguageId,
+                Description = course.Description,
+                Price = course.Price,
+            };
+
+            return model;
+        }
+
+        public async Task<bool> Update(EditCourseViewModel model, string userId)
+        {
+            var course = await this.GetCourseById(model.Id);
+            if (course == null)
+            {
+                throw new Exception("Invalid course");
+            }
+
+            var user = await this.repository.All<ApplicationUser>().FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                throw new Exception("Invalid user");
+            }
+
+            if (course.CreatorId != user.Id)
+            {
+                throw new Exception("Unautorized User");
+            }
+
+            if (model.Image != null && model.Image.Length > 0)
+            {
+                course.Image = model.Image;
+            }
+
+            course.Title = model.Title;
+            course.Subtitle = model.Subtitle;
+            course.Goals = model.Goals;
+            course.Requirements = model.Requirements;
+            course.Level = model.Level;
+            course.CategoryId = model.CategoryId;
+            course.SubCategoryId = model.SubCategoryId;
+            course.LanguageId = model.LanguageId;
+            course.Description = model.Description;
+            course.Price = model.Price;
+
+            await this.repository.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<IEnumerable<CourseListingViewModel>> GetAllNotApproved()
         {
             var allCourses = await this.repository

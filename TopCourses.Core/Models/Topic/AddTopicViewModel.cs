@@ -1,10 +1,9 @@
 ﻿namespace TopCourses.Core.Models.Topic
 {
-    using Microsoft.AspNetCore.Http.Internal;
-    using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
-    using TopCourses.Core.Models.Video;
+    using Microsoft.AspNetCore.Http;
     using TopCourses.Core.Models.ApplicationFile;
+    using TopCourses.Core.Models.Video;
 
     public class AddTopicViewModel
     {

@@ -181,6 +181,8 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
+
+
         [AllowAnonymous]
         public async Task<IActionResult> Details([FromRoute] int id)
         {
@@ -206,6 +208,90 @@
             var userId = this.GetUserId();
             await this.courseService.Delete(courseId, userId);
             return this.RedirectToAction("MyLearning");
+        }
+
+        public async Task<IActionResult> Edit(int courseId)
+        {
+            var categories = await this.categoryService.GetAllMainCategories();
+            var languages = await this.languageService.GetAll();
+            var model = await this.courseService.GetCourseToEdit(courseId);
+            model.Languages = languages;
+            model.Categories = categories;
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(EditCourseViewModel model, IFormFile image)
+        {
+            var categories = await this.categoryService.GetAllMainCategories();
+            var languages = await this.languageService.GetAll();
+
+            if (image != null)
+            {
+                if (image.Length > 2097152)
+                {
+                    model.Languages = languages;
+                    model.Categories = categories;
+                    this.TempData["Error"] = "The file is too large.";
+                    return this.View("Edit", model);
+                }
+
+                string[] acceptedExtensions = { ".png", ".jpg", ".jpeg", ".gif", ".tif" };
+                if (!acceptedExtensions.Contains(Path.GetExtension(image.FileName)))
+                {
+                    model.Languages = languages;
+                    model.Categories = categories;
+                    this.TempData["Error"] = "Error: Unsupported file!";
+                    return this.View("Edit", model);
+                }
+
+                try
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            await image.CopyToAsync(ms);
+                            model.Image = ms.ToArray();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+                }
+            }
+
+            if (!categories.Any(b => b.Id == model.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
+            }
+
+            if (!languages.Any(b => b.Id == model.LanguageId))
+            {
+                this.ModelState.AddModelError(nameof(model.LanguageId), "Language does not exist");
+            }
+
+            var senitizer = new HtmlSanitizer();
+            model.Title = senitizer.Sanitize(model.Title);
+            model.Subtitle = senitizer.Sanitize(model.Subtitle);
+            model.Description = senitizer.Sanitize(model.Description);
+            model.Goals = senitizer.Sanitize(model.Goals);
+            model.Requirements = senitizer.Sanitize(model.Requirements);
+
+            this.ModelState.Remove("Image");
+            if (!this.ModelState.IsValid)
+            {
+                model.Languages = languages;
+                model.Categories = categories;
+                return this.View("Edit", model);
+            }
+
+            var currentUserId = this.GetUserId();
+            await this.courseService.Update(model, currentUserId);
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<IActionResult> Download(string id, int courseId)
@@ -264,28 +350,6 @@
             }
 
             return filesToReturn;
-        }
-
-        private async Task<byte[]> UploadImage(IFormFile file)
-        {
-            try
-            {
-                if (file != null && file.Length > 0)
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        await file.CopyToAsync(ms);
-                        return ms.ToArray();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "CourseController/UploadFile");
-                this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
-            }
-
-            return null;
         }
     }
 }

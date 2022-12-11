@@ -82,6 +82,13 @@
                                             View
                                         </a>
                                     </div>
+                                    <div class="float-right mx-1">
+                                        <a asp-controller="Course" asp-action="Edit" asp-route-courseId="@course.Id" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            Edit
+                                        </a>
+                                    </div>
                                     <form asp-controller="Course" asp-action="Delete" method="post">
                                         <input type="hidden" name="courseId" value="@course.Id" />
                                         <button type="submit" class="btn btn-danger">

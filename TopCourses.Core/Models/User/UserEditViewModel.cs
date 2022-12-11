@@ -20,6 +20,6 @@
 
         [Display(Name = "Profile Image")]
         [ValidateNever]
-        public byte[] ProfileImage { get; set; }
+        public byte[] ProfileImage { get; set; } = Array.Empty<byte>();
     }
 }

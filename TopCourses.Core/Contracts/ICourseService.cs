@@ -37,5 +37,9 @@
         Task AddStudentToCourse(int courseId, string studentId);
 
         Task<bool> DoUserHavePermission(string userId, int courseId);
+
+        Task<EditCourseViewModel> GetCourseToEdit(int courseId);
+
+        Task<bool> Update(EditCourseViewModel model, string userId);
     }
 }

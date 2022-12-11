@@ -7,8 +7,10 @@
     using TopCourses.Core.Models.Topic;
     using TopCourses.Infrastructure.Data.Models.enums;
 
-    public class AddCourseViewModel
+    public class EditCourseViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(50, MinimumLength = 2)]
         public string Title { get; set; } = null!;
@@ -18,10 +20,7 @@
         public string Subtitle { get; set; } = null!;
 
         [ValidateNever]
-        public int ImageId { get; set; }
-
-        [ValidateNever]
-        public byte[] Image { get; set; }
+        public byte[] Image { get; set; } = Array.Empty<byte>();
 
         [Required]
         [StringLength(1000, MinimumLength = 10)]
@@ -31,7 +30,7 @@
         [StringLength(1000, MinimumLength = 10)]
         public string Requirements { get; set; } = null!;
 
-        public IList<AddTopicViewModel> Curriculum { get; set; } = new List<AddTopicViewModel>();
+        public IList<TopicViewModel> Curriculum { get; set; } = new List<TopicViewModel>();
 
         public Level Level { get; set; }
 
