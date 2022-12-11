@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TopCourses.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using TopCourses.Infrastructure.Data;
 namespace TopCourses.Infrastructure.Migrations
 {
     [DbContext(typeof(TopCoursesDbContext))]
-    partial class TopCoursesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208194446_addedImageFileToApplicationUser")]
+    partial class addedImageFileToApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,6 +231,9 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ProfilePictureId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -251,6 +256,9 @@ namespace TopCourses.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ProfilePictureId")
+                        .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -344,9 +352,8 @@ namespace TopCourses.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
@@ -393,6 +400,9 @@ namespace TopCourses.Infrastructure.Migrations
 
                     b.HasIndex("CreatorId");
 
+                    b.HasIndex("ImageId")
+                        .IsUnique();
+
                     b.HasIndex("LanguageId");
 
                     b.HasIndex("OrderId");
@@ -415,6 +425,43 @@ namespace TopCourses.Infrastructure.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("CourseApplicationUser");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ImageFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("Bytes")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("FileLength")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Language", b =>
@@ -672,6 +719,17 @@ namespace TopCourses.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Identity.ApplicationUser", b =>
+                {
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.ImageFile", "ProfilePicture")
+                        .WithOne("User")
+                        .HasForeignKey("TopCourses.Infrastructure.Data.Identity.ApplicationUser", "ProfilePictureId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ProfilePicture");
+                });
+
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ApplicationFile", b =>
                 {
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Topic", null)
@@ -702,6 +760,12 @@ namespace TopCourses.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TopCourses.Infrastructure.Data.Models.ImageFile", "Image")
+                        .WithOne("Course")
+                        .HasForeignKey("TopCourses.Infrastructure.Data.Models.Course", "ImageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("TopCourses.Infrastructure.Data.Models.Language", "Language")
                         .WithMany("Courses")
                         .HasForeignKey("LanguageId")
@@ -721,6 +785,8 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Creator");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Language");
 
@@ -843,6 +909,15 @@ namespace TopCourses.Infrastructure.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.ImageFile", b =>
+                {
+                    b.Navigation("Course")
+                        .IsRequired();
+
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TopCourses.Infrastructure.Data.Models.Language", b =>

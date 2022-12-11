@@ -136,32 +136,33 @@
         }
         else
         {
-            <div class="col-md-10">
-                <div class="card-group">
-                    @foreach (var course in Model.Courses)
-                    {
-                        <div class="card-group">
-                            <div class="card" style="width: 18rem;">
-                                @{
-                                    var base64 = Convert.ToBase64String(course.Image.Bytes);
-                                    var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
-                                }
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="card-group">
+                        @foreach (var course in Model.Courses)
+                        {
+                            <div class="card-group">
+                                <div class="card" style="width: 18rem;">
+                                    @{
+                                        var base64 = Convert.ToBase64String(course.Image);
+                                        var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                                    }
 
-                                <img class="card-img-top" src="@imgSrc" alt="@course.Title - @course.Price">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">@course.Title - @course.Price LV.</h5>
-                                </div>
-                                <div>
-                                    <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
-                                    <a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
-                                    <a asp-controller="ShoppingCart" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Add </a>
+                                    <img class="card-img-top" src="@imgSrc" alt="@course.Title - @course.Price">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">@course.Title - @course.Price LV.</h5>
+                                    </div>
+                                    <div>
+                                        <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
+                                        <a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
+                                        <a asp-controller="ShoppingCart" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Add </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
         }
-        
     </div>
 </div>

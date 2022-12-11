@@ -22,7 +22,7 @@
         public int ImageId { get; set; }
 
         [ValidateNever]
-        public ImageFileViewModel Image { get; set; }
+        public byte[] Image { get; set; }
 
         [Required]
         [StringLength(1000, MinimumLength = 10)]

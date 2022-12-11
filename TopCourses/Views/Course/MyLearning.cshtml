@@ -25,7 +25,7 @@
                                     <div class="d-none d-lg-block col-lg-1 text-center py-2">
                                         <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
                                             @{
-                                                var base64 = Convert.ToBase64String(course.Image.Bytes);
+                                                var base64 = Convert.ToBase64String(course.Image);
                                                 var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
                                             }
 
@@ -63,7 +63,7 @@
                                     <div class="d-none d-lg-block col-lg-1 text-center py-2">
                                         <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
                                             @{
-                                                var base64 = Convert.ToBase64String(course.Image.Bytes);
+                                                var base64 = Convert.ToBase64String(course.Image);
                                                 var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
                                             }
 
@@ -107,7 +107,7 @@
                                     <div class="d-none d-lg-block col-lg-1 text-center py-2">
                                         <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
                                             @{
-                                                var base64 = Convert.ToBase64String(course.Image.Bytes);
+                                                var base64 = Convert.ToBase64String(course.Image);
                                                 var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
                                             }
 

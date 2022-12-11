@@ -123,13 +123,7 @@
                     Id = c.Id,
                     Name = c.Title,
                     CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,
-                    Image = new ImageFileViewModel()
-                    {
-                        FileName = c.Image.FileName,
-                        FileLength = c.Image.FileLength,
-                        Bytes = c.Image.Bytes,
-                        ContentType = c.Image.ContentType,
-                    },
+                    Image = c.Image,
                     Price = c.Price,
                 }).ToList();
 

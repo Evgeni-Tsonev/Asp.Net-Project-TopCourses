@@ -91,7 +91,7 @@
         </div>
         <div class="col-md-3 sticky-top">
             @{
-                var base64 = Convert.ToBase64String(Model.Image.Bytes);
+                var base64 = Convert.ToBase64String(@Model.Image);
                 var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
             }
 

@@ -1,7 +1,6 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
     using System.ComponentModel.DataAnnotations;
-    using TopCourses.Core.Models.ApplicationFile;
 
     public class CourseListingViewModel
     {
@@ -11,7 +10,7 @@
         [StringLength(50)]
         public string Title { get; set; } = null!;
 
-        public ImageFileViewModel Image { get; set; }
+        public byte[] Image { get; set; }
 
         public decimal Price { get; set; }
 

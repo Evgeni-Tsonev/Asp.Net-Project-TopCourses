@@ -1,6 +1,5 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
-    using TopCourses.Core.Models.ApplicationFile;
     using TopCourses.Core.Models.Review;
     using TopCourses.Core.Models.Topic;
     using TopCourses.Core.Models.User;
@@ -14,7 +13,7 @@
 
         public string Subtitle { get; set; } = null!;
 
-        public ImageFileViewModel Image { get; set; }
+        public byte[] Image { get; set; }
 
         public string Goals = null!;
 

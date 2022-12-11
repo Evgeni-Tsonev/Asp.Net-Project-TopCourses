@@ -25,7 +25,6 @@
         private readonly ICategoryService categoryService;
         private readonly ILanguageService languageService;
         private readonly IFileService fileService;
-        private readonly IImageService imageService;
         private readonly GridFSBucket bucket;
 
         public CourseController(
@@ -35,8 +34,7 @@
                                 UserManager<ApplicationUser> userManager,
                                 IFileService fileService,
                                 ILogger<CourseController> logger,
-                                IBucket bucketContex,
-                                IImageService imageService)
+                                IBucket bucketContex)
         {
             this.courseService = courseService;
             this.categoryService = categoryService;
@@ -45,7 +43,6 @@
             this.fileService = fileService;
             this.logger = logger;
             this.bucket = bucketContex.Create();
-            this.imageService = imageService;
         }
 
         [AllowAnonymous]
@@ -254,9 +251,8 @@
             return filesToReturn;
         }
 
-        private async Task<ImageFileViewModel> UploadImage(IFormFile file)
+        private async Task<byte[]> UploadImage(IFormFile file)
         {
-            var image = new ImageFileViewModel();
             try
             {
                 if (file != null && file.Length > 0)
@@ -264,14 +260,9 @@
                     using (var ms = new MemoryStream())
                     {
                         await file.CopyToAsync(ms);
-                        image.FileName = file.FileName;
-                        image.ContentType = file.ContentType;
-                        image.FileLength = file.Length;
-                        image.Bytes = ms.ToArray();
+                        return ms.ToArray();
                     }
                 }
-
-                image.Id = await this.imageService.UploadImage(image);
             }
             catch (Exception ex)
             {
@@ -279,7 +270,7 @@
                 this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
             }
 
-            return image;
+            return null;
         }
     }
 }

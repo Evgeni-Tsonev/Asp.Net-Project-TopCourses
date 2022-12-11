@@ -83,8 +83,8 @@
             {
                 ReturnUrl = returnUrl,
             };
-            model.ReturnUrl = returnUrl ?? Url.Content("~/");
-            ViewData["ReturnUrl"] = model.ReturnUrl;
+            model.ReturnUrl = returnUrl ?? this.Url.Content("~/");
+            this.ViewData["ReturnUrl"] = model.ReturnUrl;
 
             return this.View(model);
         }
@@ -246,7 +246,7 @@
 
         public async Task<IActionResult> AddUsersToRoles()
         {
-            string userId = "257e7d01-d602-4eb1-b434-a81eca6c2d5b";
+            string userId = "bf5a260a-7446-418e-bf8e-29f8608906bb";
             var user = await this.userManager.FindByIdAsync(userId);
             await this.userManager.AddToRolesAsync(user, new string[] { RoleConstants.Administrator });
             return this.RedirectToAction("Index", "Home");

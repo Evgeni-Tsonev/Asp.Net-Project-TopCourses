@@ -18,7 +18,7 @@ else
                         <div class="card-group">
                             <div class="card" style="width: 18rem;">
                                 @{
-                                    var base64 = Convert.ToBase64String(course.Image.Bytes);
+                                    var base64 = Convert.ToBase64String(course.Image);
                                     var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
                                 }
 

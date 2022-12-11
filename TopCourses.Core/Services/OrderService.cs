@@ -5,7 +5,6 @@
     using Microsoft.EntityFrameworkCore;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
-    using TopCourses.Core.Models.ApplicationFile;
     using TopCourses.Core.Models.Order;
     using TopCourses.Core.Models.ShoppingCart;
     using TopCourses.Infrastructure.Data.Identity;
@@ -70,13 +69,7 @@
                     Courses = o.Courses.Select(c => new ShoppingCartCourseViewModel()
                     {
                         Id = c.Id,
-                        Image = new ImageFileViewModel()
-                        {
-                            FileName = c.Image.FileName,
-                            FileLength = c.Image.FileLength,
-                            Bytes = c.Image.Bytes,
-                            ContentType = c.Image.ContentType,
-                        },
+                        Image = c.Image,
                         Name = c.Title,
                         Price = c.Price,
                         CreatorFullName = c.Creator.FirstName + " " + c.Creator.LastName,

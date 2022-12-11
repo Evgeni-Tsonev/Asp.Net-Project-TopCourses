@@ -17,9 +17,7 @@
         [StringLength(50)]
         public string Subtitle { get; set; } = null!;
 
-        public int ImageId { get; set; }
-
-        public ImageFile Image { get; set; }
+        public byte[] Image { get; set; }
 
         [Required]
         [StringLength(1000)]

@@ -27,7 +27,7 @@
                             <div class="d-none d-lg-block col-lg-1 text-center py-2">
                                 <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
                                     @{
-                                        var base64 = Convert.ToBase64String(course.Image.Bytes);
+                                        var base64 = Convert.ToBase64String(course.Image);
                                         var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
                                     }
 
@@ -45,11 +45,6 @@
                                     <h6><strong>@course.Price<span class="text-muted"></span> LV.</strong></h6>
                                 </div>
                                 <div class="col-6 col-sm-4 col-lg-6">
-                                    @*<div class="float-right mx-1">
-                            <a asp-action="plus" asp-route-cartId="@course.Id" class="btn btn-primary">
-                            <i class="fas fa-plus"></i>
-                            </a>
-                            </div>*@
                                     <div class="float-right mx-1">
                                         <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id" class="btn btn-primary btn-sm">
                                             <i class="fas fa-folder">
