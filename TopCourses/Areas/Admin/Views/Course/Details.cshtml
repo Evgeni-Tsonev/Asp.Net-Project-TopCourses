@@ -86,11 +86,18 @@
         </div>
         <div class="col-md-3 sticky-top">
             @{
-                var base64 = Convert.ToBase64String(Model.Image);
+                var base64 = Convert.ToBase64String(@Model.Image);
+                var userbase64 = Convert.ToBase64String(@Model.Creator.ProfileImage);
+
                 var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                var userProfileImage = String.Format("data:image/jpg;base64,{0}", userbase64);
+
             }
 
             <img src="@imgSrc" style="width: 18rem;height: 18rem" class="img-thumbnail" />
+            <br />
+            <div>Instructor:</div>
+            <img src="@userProfileImage" style="width: 18rem;height: 18rem" class="img-thumbnail" />
             <p>@Model.Creator.FirstName @Model.Creator.LastName</p>
             <p>@Model.Creator.Email</p>
             <p><strong>Price: @Model.Price LV.</strong></p>

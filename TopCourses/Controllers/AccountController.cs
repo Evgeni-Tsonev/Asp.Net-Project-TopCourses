@@ -194,9 +194,48 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string? returnurl = null)
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, IFormFile image, string? returnurl = null)
         {
             returnurl = returnurl ?? this.Url.Content("~/");
+
+            if (image != null)
+            {
+                if (image.Length > 2097152)
+                {
+                    this.TempData["Error"] = "The file is too large.";
+                    return this.View(model);
+                }
+
+                string[] acceptedExtensions = { ".png", ".jpg", ".jpeg", ".gif", ".tif" };
+                if (!acceptedExtensions.Contains(Path.GetExtension(image.FileName)))
+                {
+                    this.TempData["Error"] = "Error: Unsupported file!";
+                    return this.View(model);
+                }
+
+                try
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            await image.CopyToAsync(ms);
+                            model.ProfileImage = ms.ToArray();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
+                }
+            }
+            else
+            {
+                this.TempData["Error"] = "Profile Image cannot be empty";
+                return this.View(model);
+            }
+
             if (this.ModelState.IsValid)
             {
                 //get the info about the user from external login provider
@@ -212,6 +251,7 @@
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    ProfileImage = model.ProfileImage,
                 };
 
                 var result = await this.userManager.CreateAsync(user);

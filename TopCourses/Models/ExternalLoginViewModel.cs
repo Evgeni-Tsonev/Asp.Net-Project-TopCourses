@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Models
 {
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
     using System.ComponentModel.DataAnnotations;
 
     public class ExternalLoginViewModel
@@ -16,5 +17,8 @@
 
         [Required]
         public string LastName { get; set; } = null!;
+
+        [ValidateNever]
+        public byte[] ProfileImage { get; set; }
     }
 }

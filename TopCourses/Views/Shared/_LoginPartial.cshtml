@@ -9,10 +9,14 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="~/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+               @* @{
+                    var base64 = Convert.ToBase64String();
+                    var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                }*@
+                <img src="~/img/avatar4.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a asp-area="" asp-controller="Account" asp-action="MyProfile" class="d-block">@User.Identity.Name</a>
+                <a asp-area="" asp-controller="Account" asp-action="MyProfile" class="d-block">@this.User.Identity.Name</a>
             </div>
         </div>
 }

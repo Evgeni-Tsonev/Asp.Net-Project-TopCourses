@@ -1,6 +1,5 @@
 ﻿namespace TopCourses.Core.Services
 {
-    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;

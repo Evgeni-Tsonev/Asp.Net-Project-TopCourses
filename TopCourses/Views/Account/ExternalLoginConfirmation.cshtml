@@ -3,7 +3,7 @@
 <h1 class="text-info">Register</h1>
 <h3>Associate your @ViewData["ProviderDisplayName"] account.</h3>
 
-<form asp-controller="Account" asp-action="ExternalLoginConfirmation" method="post" role="form" asp-route-returnurl="@ViewData["ReturnUrl"]">
+<form asp-controller="Account" asp-action="ExternalLoginConfirmation" method="post" role="form" enctype="multipart/form-data" asp-route-returnurl="@ViewData["ReturnUrl"]">
     <h4>Association Form</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
@@ -12,6 +12,14 @@
         Please enter a user name for this site below and click the Register button to finish
         logging in.
     </p>
+    <div class="input-group mb-3">
+        <label asp-for="ProfileImage"></label>
+        <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif,.tif">
+        @if (this.TempData.ContainsKey("Error"))
+        {
+            <span class="text-danger mt-3">@this.TempData["Error"]</span>
+        }
+    </div>
     <div class="form-group">
         <label asp-for="Email" class="col-md-2"></label>
         <div class="col-md-10">
@@ -52,4 +60,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+    }

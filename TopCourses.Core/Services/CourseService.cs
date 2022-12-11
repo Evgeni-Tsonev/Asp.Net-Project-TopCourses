@@ -74,6 +74,7 @@
                 {
                     Id = r.Id,
                     UserFullName = $"{r.User.FirstName} {r.User.LastName}",
+                    UserProfileImage = r.User.ProfileImage,
                     Comment = r.Comment,
                     Rating = r.Rating,
                     DateOfPublication = r.DateOfPublication,
@@ -94,6 +95,7 @@
                     FirstName = course.Creator.FirstName,
                     LastName = course.Creator.LastName,
                     Email = course.Creator.Email,
+                    ProfileImage = course.Creator.ProfileImage,
                 },
                 Rating = Math.Round(course.Rating),
             };
