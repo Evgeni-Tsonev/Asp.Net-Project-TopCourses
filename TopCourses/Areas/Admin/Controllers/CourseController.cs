@@ -11,18 +11,22 @@
     {
         private readonly ICourseService courseService;
         private readonly GridFSBucket bucket;
+        private readonly ILogger logger;
 
         public CourseController(
             ICourseService courseService,
-            IBucket bucketContex)
+            IBucket bucketContex,
+            ILogger<CourseController> logger)
         {
             this.courseService = courseService;
             this.bucket = bucketContex.Create();
+            this.logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             var allCourses = await this.courseService.GetAllNotApproved();
+
             return this.View(allCourses);
         }
 
@@ -31,14 +35,24 @@
             var course = await this.courseService.GetCourseDetails(id);
             this.ViewData["Title"] = $"{course.Title}";
             this.ViewData["Subtitle"] = $"{course.Subtitle}";
+
             return this.View(course);
         }
 
         [HttpPost]
         public async Task<IActionResult> Approve(int id)
         {
-            await this.courseService.ApproveCourse(id);
-            this.TempData[MessageConstant.SuccessMessage] = "Course approved successfully";
+            try
+            {
+                await this.courseService.ApproveCourse(id);
+                this.TempData[MessageConstant.SuccessMessage] = "Course approved successfully";
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/Approve");
+            }
+
             return this.RedirectToAction("Index", "Course", new { area = "admin" });
         }
 
@@ -47,8 +61,19 @@
         {
             var userId = this.GetUserId();
             var isAdministrator = this.User.IsInRole(RoleConstants.Administrator);
-            await this.courseService.Delete(courseId, userId, isAdministrator);
-            return this.RedirectToAction("MyLearning");
+
+            try
+            {
+                await this.courseService.Delete(courseId, userId, isAdministrator);
+                this.TempData[MessageConstant.SuccessMessage] = "Course deleted successfully";
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/Approve");
+            }
+
+            return this.RedirectToAction("Index", "Course", new { area = "admin" });
         }
 
         public async Task<IActionResult> Download(string id)

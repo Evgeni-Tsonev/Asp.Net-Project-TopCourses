@@ -15,6 +15,7 @@
         public async Task<IActionResult> Video(int id)
         {
             var model = await this.videoService.GetVideoById(id);
+
             return this.View(model);
         }
     }

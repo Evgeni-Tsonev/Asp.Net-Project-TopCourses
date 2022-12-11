@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.User;
     using TopCourses.Infrastructure.Data.Identity;
@@ -12,20 +13,24 @@
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
+        private readonly ILogger logger;
 
         public UserController(
                               UserManager<ApplicationUser> userManager,
                               IUserService userService,
-                              RoleManager<IdentityRole> roleManager)
+                              RoleManager<IdentityRole> roleManager,
+                              ILogger<UserController> logger)
         {
             this.userManager = userManager;
             this.userService = userService;
             this.roleManager = roleManager;
+            this.logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             var model = await this.userService.GetUsers();
+
             return this.View(model);
         }
 
@@ -37,7 +42,6 @@
                 UserId = user.Id,
                 Name = $"{user.FirstName} {user.LastName}",
             };
-
 
             this.ViewBag.RoleItems = this.roleManager.Roles
                 .ToList()
@@ -59,7 +63,16 @@
             await this.userManager.RemoveFromRolesAsync(user, userRoles);
             if (model.RoleNames?.Length > 0)
             {
-                await this.userManager.AddToRolesAsync(user, model.RoleNames);
+                try
+                {
+                    await this.userManager.AddToRolesAsync(user, model.RoleNames);
+                    this.TempData[MessageConstant.SuccessMessage] = "Syccsessfully added role to user";
+                }
+                catch (Exception ex)
+                {
+                    this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                    this.logger.LogError(ex, "UserController/Roles");
+                }
             }
 
             return this.RedirectToAction(nameof(this.Index));
