@@ -48,6 +48,20 @@
         [AllowAnonymous]
         public async Task<IActionResult> Index([FromQuery] AllCoursesQueryModel query)
         {
+            if (query.Category != null)
+            {
+                var catId = int.Parse(query.Category);
+                var mainCategory = await this.categoryService.GetCategoryById(catId);
+                query.Category = mainCategory.Title;
+            }
+
+            if (query.SubCategory != null)
+            {
+                var catId = int.Parse(query.SubCategory);
+                var subCategory = await this.categoryService.GetCategoryById(catId);
+                query.SubCategory = subCategory.Title;
+            }
+
             var result = await this.courseService.GetAll(
                 query.Category,
                 query.SubCategory,
@@ -181,8 +195,6 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
-
-
         [AllowAnonymous]
         public async Task<IActionResult> Details([FromRoute] int id)
         {
@@ -291,7 +303,17 @@
 
             var currentUserId = this.GetUserId();
             await this.courseService.Update(model, currentUserId);
+
             return this.RedirectToAction(nameof(this.Index));
+        }
+
+        [AllowAnonymous]
+        public async Task<JsonResult> GetSubCategoryByCategoryId(int categoryId)
+        {
+            var subCategories = await this.categoryService
+                .GetAllSubCategories(categoryId);
+
+            return this.Json(subCategories);
         }
 
         public async Task<IActionResult> Download(string id, int courseId)

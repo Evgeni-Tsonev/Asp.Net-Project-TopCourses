@@ -24,6 +24,7 @@
         {
             var allCategories = await this.categoriesService.GetAllMainCategories();
             this.ViewData["Title"] = "Categories";
+
             return this.View(allCategories);
         }
 
@@ -72,6 +73,7 @@
         {
             var category = new CategoryViewModel();
             category.ParentId = parentId;
+
             return this.View(category);
         }
 

@@ -44,7 +44,7 @@
                 <div class="col md-3">
                     <div class="form-group">
                         <label asp-for="CategoryId" class="form-label"></label>
-                        <select asp-for="CategoryId" class="form-select">
+                        <select asp-for="CategoryId" id="categoryId" class="form-select">
                             @foreach (var category in Model.Categories)
                             {
                                 <option value="@category.Id">@category.Title</option>
@@ -56,11 +56,7 @@
                 <div class="col md-3">
                     <div class="form-group">
                         <label asp-for="SubCategoryId" class="form-label"></label>
-                        <select asp-for="SubCategoryId" class="form-select">
-                            @foreach (var category in Model.Categories)
-                            {
-                                <option value="@category.Id">@category.Title</option>
-                            }
+                        <select asp-for="SubCategoryId" id="subCategoryId" class="form-select">
                         </select>
                         <span asp-validation-for="SubCategoryId" class="small text-danger"></span>
                     </div>
@@ -120,6 +116,7 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial.cshtml" />
+    <script src="~/js/cascade-dropdown.js"></script>
     <script>
         $(document).ready(function AddTopicSection() {
             let counter = 0;

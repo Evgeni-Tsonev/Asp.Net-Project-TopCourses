@@ -86,6 +86,21 @@
             };
         }
 
+        public async Task<CategoryViewModel> GetCategoryById(int id)
+        {
+            var model = await this.repository.GetByIdAsync<Category>(id);
+            if (model == null)
+            {
+                throw new Exception();
+            }
+
+            return new CategoryViewModel()
+            {
+                Id = model.Id,
+                Title = model.Title,
+            };
+        }
+
         public async Task Update(EditCategoryViewModel model)
         {
             var category = await this.repository.GetByIdAsync<Category>(model.Id);

@@ -17,11 +17,11 @@
             <div class="form-group col-md-2 d-flex justify-content-between">
                 <div class="form-group">
                     <label asp-for="Category"></label>
-                    <select asp-for="Category" class="form-control">
+                    <select asp-for="Category" id="categoryId" class="form-control">
                         <option value="">All</option>
                         @foreach (var category in Model.Categories)
                         {
-                            <option value="@category.Title">@category.Title</option>
+                            <option value="@category.Id">@category.Title</option>
                         }
                     </select>
                 </div>
@@ -30,12 +30,8 @@
             <div class="form-group col-md-2 d-flex justify-content-between">
                 <div class="form-group">
                     <label asp-for="SubCategory"></label>
-                    <select asp-for="SubCategory" class="form-control">
+                    <select asp-for="SubCategory" id="subCategoryId" class="form-control">
                         <option value="">All</option>
-                        @foreach (var category in Model.Categories)
-                        {
-                            <option value="@category.Title">@category.Title</option>
-                        }
                     </select>
                 </div>
             </div>
@@ -154,7 +150,7 @@
                                 </div>
                                 <div>
                                     <a asp-controller="Course" asp-action="Details" asp-route-Id="@course.Id" class="btn btn-primary">More Info</a>
-                                    <a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
+                                    @*<a asp-controller="Favorites" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>*@
                                     <a asp-controller="ShoppingCart" asp-action="Add" asp-route-Id="@course.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Add </a>
                                 </div>
                             </div>
@@ -166,3 +162,7 @@
     }
     <br />
 </div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/cascade-dropdown.js"></script>
+}

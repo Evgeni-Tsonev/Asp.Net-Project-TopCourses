@@ -5,16 +5,18 @@
 
     public interface ICategoryService
     {
-        public Task<IEnumerable<CategoryViewModel>> GetAllMainCategories();
+        Task<IEnumerable<CategoryViewModel>> GetAllMainCategories();
 
-        public Task<IEnumerable<CategoryViewModel>> GetAllSubCategories(int mainCategoryId);
+        Task<IEnumerable<CategoryViewModel>> GetAllSubCategories(int mainCategoryId);
 
-        public Task CreateCategory(CategoryViewModel model);
+        Task CreateCategory(CategoryViewModel model);
 
         Task<EditCategoryViewModel> GetCategoryForEdit(int id);
 
         Task Update(EditCategoryViewModel model);
 
         Task Delete(int id);
+
+        Task<CategoryViewModel> GetCategoryById(int id);
     }
 }

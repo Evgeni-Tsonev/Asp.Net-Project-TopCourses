@@ -135,8 +135,7 @@
                 }).ToList(),
                 Level = courseModel.Level,
                 CategoryId = courseModel.CategoryId,
-                //to do
-                SubCategoryId = courseModel.CategoryId,
+                SubCategoryId = courseModel.SubCategoryId,
                 LanguageId = courseModel.LanguageId,
                 Description = courseModel.Description,
                 CreatorId = creatorId,

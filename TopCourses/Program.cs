@@ -1,5 +1,5 @@
 #pragma warning disable SA1200 // Using directives should be placed correctly
-using Microsoft.AspNetCore.Http.Features;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;

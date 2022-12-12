@@ -6,7 +6,7 @@
 
     public class AllCoursesQueryModel
     {
-        public const int CoursesPerPage = 9;
+        public const int CoursesPerPage = 6;
 
         public string? Category { get; set; }
 
