@@ -3,21 +3,28 @@
     using System.Diagnostics;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using TopCourses.Core.Contracts;
     using TopCourses.Models;
 
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> logger;
+        private readonly ICourseService courseService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            ICourseService courseService)
         {
             this.logger = logger;
+            this.courseService = courseService;
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return this.View();
+            var courses = await this.courseService.GetRandomCourses();
+
+            return this.View(courses);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

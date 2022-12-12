@@ -488,5 +488,23 @@
 
             return false;
         }
+
+        public async Task<IEnumerable<CourseListingViewModel>> GetRandomCourses()
+        {
+            var courses = await this.repository
+                .All<Course>()
+                .Where(c => c.IsDeleted == false && c.IsApproved == true)
+                .OrderBy(r => EF.Functions.Random()).Take(10)
+                .ToListAsync();
+
+            var coursesToReturn = courses.Select(c => new CourseListingViewModel()
+            {
+                Id = c.Id,
+                Title = c.Title,
+                Image = c.Image,
+            }).ToList();
+
+            return coursesToReturn;
+        }
     }
 }

@@ -9,7 +9,6 @@
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.User;
     using TopCourses.Infrastructure.Data.Identity;
-    using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Models;
 
     public class AccountController : BaseController
@@ -18,17 +17,20 @@
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IUserService userService;
+        private readonly ILogger logger;
 
         public AccountController(
                                 UserManager<ApplicationUser> userManager,
                                 SignInManager<ApplicationUser> signInManager,
                                 RoleManager<IdentityRole> roleManager,
-                                IUserService userService)
+                                IUserService userService,
+                                ILogger<AccountController> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.userService = userService;
+            this.logger = logger;
         }
 
         [AllowAnonymous]
@@ -40,7 +42,9 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model, IFormFile image)
+        public async Task<IActionResult> Register(
+            RegisterViewModel model,
+            IFormFile image)
         {
             if (image != null)
             {
@@ -70,7 +74,7 @@
                 }
                 catch (Exception ex)
                 {
-                    //this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.logger.LogError(ex, "AccountController/register");
                     this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
                 }
             }
@@ -123,6 +127,7 @@
             {
                 ReturnUrl = returnUrl,
             };
+
             model.ReturnUrl = returnUrl ?? this.Url.Content("~/");
             this.ViewData["ReturnUrl"] = model.ReturnUrl;
 
@@ -131,7 +136,9 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> Login(
+            LoginViewModel model,
+            string returnUrl)
         {
             if (!this.ModelState.IsValid)
             {
@@ -161,6 +168,7 @@
         public async Task<IActionResult> Logout()
         {
             await this.signInManager.SignOutAsync();
+
             return this.RedirectToAction("Index", "Course");
         }
 
@@ -168,6 +176,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var model = await this.userService.GetUserProfile(userId);
+
             return this.View(model);
         }
 
@@ -175,11 +184,14 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var model = await this.userService.GetUserForEdit(userId);
+
             return this.View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UserEditViewModel model, IFormFile image)
+        public async Task<IActionResult> Edit(
+            UserEditViewModel model,
+            IFormFile image)
         {
             if (image != null)
             {
@@ -209,7 +221,7 @@
                 }
                 catch (Exception ex)
                 {
-                    //this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.logger.LogError(ex, "AccountController/Edit");
                     this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
                 }
             }
@@ -227,7 +239,10 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, IFormFile image, string? returnurl = null)
+        public async Task<IActionResult> ExternalLoginConfirmation(
+            ExternalLoginViewModel model,
+            IFormFile image,
+            string? returnurl = null)
         {
             returnurl = returnurl ?? this.Url.Content("~/");
 
@@ -259,7 +274,7 @@
                 }
                 catch (Exception ex)
                 {
-                    //this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.logger.LogError(ex, "AccountController/ExternalLoginConfirmation");
                     this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
                 }
             }
@@ -308,7 +323,9 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnurl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallback(
+            string returnurl = null,
+            string remoteError = null)
         {
             if (remoteError != null)
             {
@@ -342,7 +359,9 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult ExternalLogin(string provider, string returnurl = null)
+        public IActionResult ExternalLogin(
+            string provider,
+            string returnurl = null)
         {
             returnurl = returnurl ?? this.Url.Content("~/");
             //request a redirect to the external login provider

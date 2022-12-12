@@ -141,7 +141,7 @@
                 }
                 catch (Exception ex)
                 {
-                    this.logger.LogError(ex, "CourseController/UploadFile");
+                    this.logger.LogError(ex, "CourseController/Add");
                     this.TempData[MessageConstant.ErrorMessage] = "A problem occurred while recording";
                 }
             }
