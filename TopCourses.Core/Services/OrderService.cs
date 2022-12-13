@@ -21,10 +21,10 @@
 
         public async Task<int> AddOrder(OrderViewModel model, string userId)
         {
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
+            var user = await this.repository
+                .GetByIdAsync<ApplicationUser>(userId);
 
             var courses = new List<Course>();
-
             foreach (var course in model.Courses)
             {
                 courses.Add(await this.repository.GetByIdAsync<Course>(course.Id));

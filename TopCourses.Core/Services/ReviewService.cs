@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Core.Services
 {
     using System.Threading.Tasks;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Review;
@@ -21,13 +22,13 @@
             var user = await this.repository.GetByIdAsync<ApplicationUser>(model.UserId);
             if (user == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.ReviewNotExists);
             }
 
             var course = await this.repository.GetByIdAsync<Course>(model.CourseId);
             if (course == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
             }
 
             var review = new Review()

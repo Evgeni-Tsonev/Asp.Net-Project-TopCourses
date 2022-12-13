@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.ApplicationFile;
@@ -158,7 +159,7 @@
 
             if (course == null)
             {
-                throw new Exception("Invalid course");
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
             }
 
             var model = new EditCourseViewModel()
@@ -190,7 +191,6 @@
                 }).ToList(),
                 Level = course.Level,
                 CategoryId = course.CategoryId,
-                //to do
                 SubCategoryId = course.CategoryId,
                 LanguageId = course.LanguageId,
                 Description = course.Description,
@@ -205,18 +205,18 @@
             var course = await this.GetCourseById(model.Id);
             if (course == null)
             {
-                throw new Exception("Invalid course");
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
             }
 
             var user = await this.repository.All<ApplicationUser>().FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             if (course.CreatorId != user.Id)
             {
-                throw new Exception("Unautorized User");
+                throw new UnauthorizedAccessException(ExceptionMessages.UnautorizedUser);
             }
 
             if (model.Image != null && model.Image.Length > 0)
@@ -265,14 +265,15 @@
 
             if (course == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
             }
 
             var student = await this.repository
                 .GetByIdAsync<ApplicationUser>(studentId);
+
             if (student == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             var addUserToCourse = new CourseApplicationUser()
@@ -290,7 +291,7 @@
             var course = await this.GetCourseById(courseId);
             if (course == null)
             {
-                throw new Exception("not exist");
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
             }
 
             course.IsApproved = true;
@@ -376,7 +377,7 @@
 
             if (user == null)
             {
-                throw new Exception("Invalid Id");
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             return user.CoursesEnrolled.Select(c => new CourseListingViewModel()
@@ -398,7 +399,7 @@
 
             if (user == null)
             {
-                throw new Exception("Invalid Id");
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             return user.CoursesCreated
@@ -409,7 +410,6 @@
                     Title = c.Title,
                     Price = c.Price,
                     Image = c.Image,
-                    //todo rating
                 });
         }
 
@@ -423,7 +423,7 @@
 
             if (user == null)
             {
-                throw new Exception("Invalid User");
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             return user.CoursesCreated
@@ -443,20 +443,20 @@
             var course = await this.GetCourseById(courseId);
             if (course == null)
             {
-                throw new Exception("Invalid Course");
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
             }
 
             var user = await this.repository.GetByIdAsync<ApplicationUser>(userId);
             if (user == null)
             {
-                throw new Exception("Invalid User");
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             if (course.CreatorId != user.Id)
             {
                 if (isAdministrator == false)
                 {
-                    throw new Exception("User doesn't have permission to delete this course");
+                    throw new UnauthorizedAccessException(ExceptionMessages.UnautorizedUser);
                 }
             }
 

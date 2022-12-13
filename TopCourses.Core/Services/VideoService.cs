@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Video;
@@ -28,7 +29,7 @@
 
             if (video == null)
             {
-                throw new Exception("Video does not exist");
+                throw new ArgumentException(ExceptionMessages.VideoNotExists);
             }
 
             return new VideoViewModel()
@@ -61,7 +62,7 @@
                 }
                 else
                 {
-                    throw new InvalidOperationException("Failed to match VideoUrl Id");
+                    throw new InvalidOperationException(ExceptionMessages.FailedToMatchVideoUrl);
                 }
 
                 processedVideos.Add(video);

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Category;
@@ -34,7 +35,7 @@
             var category = await this.repository.GetByIdAsync<Category>(id);
             if (category == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.CategoryNotExists);
             }
 
             category.IsDeleted = true;
@@ -76,7 +77,7 @@
             var model = await this.repository.GetByIdAsync<Category>(id);
             if (model == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.CategoryNotExists);
             }
 
             return new EditCategoryViewModel()
@@ -91,7 +92,7 @@
             var model = await this.repository.GetByIdAsync<Category>(id);
             if (model == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.CategoryNotExists);
             }
 
             return new CategoryViewModel()
@@ -106,7 +107,7 @@
             var category = await this.repository.GetByIdAsync<Category>(model.Id);
             if (category == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.CategoryNotExists);
             }
 
             category.Title = model.Title;

@@ -1,12 +1,13 @@
 ﻿namespace TopCourses.Core.Services
 {
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
-    using TopCourses.Infrastructure.Data.Models;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.Language;
+    using TopCourses.Infrastructure.Data.Models;
 
     public class LanguageService : ILanguageService
     {
@@ -31,14 +32,12 @@
         public async Task Delete(int id)
         {
             var language = await this.repository.GetByIdAsync<Language>(id);
-
             if (language == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.LanguageNotExists);
             }
 
             language.IsDeleted = true;
-
             await this.repository.SaveChangesAsync();
         }
 
@@ -49,17 +48,18 @@
                 .Select(l => new LanguageViewModel
                 {
                     Id = l.Id,
-                    Title = l.Title
+                    Title = l.Title,
                 }).ToListAsync();
         }
 
         public async Task<LanguageViewModel> GetLanguageForEdit(int id)
         {
-            var model = await this.repository.GetByIdAsync<Language>(id);
+            var model = await this.repository
+                .GetByIdAsync<Language>(id);
 
             if (model == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.LanguageNotExists);
             }
 
             return new LanguageViewModel()
@@ -71,15 +71,15 @@
 
         public async Task Update(LanguageViewModel model)
         {
-            var language = await this.repository.GetByIdAsync<Language>(model.Id);
+            var language = await this.repository
+                .GetByIdAsync<Language>(model.Id);
 
             if (language == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.LanguageNotExists);
             }
 
             language.Title = model.Title;
-
             await this.repository.SaveChangesAsync();
         }
     }

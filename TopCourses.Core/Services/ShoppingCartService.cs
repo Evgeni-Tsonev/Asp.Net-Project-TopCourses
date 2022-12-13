@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.ApplicationFile;
@@ -30,14 +31,19 @@
                 .ThenInclude(uc => uc.Course)
                 .FirstOrDefaultAsync();
 
-            if (course == null || user == null)
+            if (course == null)
             {
-                throw new Exception();
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
+            }
+
+            if (user == null)
+            {
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             if (user.CoursesEnrolled.Any(c => c.Course.Id == courseId))
             {
-                throw new Exception("Already have that course");
+                throw new Exception(ExceptionMessages.UserAlreadyEnrolled);
             }
 
             if (user.ShoppingCartId == null)
@@ -71,7 +77,7 @@
 
             if (user == null)
             {
-                return;
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             user.ShoppingCart.ShoppingCartCourses.Clear();
@@ -88,10 +94,14 @@
                 .FirstOrDefaultAsync();
 
             var course = user.ShoppingCart.ShoppingCartCourses.FirstOrDefault(c => c.Id == courseId);
-
-            if (user == null || course == null)
+            if (course == null)
             {
-                return;
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
+            }
+
+            if (user == null)
+            {
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             user.ShoppingCart.ShoppingCartCourses.Remove(course);
