@@ -49,7 +49,7 @@
 
             if (user == null)
             {
-                throw new ArgumentException(ExceptionMessages.UserNotExists,,);
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             return new UserEditViewModel()
