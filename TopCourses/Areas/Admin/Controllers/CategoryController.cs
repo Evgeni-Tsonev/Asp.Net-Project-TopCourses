@@ -32,9 +32,18 @@
         {
             var model = new SubCategoriesListModel();
             model.MainCategoryId = id;
-            model.SubCategories = await this.categoriesService.GetAllSubCategories(id);
-            this.ViewData["Title"] = "Sub Categories";
+            try
+            {
+                model.SubCategories = await this.categoriesService.GetAllSubCategories(id);
 
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CategoryController/SubCategories");
+            }
+
+            this.ViewData["Title"] = "Sub Categories";
             return this.View(model);
         }
 
@@ -103,7 +112,16 @@
 
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await this.categoriesService.GetCategoryForEdit(id);
+            var model = new EditCategoryViewModel();
+            try
+            {
+                model = await this.categoriesService.GetCategoryForEdit(id);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CategoryController/Edit");
+            }
 
             return this.View(model);
         }

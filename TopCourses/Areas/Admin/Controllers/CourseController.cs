@@ -5,6 +5,7 @@
     using MongoDB.Driver.GridFS;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
+    using TopCourses.Core.Models.Course;
     using TopCourses.Infrastructure.Data.MongoInterfaceses;
 
     public class CourseController : BaseController
@@ -32,7 +33,17 @@
 
         public async Task<IActionResult> Details([FromRoute] int id)
         {
-            var course = await this.courseService.GetCourseDetails(id);
+            var course = new CourseDetailsViewModel();
+            try
+            {
+                course = await this.courseService.GetCourseDetails(id);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/Approve");
+            }
+
             this.ViewData["Title"] = $"{course.Title}";
             this.ViewData["Subtitle"] = $"{course.Subtitle}";
 

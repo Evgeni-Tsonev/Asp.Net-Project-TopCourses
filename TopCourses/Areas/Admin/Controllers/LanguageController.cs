@@ -59,7 +59,16 @@
 
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await this.languageService.GetLanguageForEdit(id);
+            var model = new LanguageViewModel();
+            try
+            {
+                model = await this.languageService.GetLanguageForEdit(id);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "LanguageController/Edit");
+            }
 
             return this.View(model);
         }

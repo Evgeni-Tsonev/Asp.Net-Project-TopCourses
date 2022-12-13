@@ -12,6 +12,7 @@
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.ApplicationFile;
+    using TopCourses.Core.Models.Category;
     using TopCourses.Core.Models.Course;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.MongoInterfaceses;
@@ -198,9 +199,20 @@
         [AllowAnonymous]
         public async Task<IActionResult> Details([FromRoute] int id)
         {
-            var course = await this.courseService.GetCourseDetails(id);
+            var course = new CourseDetailsViewModel();
+            try
+            {
+                course = await this.courseService.GetCourseDetails(id);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/Details");
+            }
+
             this.ViewData["Title"] = $"{course.Title}";
             this.ViewData["Subtitle"] = $"{course.Subtitle}";
+
             return this.View(course);
         }
 
@@ -208,9 +220,18 @@
         {
             var model = new MyLearningViewModel();
             var userId = this.GetUserId();
-            model.CoursesEnrolled = await this.courseService.GetAllEnroledCourses(userId);
-            model.CoursesCreated = await this.courseService.GetAllCreatedCourses(userId);
-            model.ArchivedCourses = await this.courseService.GetAllArchivedCourses(userId);
+            try
+            {
+                model.CoursesEnrolled = await this.courseService.GetAllEnroledCourses(userId);
+                model.CoursesCreated = await this.courseService.GetAllCreatedCourses(userId);
+                model.ArchivedCourses = await this.courseService.GetAllArchivedCourses(userId);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/MyLearning");
+            }
+
             return this.View(model);
         }
 
@@ -218,7 +239,16 @@
         public async Task<IActionResult> Delete([FromForm] int courseId)
         {
             var userId = this.GetUserId();
-            await this.courseService.Delete(courseId, userId);
+            try
+            {
+                await this.courseService.Delete(courseId, userId);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/Delete");
+            }
+
             return this.RedirectToAction("MyLearning");
         }
 
@@ -226,7 +256,18 @@
         {
             var categories = await this.categoryService.GetAllMainCategories();
             var languages = await this.languageService.GetAll();
-            var model = await this.courseService.GetCourseToEdit(courseId);
+            var model = new EditCourseViewModel();
+
+            try
+            {
+                model = await this.courseService.GetCourseToEdit(courseId);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/Edit");
+            }
+
             model.Languages = languages;
             model.Categories = categories;
 
@@ -302,7 +343,16 @@
             }
 
             var currentUserId = this.GetUserId();
-            await this.courseService.Update(model, currentUserId);
+            try
+            {
+                await this.courseService.Update(model, currentUserId);
+
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/Update");
+            }
 
             return this.RedirectToAction(nameof(this.Index));
         }
@@ -310,8 +360,18 @@
         [AllowAnonymous]
         public async Task<JsonResult> GetSubCategoryByCategoryId(int categoryId)
         {
-            var subCategories = await this.categoryService
+            IEnumerable<CategoryViewModel> subCategories = new List<CategoryViewModel>();
+
+            try
+            {
+                subCategories = await this.categoryService
                 .GetAllSubCategories(categoryId);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "CourseController/GetSubCategoryByCategoryId");
+            }
 
             return this.Json(subCategories);
         }

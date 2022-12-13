@@ -1,18 +1,22 @@
 ﻿namespace TopCourses.Controllers
 {
-    using System.Security.Claims;
     using Ganss.Xss;
     using Microsoft.AspNetCore.Mvc;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Models.Review;
 
     public class ReviewController : BaseController
     {
         private readonly IReviewService reviewService;
+        private readonly ILogger logger;
 
-        public ReviewController(IReviewService revielService)
+        public ReviewController(
+            IReviewService revielService,
+            ILogger<ReviewController> logger)
         {
             this.reviewService = revielService;
+            this.logger = logger;
         }
 
         public IActionResult Index()
@@ -43,7 +47,16 @@
                 return this.View("CreateReview", model);
             }
 
-            await this.reviewService.AddReview(model);
+            try
+            {
+                await this.reviewService.AddReview(model);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[MessageConstant.ErrorMessage] = ex.Message;
+                this.logger.LogError(ex, "ReviewController/addReview");
+            }
+
             return this.RedirectToAction("Details", "Course", new { id = model.CourseId });
         }
     }
