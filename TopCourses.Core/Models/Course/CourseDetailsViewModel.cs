@@ -1,5 +1,7 @@
 ﻿namespace TopCourses.Core.Models.Course
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Xml.Linq;
     using TopCourses.Core.Models.Review;
     using TopCourses.Core.Models.Topic;
     using TopCourses.Core.Models.User;
@@ -27,10 +29,13 @@
 
         public Level Level { get; set; }
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
+        [Display(Name = "Subcategory")]
         public int SubCategoryId { get; set; }
 
+        [Display(Name = "Language")]
         public int LanguageId { get; set; }
 
         public string Description { get; set; } = null!;

@@ -18,9 +18,6 @@
         public string Subtitle { get; set; } = null!;
 
         [ValidateNever]
-        public int ImageId { get; set; }
-
-        [ValidateNever]
         public byte[] Image { get; set; }
 
         [Required]
@@ -35,16 +32,20 @@
 
         public Level Level { get; set; }
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
+        [Display(Name = "Subcategory")]
         public int SubCategoryId { get; set; }
 
+        [Display(Name = "Language")]
         public int LanguageId { get; set; }
 
         [Required]
         [StringLength(1500, MinimumLength = 10)]
         public string Description { get; set; } = null!;
 
+        //todo min/max
         public decimal Price { get; set; }
 
         public IEnumerable<LanguageViewModel> Languages { get; set; } = new HashSet<LanguageViewModel>();

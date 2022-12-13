@@ -1,7 +1,5 @@
 ﻿namespace TopCourses.Core.Models.Review
 {
-    using TopCourses.Core.Models.User;
-
     public class ReviewViewModel
     {
         public int Id { get; set; }

@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Core.Services
 {
     using Microsoft.EntityFrameworkCore;
+    using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
     using TopCourses.Core.Models.User;
@@ -22,7 +23,14 @@
 
         public async Task<UserProfileViewModel> GetUserProfile(string id)
         {
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(id);
+            var user = await this.repository
+                .GetByIdAsync<ApplicationUser>(id);
+
+            if (user == null)
+            {
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
+            }
+
             return new UserProfileViewModel()
             {
                 Id = user.Id,
@@ -36,7 +44,13 @@
 
         public async Task<UserEditViewModel> GetUserForEdit(string id)
         {
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(id);
+            var user = await this.repository
+                .GetByIdAsync<ApplicationUser>(id);
+
+            if (user == null)
+            {
+                throw new ArgumentException(ExceptionMessages.UserNotExists,,);
+            }
 
             return new UserEditViewModel()
             {
@@ -66,7 +80,9 @@
         public async Task<bool> UpdateUser(UserEditViewModel model)
         {
             bool result = false;
-            var user = await this.repository.GetByIdAsync<ApplicationUser>(model.Id);
+            var user = await this.repository
+                .GetByIdAsync<ApplicationUser>(model.Id);
+
             if (user != null)
             {
                 user.FirstName = model.FirstName;

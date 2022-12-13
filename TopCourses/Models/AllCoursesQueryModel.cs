@@ -1,5 +1,6 @@
 ﻿namespace TopCourses.Models
 {
+    using System.ComponentModel.DataAnnotations;
     using TopCourses.Core.Models.Category;
     using TopCourses.Core.Models.Course;
     using TopCourses.Core.Models.Language;
@@ -14,10 +15,13 @@
 
         public string? Language { get; set; }
 
+        [Display(Name = "Search Term")]
         public string? SearchTerm { get; set; }
 
+        [Display(Name = "Min price")]
         public decimal MinPrice { get; set; } = 0;
 
+        [Display(Name = "Max price")]
         public decimal MaxPrice { get; set; } = 2000;
 
         public CourseSorting Sorting { get; set; }
