@@ -1,7 +1,6 @@
 ﻿namespace TopCourses.Core.Models.User
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Xml.Linq;
 
     public class UserViewModel
     {

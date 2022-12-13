@@ -5,27 +5,36 @@
     using TopCourses.Core.Models.Category;
     using TopCourses.Core.Models.Language;
     using TopCourses.Core.Models.Topic;
+    using TopCourses.Infrastructure.Data.Constants;
     using TopCourses.Infrastructure.Data.Models.enums;
 
     public class AddCourseViewModel
     {
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(
+            DataConstants.CourseSubTitleMaxLength,
+            MinimumLength = DataConstants.CourseSubTitleMinLength)]
         public string Title { get; set; } = null!;
 
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(
+            DataConstants.CourseSubTitleMaxLength,
+            MinimumLength = DataConstants.CourseSubTitleMinLength)]
         public string Subtitle { get; set; } = null!;
 
         [ValidateNever]
         public byte[] Image { get; set; }
 
         [Required]
-        [StringLength(1000, MinimumLength = 10)]
+        [StringLength(
+            DataConstants.CourseGoalsMaxLength,
+            MinimumLength = DataConstants.CourseGoalsMinLength)]
         public string Goals { get; set; } = null!;
 
         [Required]
-        [StringLength(1000, MinimumLength = 10)]
+        [StringLength(
+            DataConstants.CourseRequirementsMaxLength,
+            MinimumLength = DataConstants.CourseRequirementsMinLength)]
         public string Requirements { get; set; } = null!;
 
         public IList<AddTopicViewModel> Curriculum { get; set; } = new List<AddTopicViewModel>();

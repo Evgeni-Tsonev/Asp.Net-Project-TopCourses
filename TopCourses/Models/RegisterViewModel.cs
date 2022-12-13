@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Infrastructure.Data.Constants;
 
     public class RegisterViewModel
     {
@@ -21,7 +22,9 @@
         public string PasswordRepeat { get; set; } = null!;
 
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(
+            DataConstants.UserUsernameMaxLength,
+            MinimumLength = DataConstants.UserUsernameMinLength)]
         [Display(Name = "Username")]
         public string UserName { get; set; } = null!;
 

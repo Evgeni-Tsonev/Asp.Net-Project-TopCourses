@@ -1,12 +1,14 @@
 ﻿namespace TopCourses.Core.Models.Video
 {
     using System.ComponentModel.DataAnnotations;
-    using TopCourses.Core.Models.Topic;
+    using TopCourses.Infrastructure.Data.Constants;
 
     public class AddVideoViewModel
     {
         [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [StringLength(
+            DataConstants.VideoTitleMaxLength,
+            MinimumLength = DataConstants.VideoTitleMinLength)]
         public string Title { get; set; } = null!;
 
         [Url]

@@ -1,14 +1,17 @@
 ﻿namespace TopCourses.Core.Models.Review
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Infrastructure.Data.Constants;
 
     public class AddReviewViewModel
     {
         [Required]
-        [StringLength(500)]
+        [StringLength(DataConstants.ReviewCommentMaxLength)]
         public string Comment { get; set; } = null!;
 
-        [Range(1, 5)]
+        [Range(
+            DataConstants.ReviewRatingMinLength,
+            DataConstants.ReviewRatingMaxLength)]
         public int Rating { get; set; }
 
         [Required]

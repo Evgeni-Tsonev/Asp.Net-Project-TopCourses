@@ -1,6 +1,7 @@
 ﻿namespace TopCourses.Infrastructure.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Infrastructure.Data.Constants;
     using TopCourses.Infrastructure.Data.Identity;
 
     public class Review
@@ -8,10 +9,10 @@
         public int Id { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [StringLength(DataConstants.ReviewRatingMaxLength)]
         public string Comment { get; set; } = null!;
 
-        [MaxLength(5)]
+        [MaxLength(DataConstants.ReviewRatingMaxLength)]
         public int Rating { get; set; }
 
         public bool IsDeleted { get; set; }

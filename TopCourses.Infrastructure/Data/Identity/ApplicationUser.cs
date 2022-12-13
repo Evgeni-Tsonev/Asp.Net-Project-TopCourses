@@ -3,16 +3,17 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Microsoft.AspNetCore.Identity;
+    using TopCourses.Infrastructure.Data.Constants;
     using TopCourses.Infrastructure.Data.Models;
 
     public class ApplicationUser : IdentityUser
     {
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.UserFirstNameMaxLength)]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.UserLastNameMaxLength)]
         public string LastName { get; set; } = null!;
 
         public byte[] ProfileImage { get; set; }

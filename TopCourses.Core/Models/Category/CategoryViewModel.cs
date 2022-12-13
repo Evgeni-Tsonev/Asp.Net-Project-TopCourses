@@ -1,13 +1,16 @@
 ﻿namespace TopCourses.Core.Models.Category
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Infrastructure.Data.Constants;
 
     public class CategoryViewModel
     {
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(
+            DataConstants.CategoryTitleMaxLength,
+            MinimumLength = DataConstants.CategoryTitleMinLength)]
         public string Title { get; set; } = null!;
 
         public int? ParentId { get; set; }

@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using TopCourses.Infrastructure.Data.Constants;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models.enums;
 
@@ -10,21 +11,21 @@
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.CourseTitleMaxLength)]
         public string Title { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.CourseSubTitleMaxLength)]
         public string Subtitle { get; set; } = null!;
 
         public byte[] Image { get; set; }
 
         [Required]
-        [StringLength(1000)]
+        [StringLength(DataConstants.CourseGoalsMaxLength)]
         public string Goals { get; set; } = null!;
 
         [Required]
-        [StringLength(1000)]
+        [StringLength(DataConstants.CourseRequirementsMaxLength)]
         public string Requirements { get; set; } = null!;
 
         public ICollection<Topic> Curriculum { get; set; } = new HashSet<Topic>();
@@ -44,7 +45,7 @@
         public Language Language { get; set; } = null!;
 
         [Required]
-        [StringLength(1500)]
+        [StringLength(DataConstants.CourseDescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
         [Column(TypeName = "decimal(18, 2)")]

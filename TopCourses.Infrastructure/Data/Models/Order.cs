@@ -1,8 +1,9 @@
 ﻿namespace TopCourses.Infrastructure.Data.Models
 {
-    using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
+    using TopCourses.Infrastructure.Data.Constants;
     using TopCourses.Infrastructure.Data.Identity;
 
     public class Order
@@ -12,6 +13,7 @@
 
         [Required]
         public string CustomerId { get; set; } = null!;
+
         public ApplicationUser Customer { get; set; } = null!;
 
         public DateTime OrderDate { get; set; }
@@ -20,15 +22,15 @@
         public decimal OrderTotal { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.OrderPaymentStatusMaxLength)]
         public string PaymentStatus { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.OrderStatusMaxLength)]
         public string OrderStatus { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.OrderTransactionIdMaxLength)]
         public string TransactionId { get; set; } = null!;
 
         public ICollection<Course> Courses { get; set; } = new HashSet<Course>();

@@ -1,13 +1,14 @@
 ﻿namespace TopCourses.Infrastructure.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using TopCourses.Infrastructure.Data.Constants;
 
     public class Topic
     {
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.TopicTitleMaxLength)]
         public string Title { get; set; } = null!;
 
         public int? ResourceId { get; set; }
@@ -15,7 +16,7 @@
         public ApplicationFile? Resource { get; set; }
 
         [Required]
-        [StringLength(1000)]
+        [StringLength(DataConstants.TopicDescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
         public int CourseId { get; set; }

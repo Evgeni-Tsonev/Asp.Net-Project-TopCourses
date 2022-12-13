@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+    using TopCourses.Infrastructure.Data.Constants;
 
     public class ExternalLoginViewModel
     {
@@ -11,17 +12,23 @@
         public string Email { get; set; } = null!;
 
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(
+            DataConstants.UserUsernameMaxLength,
+            MinimumLength = DataConstants.UserUsernameMinLength)]
         [Display(Name = "Username")]
         public string UserName { get; set; } = null!;
 
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(
+            DataConstants.UserFirstNameMaxLength,
+            MinimumLength = DataConstants.UserFirstNameMinLength)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(
+            DataConstants.UserLastNameMaxLength,
+            MinimumLength = DataConstants.UserLastNameMinLength)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; } = null!;
 

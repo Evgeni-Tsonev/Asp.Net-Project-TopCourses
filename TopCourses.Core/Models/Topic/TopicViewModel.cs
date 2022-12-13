@@ -8,12 +8,10 @@
     {
         public int Id { get; set; }
 
-        //todo
         [Required]
         public string Title { get; set; } = null!;
 
         [Required]
-        //todo
         public string Description { get; set; } = null!;
 
         public ICollection<VideoViewModel> Videos { get; set; } = new List<VideoViewModel>();
