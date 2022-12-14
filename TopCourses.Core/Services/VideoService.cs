@@ -1,9 +1,9 @@
 ﻿namespace TopCourses.Core.Services
 {
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
