@@ -20,7 +20,9 @@
         private readonly IDbRepository repository;
         private readonly IVideoService videoService;
 
-        public CourseService(IDbRepository repository, IVideoService videoService)
+        public CourseService(
+            IDbRepository repository,
+            IVideoService videoService)
         {
             this.repository = repository;
             this.videoService = videoService;
@@ -434,7 +436,6 @@
                     Title = c.Title,
                     Price = c.Price,
                     Image = c.Image,
-                    //todo rating
                 });
         }
 

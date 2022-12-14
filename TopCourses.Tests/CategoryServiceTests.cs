@@ -226,7 +226,11 @@
             await this.repository.SaveChangesAsync();
 
             var ex = Assert.ThrowsAsync<ArgumentException>(
-                async () => await this.categoryService.GetCategoryForEdit(2));
+                async () => await this.categoryService.Update(new EditCategoryViewModel()
+                {
+                    Id = 2,
+                    Title = "Updated",
+                }));
 
             Assert.That(ex.Message, Is.EqualTo(ExceptionMessages.CategoryNotExists));
         }
@@ -273,8 +277,6 @@
 
             Assert.That(ex.Message, Is.EqualTo(ExceptionMessages.CategoryNotExists));
         }
-
-
 
         [TearDown]
         public void TearDown()

@@ -23,8 +23,7 @@
 
         public async Task<UserProfileViewModel> GetUserProfile(string id)
         {
-            var user = await this.repository
-                .GetByIdAsync<ApplicationUser>(id);
+            var user = await this.GetUserById(id);
 
             if (user == null)
             {
@@ -44,8 +43,7 @@
 
         public async Task<UserEditViewModel> GetUserForEdit(string id)
         {
-            var user = await this.repository
-                .GetByIdAsync<ApplicationUser>(id);
+            var user = await this.GetUserById(id);
 
             if (user == null)
             {

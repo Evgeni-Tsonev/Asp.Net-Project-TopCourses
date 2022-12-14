@@ -21,7 +21,8 @@
 
         public async Task<VideoViewModel> GetVideoById(int id)
         {
-            var video = await this.repository.AllReadonly<Video>()
+            var video = await this.repository
+                .AllReadonly<Video>()
                 .Where(v => v.Id == id)
                 .Include(v => v.Topic)
                 .ThenInclude(t => t.Course)

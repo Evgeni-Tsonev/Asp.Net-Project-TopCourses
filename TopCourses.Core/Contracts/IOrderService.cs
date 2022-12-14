@@ -7,12 +7,11 @@
     {
         public Task<int> AddOrder(OrderViewModel model, string userId);
 
-        public Task<IEnumerable<Order>> GetUserOrders(string name);
-
         public Task UpdateOrder(OrderViewModel model);
 
-        public Task<IEnumerable<Order>> OrderProductsByOrderId(int id);
-
         public Task<OrderViewModel> GetOrderById(int id);
+
+        //public Task<IEnumerable<Order>> OrderProductsByOrderId(int id);
+        //public Task<IEnumerable<Order>> GetUserOrders(string name);
     }
 }

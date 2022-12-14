@@ -79,16 +79,6 @@
             return order;
         }
 
-        public Task<IEnumerable<Order>> GetUserOrders(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Order>> OrderProductsByOrderId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task UpdateOrder(OrderViewModel model)
         {
             var order = await this.repository.GetByIdAsync<Order>(model.Id);
@@ -102,5 +92,15 @@
             this.repository.Update(order);
             await this.repository.SaveChangesAsync();
         }
+
+        //public Task<IEnumerable<Order>> GetUserOrders(string name)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IEnumerable<Order>> OrderProductsByOrderId(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
