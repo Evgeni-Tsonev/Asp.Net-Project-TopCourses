@@ -58,7 +58,6 @@
                 .All<Order>()
                 .Where(o => o.Id == orderId)
                 .Include(o => o.Courses)
-                .ThenInclude(c => c.Image)
                 .Select(o => new OrderViewModel()
                 {
                     Id = o.Id,

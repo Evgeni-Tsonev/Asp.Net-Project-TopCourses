@@ -22,7 +22,7 @@
             var user = await this.repository.GetByIdAsync<ApplicationUser>(model.UserId);
             if (user == null)
             {
-                throw new ArgumentException(ExceptionMessages.ReviewNotExists);
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             var course = await this.repository.GetByIdAsync<Course>(model.CourseId);

@@ -5,7 +5,6 @@
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
-    using TopCourses.Core.Models.ApplicationFile;
     using TopCourses.Core.Models.ShoppingCart;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
@@ -43,7 +42,7 @@
 
             if (user.CoursesEnrolled.Any(c => c.Course.Id == courseId))
             {
-                throw new Exception(ExceptionMessages.UserAlreadyEnrolled);
+                return;
             }
 
             if (user.ShoppingCartId == null)
@@ -93,15 +92,15 @@
                 .ThenInclude(c => c.ShoppingCartCourses)
                 .FirstOrDefaultAsync();
 
+            if (user == null)
+            {
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
+            }
+
             var course = user.ShoppingCart.ShoppingCartCourses.FirstOrDefault(c => c.Id == courseId);
             if (course == null)
             {
                 throw new ArgumentException(ExceptionMessages.CourseNotExists);
-            }
-
-            if (user == null)
-            {
-                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             user.ShoppingCart.ShoppingCartCourses.Remove(course);

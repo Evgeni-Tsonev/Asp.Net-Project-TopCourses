@@ -4,7 +4,6 @@
     using TopCourses.Core.Constants;
     using TopCourses.Core.Contracts;
     using TopCourses.Core.Data.Common;
-    using TopCourses.Core.Models.Category;
     using TopCourses.Core.Models.Course;
     using TopCourses.Core.Services;
     using TopCourses.Infrastructure.Data;
