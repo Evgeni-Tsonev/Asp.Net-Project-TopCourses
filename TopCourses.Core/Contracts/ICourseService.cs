@@ -42,6 +42,6 @@
 
         Task<bool> Update(EditCourseViewModel model, string userId);
 
-        Task<IEnumerable<CourseListingViewModel>> GetRandomCourses();
+        Task<IEnumerable<CourseListingViewModel>> GetRandomCourses(int coursesCount = 10);
     }
 }

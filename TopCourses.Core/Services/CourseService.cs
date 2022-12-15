@@ -32,6 +32,7 @@
         {
             var course = await this.repository
                 .AllReadonly<Course>()
+                .Where(x => x.Id == courseId)
                 .Include(r => r.Reviews)
                 .ThenInclude(u => u.User)
                 .Include(c => c.Curriculum)
@@ -39,11 +40,11 @@
                 .Include(c => c.Curriculum)
                 .ThenInclude(f => f.Files)
                 .Include(u => u.Creator)
-                .FirstOrDefaultAsync(x => x.Id == courseId);
+                .FirstOrDefaultAsync();
 
             if (course == null)
             {
-                throw new ArgumentException("Invalid course Id");
+                throw new ArgumentException(ExceptionMessages.CourseNotExists);
             }
 
             return new CourseDetailsViewModel()
@@ -477,7 +478,7 @@
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new ArgumentException(ExceptionMessages.UserNotExists);
             }
 
             if (user.CoursesEnrolled.Any(c => c.Course.Id == courseId)
@@ -489,12 +490,13 @@
             return false;
         }
 
-        public async Task<IEnumerable<CourseListingViewModel>> GetRandomCourses()
+        public async Task<IEnumerable<CourseListingViewModel>> GetRandomCourses(int coursesCount = 10)
         {
             var courses = await this.repository
                 .All<Course>()
                 .Where(c => c.IsDeleted == false && c.IsApproved == true)
-                .OrderBy(r => EF.Functions.Random()).Take(10)
+                .OrderBy(r => EF.Functions.Random())
+                .Take(coursesCount)
                 .ToListAsync();
 
             var coursesToReturn = courses.Select(c => new CourseListingViewModel()
