@@ -57,7 +57,7 @@
             MinimumLength = DataConstants.CourseDescriptionMinLength)]
         public string Description { get; set; } = null!;
 
-        //todo min/max
+        [Range(0.00, 2000.00, ErrorMessage = "Price must be a positive number and less than {2} leva")]
         public decimal Price { get; set; }
 
         public IEnumerable<LanguageViewModel> Languages { get; set; } = new HashSet<LanguageViewModel>();

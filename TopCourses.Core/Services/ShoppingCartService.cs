@@ -117,7 +117,6 @@
                 .ThenInclude(c => c.Creator)
                 .Include(sc => sc.ShoppingCart)
                 .ThenInclude(c => c.ShoppingCartCourses)
-                .ThenInclude(c => c.Image)
                 .FirstOrDefaultAsync();
 
             if (user == null || user.ShoppingCartId == null)

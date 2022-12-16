@@ -1,6 +1,5 @@
 ﻿namespace TopCourses.Controllers
 {
-    using System.Collections;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -379,7 +378,8 @@
 
         public async Task<IActionResult> AddUsersToRoles()
         {
-            string userId = "bf5a260a-7446-418e-bf8e-29f8608906bb";
+
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await this.userManager.FindByIdAsync(userId);
             await this.userManager.AddToRolesAsync(user, new string[] { RoleConstants.Administrator });
             return this.RedirectToAction("Index", "Home");

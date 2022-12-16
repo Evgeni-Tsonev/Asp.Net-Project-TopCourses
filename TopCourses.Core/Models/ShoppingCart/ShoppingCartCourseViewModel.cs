@@ -1,7 +1,5 @@
 ﻿namespace TopCourses.Core.Models.ShoppingCart
 {
-    using System.ComponentModel.DataAnnotations;
-
     public class ShoppingCartCourseViewModel
     {
         public int Id { get; set; }
