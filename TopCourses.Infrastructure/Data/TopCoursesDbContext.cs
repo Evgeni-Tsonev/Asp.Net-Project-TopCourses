@@ -97,15 +97,14 @@
                 .OnDelete(DeleteBehavior.Restrict);
             });
 
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new RolesConfiguration());
-            builder.ApplyConfiguration(new UserRolesConfiguration());
-            builder.ApplyConfiguration(new CategoriesConfiguration());
-            builder.ApplyConfiguration(new LanguagesConfiguration());
-            builder.ApplyConfiguration(new CoursesConfiguration());
-            //builder.ApplyConfiguration(new ReviewConfiguration());
-            builder.ApplyConfiguration(new VideoConfiguration());
-            builder.ApplyConfiguration(new TopicsConfiguration());
+            //builder.ApplyConfiguration(new UserConfiguration());
+            //builder.ApplyConfiguration(new RolesConfiguration());
+            //builder.ApplyConfiguration(new UserRolesConfiguration());
+            //builder.ApplyConfiguration(new CategoriesConfiguration());
+            //builder.ApplyConfiguration(new LanguagesConfiguration());
+            //builder.ApplyConfiguration(new CoursesConfiguration());
+            //builder.ApplyConfiguration(new VideoConfiguration());
+            //builder.ApplyConfiguration(new TopicsConfiguration());
 
             base.OnModelCreating(builder);
         }
