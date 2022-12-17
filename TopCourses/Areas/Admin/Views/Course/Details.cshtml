@@ -61,7 +61,7 @@
                                             @foreach (var video in topic.Videos)
                                             {
                                                 <div class="row">
-                                                    <a asp-controller="Video" asp-action="Video" asp-route-id="@video.Id">@video.Title</a>
+                                                    <a asp-area="Admin" asp-controller="Video" asp-action="Video" asp-route-id="@video.Id">@video.Title</a>
                                                 </div>
                                             }
                                         </div>
