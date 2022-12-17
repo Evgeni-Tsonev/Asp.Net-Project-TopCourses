@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using TopCourses.Infrastructure.Data.Configuration;
     using TopCourses.Infrastructure.Data.Identity;
     using TopCourses.Infrastructure.Data.Models;
 
@@ -13,13 +14,21 @@
         }
 
         public DbSet<Course> Courses { get; set; }
+
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<Language> Languages { get; set; }
+
         public DbSet<Topic> Topics { get; set; }
+
         public DbSet<CourseApplicationUser> CourseApplicationUser { get; set; }
+
         public DbSet<ApplicationFile> Files { get; set; }
+
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
         public DbSet<Review> Reviews { get; set; }
+
         public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -87,6 +96,16 @@
                 .HasForeignKey(c => c.SubCategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
+
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new RolesConfiguration());
+            builder.ApplyConfiguration(new UserRolesConfiguration());
+            builder.ApplyConfiguration(new CategoriesConfiguration());
+            builder.ApplyConfiguration(new LanguagesConfiguration());
+            builder.ApplyConfiguration(new CoursesConfiguration());
+            //builder.ApplyConfiguration(new ReviewConfiguration());
+            builder.ApplyConfiguration(new VideoConfiguration());
+            builder.ApplyConfiguration(new TopicsConfiguration());
 
             base.OnModelCreating(builder);
         }
