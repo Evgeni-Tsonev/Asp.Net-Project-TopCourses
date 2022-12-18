@@ -4,20 +4,23 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
+    @if (SignInManager.IsSignedIn(User))
+    {
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-               @* @{
-                    var base64 = Convert.ToBase64String();
-                    var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
-                }*@
-                <img src="~/img/avatar4.png" class="img-circle elevation-2" alt="User Image">
-            </div>
+            @if (this.UserManager.GetUserAsync(this.User).Result.ProfileImage != null)
+            {
+                var base64 = Convert.ToBase64String(this.UserManager.GetUserAsync(this.User).Result.ProfileImage!);
+                var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                <img src="@imgSrc" , style="width: 40px; height: 40px; object-fit: cover; border-radius: 30px;" />
+            }
+            else
+            {
+                <img src="~/img/avatar4.png" , style="width: 40px; height: 40px; object-fit: cover; border-radius: 30px;" />
+            }
             <div class="info">
                 <a asp-area="" asp-controller="Account" asp-action="MyProfile" class="d-block">@this.User.Identity.Name</a>
             </div>
         </div>
-}
+    }
 </ul>
